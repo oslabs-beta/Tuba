@@ -1,0 +1,19 @@
+body {
+    margin: 0px 0px 0px 0px;
+
+}
+
+.nav-background {
+    background-color: white;
+    margin: 0px 0px 0px 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-background>ul {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    list-style-type: none;
+
+}
