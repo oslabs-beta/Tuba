@@ -1,19 +1,161 @@
+/* 
+#2c2c2c figma black
+#444444 figma border
+#figma white $e3e3e3
+#figma white #f9f9f9
+#03001C black blue
+#301E67 purple
+#5B8FB9 sea blue
+#B6EADA teal 
+#88d3b5 tuba logo blue*/
+
+
+
 body {
     margin: 0px 0px 0px 0px;
+    background-color: #03001C;
+    color: #e3e3e3;
+    color: #f9f9f9;
+
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+
+    background: rgb(2, 0, 36);
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%);
+    min-height: 100vh;
+    user-select: none;
+}
+
+
+
+.logo {
+    font-family: "Ojuju", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 32px;
+    letter-spacing: 1.5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.centerGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.leftGrid {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 40px;
+}
+
+.leftGrid>img {
+    height: 60px;
+    margin-right: 5px;
+
+}
+
+.tab {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #585563;
+    margin: 30px;
+}
+
+.tab:hover {
+    cursor: pointer;
+    border: 1px solid #88d3b5;
+    color: #D4E9E0;
+
 
 }
 
 .nav-background {
-    background-color: white;
     margin: 0px 0px 0px 0px;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: [left] 20% [center-left] 60% [center-right] 20% [right];
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #585563;
 }
 
-.nav-background>ul {
+.centerGrid>ul {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 2px;
     list-style-type: none;
+
+
+
+
+}
+
+.rightGrid {
+
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.rightGrid>ul {
+    /* display: flex;
+    flex-direction: row;
+    gap: 2px;
+    list-style-type: none; */
+
+
+}
+
+.centerGrid>ul>li {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 2px;
+}
+
+.centerGrid>ul>li:hover {
+    cursor: pointer;
+    color: #88d3b5
+}
+
+.selected {
+
+    background-color: #301E67;
+
+}
+
+
+
+.background {
+    min-height: 650px;
+
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.component {
+    margin-top: 60px;
+    height: 600px;
+    width: 950px;
+    background-color: black;
 
 }
