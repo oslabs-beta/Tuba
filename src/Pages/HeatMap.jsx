@@ -18,6 +18,23 @@ export default function HeatMap() {
       { id: "pike"  , group: 2, label: "Pikes"  , level: 2 } 
     ];
   
+    const links = [
+      { target: "mammal", source: "dog" , strength: 0.7 },
+      { target: "mammal", source: "cat" , strength: 0.7 },
+      { target: "mammal", source: "fox" , strength: 0.7 },
+      { target: "mammal", source: "elk" , strength: 0.7 },
+      { target: "insect", source: "ant" , strength: 0.7 },
+      { target: "insect", source: "bee" , strength: 0.7 },
+      { target: "fish"  , source: "carp", strength: 0.7 },
+      { target: "fish"  , source: "pike", strength: 0.7 },
+      { target: "cat"   , source: "elk" , strength: 0.1 },
+      { target: "carp"  , source: "ant" , strength: 0.1 },
+      { target: "elk"   , source: "bee" , strength: 0.1 },
+      { target: "dog"   , source: "cat" , strength: 0.1 },
+      { target: "fox"   , source: "ant" , strength: 0.1 },
+      { target: "pike"  , source: "dog" , strength: 0.1 }
+    ];
+  
     const svgRef = useRef(null);
   
     useEffect(() => {
@@ -29,13 +46,18 @@ export default function HeatMap() {
         .attr('height', height);
   
       const simulation = d3.forceSimulation(nodes)
-        .force('charge', d3.forceManyBody().strength(-20))
+        .force('charge', d3.forceManyBody().strength(-60))
         .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
         .on('tick', () => {
           nodeElements.attr('cx', node => node.x)
             .attr('cy', node => node.y);
           textElements.attr('x', node => node.x)
             .attr('y', node => node.y);
+          linkElements.attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
         });
   
       const nodeElements = svg.append('g')
@@ -53,11 +75,17 @@ export default function HeatMap() {
         .attr('dx', 15)
         .attr('dy', 4);
   
+      const linkElements = svg.append('g')
+        .selectAll('line')
+        .data(links)
+        .enter().append('line')
+        .attr('stroke-width', 1)
+        .attr('stroke', '#E5E5E5');
+  
       return () => {
-        // Cleanup simulation when component unmounts
         simulation.stop();
       };
-    }, [nodes]);
+    }, [nodes, links]);
   
     return (
       <>
