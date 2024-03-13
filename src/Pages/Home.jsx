@@ -12,10 +12,9 @@ import { useSelector, useDispatch } from 'react-redux'
 
 export default function Home() {
 
-    const { tab, left, right } = useSelector(state => state.nav);
-
     const dispatch = useDispatch();
 
+    const { tab, left, right } = useSelector(state => state.nav);
 
 
     const displayCurrentTab = () => {
@@ -40,11 +39,26 @@ export default function Home() {
     }
 
 
+    // const keyPress = (event) => {
+    //     switch (event.key) {
+    //         case "ArrowLeft":
+    //             changeTabHandler(left);
+    //             break;
+    //         case "ArrowRight":
+    //             changeTabHandler(right);
+    //             break;
+    //     }
+
+
+    // }
+
+
+
     return (
         <>
             <Nav />
             {/* <h2>{tab}</h2> */}
-            <div className='background'>
+            <div className='background' >
                 <div className='tab' onClick={() => changeTabHandler(left)}>{left}</div>
                 {displayCurrentTab()}
                 <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div>
