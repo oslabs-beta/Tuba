@@ -6,12 +6,11 @@ import Nav from '../Components/Nav';
 export default function HeatMap() {
 
     return (
-        <>
-            <Nav />
-            <div className='background'>
-                Heat Map goes here!
-            </div>
-        </>
+
+        <div className='component'>
+            Heat Map goes here!
+        </div>
+
     )
 
 
