@@ -1,8 +1,10 @@
 import React from 'react';
+import { Chrono } from "react-chrono";
 
-import Nav from '../Components/Nav';
+
 
 export default function History() {
+
 
     return (
 
