@@ -3,50 +3,144 @@ import Nav from '../Components/Nav';
 import * as d3 from 'd3'
 
 
-export default function HeatMap() {
+export default /*async*/ function HeatMap() {
+
     const nodes = [ 
-      { id: "mammal", group: 0, label: "Mammals", level: 1 },
-      { id: "dog"   , group: 0, label: "Dogs"   , level: 2 },
-      { id: "cat"   , group: 0, label: "Cats"   , level: 2 },
-      { id: "fox"   , group: 0, label: "Foxes"  , level: 2 }, 
-      { id: "elk"   , group: 0, label: "Elk"    , level: 2 },
-      { id: "insect", group: 1, label: "Insects", level: 1 },
-      { id: "ant"   , group: 1, label: "Ants"   , level: 2 },
-      { id: "bee"   , group: 1, label: "Bees"   , level: 2 },  
-      { id: "fish"  , group: 2, label: "Fish"   , level: 1 },
-      { id: "carp"  , group: 2, label: "Carp"   , level: 2 },
-      { id: "pike"  , group: 2, label: "Pikes"  , level: 2 } 
+      { id: "mammal", group: "mamm", label: "Mammals", level: "top" },
+      { id: "dog"   , group: "mamm", label: "Dogs"   , level: "Individual" },
+      { id: "cat"   , group: "mamm", label: "Cats"   , level: "Individual" },
+      { id: "fox"   , group: "mamm", label: "Foxes"  , level: "Individual" }, 
+      { id: "elk"   , group: "mamm", label: "Elk"    , level: "Individual" },
+      { id: "insect", group: "inse", label: "Insects", level: "top" },
+      { id: "ant"   , group: "inse", label: "Ants"   , level: "Individual" },
+      { id: "bee"   , group: "inse", label: "Bees"   , level: "Individual" },  
+      { id: "fish"  , group: "fish", label: "Fish"   , level: "top" },
+      { id: "carp"  , group: "fish", label: "Carp"   , level: "Individual" },
+      { id: "pike"  , group: "fish", label: "Pikes"  , level: "Individual" } 
     ];
   
     const links = [
-      { target: "mammal", source: "dog" , strength: 0.7 },
-      { target: "mammal", source: "cat" , strength: 0.7 },
-      { target: "mammal", source: "fox" , strength: 0.7 },
-      { target: "mammal", source: "elk" , strength: 0.7 },
-      { target: "insect", source: "ant" , strength: 0.7 },
-      { target: "insect", source: "bee" , strength: 0.7 },
-      { target: "fish"  , source: "carp", strength: 0.7 },
-      { target: "fish"  , source: "pike", strength: 0.7 },
-      { target: "cat"   , source: "elk" , strength: 0.1 },
-      { target: "carp"  , source: "ant" , strength: 0.1 },
-      { target: "elk"   , source: "bee" , strength: 0.1 },
-      { target: "dog"   , source: "cat" , strength: 0.1 },
-      { target: "fox"   , source: "ant" , strength: 0.1 },
-      { target: "pike"  , source: "dog" , strength: 0.1 }
+      { target: "mammal", source: "dog" , strength: 0.4 },
+      { target: "mammal", source: "cat" , strength: 0.4 },
+      { target: "mammal", source: "fox" , strength: 0.4 },
+      { target: "mammal", source: "elk" , strength: 0.4 },
+      { target: "insect", source: "ant" , strength: 0.4 },
+      { target: "insect", source: "bee" , strength: 0.4 },
+      { target: "fish"  , source: "carp", strength: 0.4 },
+      { target: "fish"  , source: "pike", strength: 0.4 },
+
+      { target: 'mammal', source: 'fish',   strength: 0.1 },
+      { target: 'fish',   source: 'insect', strength: 0.1 },
+      { target: 'insect', source: 'mammal', strength: 0.1 }
+
+      // { target: "cat"   , source: "elk" , strength: 0.1 },
+      // { target: "carp"  , source: "ant" , strength: 0.1 },
+      // { target: "elk"   , source: "bee" , strength: 0.1 },
+      // { target: "dog"   , source: "cat" , strength: 0.1 },
+      // { target: "fox"   , source: "ant" , strength: 0.1 },
+      // { target: "pike"  , source: "dog" , strength: 0.1 }
     ];
   
     const svgRef = useRef(null);
   
     useEffect(() => {
-      const width = 500;
-      const height = 300;
   
+// Fetch array of error objects. Not sure if this is coming from state or as a fetch request to server/db
+/*
+// fetch the error data and populate an array of nodes.
+const nodeResponse = await fetch(error_data)
+
+const nodes = nodeResponse.map((element) =>{
+  const { err_id,
+    err_srv_id,
+    err_job_name,
+    err_time,
+    err_message,
+    err_type,
+    err_stack,
+    err_file_path,
+    err_file,
+    err_line_num,
+    err_module, 
+    err_module_function } = element
+
+    return {
+      id: err_id,
+      group: err_srv_id,
+      label: {
+        err_job_name,
+        err_type,
+        err_message,
+        err_module,
+        err_file,
+        err_module_function,
+        err_line_num
+        }
+      level: "err"
+      }
+  })
+
+// fetch the list of services and populate the links.
+const srvResponse = await fetch(services)
+
+// Update the node list with a "srv" group
+srvResponse.forEach((element) => {
+  const { srv_id, srv_name } = element
+  node.push({
+    id: srv_id
+    group: srv_id
+    label: srv_name
+    level: "srv"
+  })
+})
+
+// create a helper function that returns the link object.
+const linkFunc = (nodeArr, srvArr) =>{
+  const linkArr = []
+
+  // all errors with the same srv_id should link to the srv_id node with a strength of 0.6 or greater.
+  for (let i=0; i<nodeArr.length; i++){
+    if (nodeArr.id !== nodeArr.group){
+      linkArr.push({
+        target: nodeArr[i].group,
+        source: nodeArr[i].id,
+        strength: 0.7
+      })
+    }
+  }
+  
+  // all srv_id nodes should like with each other with a strength of 0.2 or less
+  for (let i=0; i<srvArr.length; i++){
+    if (i === srvArr.length-1){
+     linkArr.push({
+        target: srvArr[i].srv_id,
+        source: srvArr[0],srv_id,
+        strength: 0.1
+      })
+    } else {
+      linkArr.push({
+        target: srvArr[i].srv_id,
+        source: srvArr[i+1],srv_id,
+        strength: 0.1
+      })
+    }
+  }
+
+  return linkArr
+}
+
+const links = linkFunc(node, srvResponse)
+
+*/
+      const width = 500;
+      const height = 500;
+
       const svg = d3.select(svgRef.current)
         .attr('width', width)
         .attr('height', height);
   
       const simulation = d3.forceSimulation(nodes)
-        .force('charge', d3.forceManyBody().strength(-60))
+        .force('charge', d3.forceManyBody().strength(-160))
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
         .on('tick', () => {
@@ -64,8 +158,14 @@ export default function HeatMap() {
         .selectAll('circle')
         .data(nodes)
         .enter().append('circle')
-        .attr('r', 10);
-  
+        .attr('r', 10)
+        .on('mouseover', (event, d) => {
+            console.log('Hovered over node:', d);
+          })
+          .on('mouseout', () => {
+            console.log('Mouseout');
+        });
+
       const textElements = svg.append('g')
         .selectAll('text')
         .data(nodes)
@@ -90,6 +190,7 @@ export default function HeatMap() {
     return (
       <>
         <Nav />
+        Heat Map goes here!
         <div className='background'>
           <svg ref={svgRef}></svg>
         </div>
