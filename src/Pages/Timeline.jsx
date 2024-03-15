@@ -1,24 +1,21 @@
 import React from 'react';
 
 import { Chrono } from "react-chrono";
-import TimelineGraph from '../Components/TimelineGraph'
-import TimelineToolbar from '../Components/TimelineToolbar'
-import TimelineButton from '../Components/TimelineButton'
+
+import { useSelector, useDispatch } from 'react-redux'
+
+
+import TimelineGraph from '../Components/Timeline/TimelineGraph'
+import TimelineToolbar from '../Components/Timeline/TimelineToolbar'
+import TimelineButton from '../Components/Timeline/TimelineButton'
+
+import { nudgeRight, nudgeLeft } from '../Redux/timelineSlice'
 
 
 
 export default function Timeline() {
 
-    /*
-
-NEEDS:
-
--Retrieve errors from redux
-
-1)Filter Dates
-    - front end that allows start and end date and places in filtered part of slice
-
-    */
+    const dispatch = useDispatch();
 
 
 
@@ -69,14 +66,25 @@ NEEDS:
 
     // ];
 
+    const handleNudgeLeft = () => {
+        console.log("click")
+        dispatch(nudgeLeft())
+    }
+
+    const handleNudgeRight = () => {
+        console.log("click")
+        dispatch(nudgeRight())
+    }
+
+
     return (
 
         <div className='component'>
             <div className='timelineComponent'>
                 <TimelineGraph />
                 <div className='timelineButtonSection'>
-                    <TimelineButton text="⫷" />
-                    <TimelineButton text="⫸" />
+                    <TimelineButton text="⫷" handle={handleNudgeLeft} />
+                    <TimelineButton text="⫸" handle={handleNudgeRight} />
                     <TimelineButton text="－" />
                     <TimelineButton text="＋" />
                     <TimelineButton text="║" />

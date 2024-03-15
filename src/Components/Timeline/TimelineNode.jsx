@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TimelineNode({ percentage, data, color }) {
+export default function TimelineNode({ percentage, text, color }) {
 
     const style = {
         marginLeft: percentage,
@@ -9,7 +9,7 @@ export default function TimelineNode({ percentage, data, color }) {
 
     return (
         <div className='graph-node' style={style}>
-            <div></div>
+            {text}
         </div>
     )
 
