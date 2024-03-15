@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// services is an array of objects, each object is a service in the app architecture 
+// services: array of objects, each object is a service in the app architecture. Also contains all associated errors.
+// allErrors: array of objects, each object is an error. Queue data structure
 const initialState = {
   services: [],
   allErrors: [],
@@ -41,7 +42,6 @@ export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (a
 })
 
 export const getServices = createAsyncThunk('errorSlice/getServices', async (services, {rejectWithValue}) => {
-    // /errorData/allServices
   try {
     const servicesRes = await fetch('/errorData/allServices')
 
@@ -54,6 +54,7 @@ export const getServices = createAsyncThunk('errorSlice/getServices', async (ser
     return rejectWithValue(error.message);
   }
 })
+
 
 export const errorSlice = createSlice({
   name: 'error',
