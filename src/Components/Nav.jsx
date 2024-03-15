@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { changeTab } from '../Redux/navSlice'
 
-import tubaLogo from '../Images/tubaLogo.png'
+import tubaLogo from '../Images/TubaLogo.png'
 
 
 
