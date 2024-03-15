@@ -62,10 +62,16 @@ errorDataController.getAllErrors = async function(req, res, next) {
 
     tubaDB.query(query)
     .then(data => {
-        // console.log(data.rows);
+        console.log('', data.rows);
 
         res.locals.errors = data.rows;
         return next();
+    }).catch(error => {
+        const errorObj = {
+            log: 'error occurred in getAllErrors controller',
+            message: {err: error}
+        }
+        return next(errorObj)
     })
 }
 

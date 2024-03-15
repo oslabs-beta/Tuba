@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.get('/server', (req, res) => {
 
-    res.json('Hello World!')
+    res.json({message: 'Hello World!'})
 })
 
 app.use('/errorData', errorDataRouter)

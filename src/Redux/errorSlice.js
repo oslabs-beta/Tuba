@@ -11,18 +11,31 @@ const initialState = {
 
 export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, {rejectWithValue}) => {
  
-  try {
-    const errorRes = await fetch(`/errorData/allErrors/`)
+  // try {
+    fetch(`/errorData/allErrors`)
+    .then(data => data.json())
+    .then(json => {
+      console.log('json error data: ', json);
+      return json;
+    })
+    .catch(error => {
+      console.log('error in getAllErrors, fetch catch block', error);
+    })
 
-    if(!errorRes) throw new TypeError('error response unsucessful in errorSlice, getErrors')
+    // return errorRes
 
-    const errorData = await errorRes.json()
-    return errorData;
+    // console.log('errorRes line 17: ', errorRes)
 
-  } catch (error) {
-    console.log('Error occured in errorSlice, getErrors');
-    return rejectWithValue(error.message);
-  }
+    // if(!errorRes) throw new TypeError('error response unsucessful in errorSlice, getErrors')
+
+    // const errorData = await errorRes.json()
+    // console.log('errorData line 22', errorData);
+    // return errorData;
+
+  // } catch (error) {
+  //   console.log('Error occured in errorSlice, getErrors', error.message);
+  //   return rejectWithValue(error.message);
+  // }
 })
 
 export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (allErrors, {rejectWithValue}) => {
@@ -57,14 +70,15 @@ export const getServices = createAsyncThunk('errorSlice/getServices', async (ser
 
 
 export const errorSlice = createSlice({
-  name: 'error',
+  name: 'errorSlice',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getAllErrors.fulfilled, (state, action) => {
+        console.log('getAllErrors Extra Reducer >>>', action.payload);
         state.status = 'success';
-        const errorData = action.payload;
+        const errorData = action.payload.errors;
         state.allErrors = errorData;
 
         // nested loops, needs refactor
