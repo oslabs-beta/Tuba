@@ -5,13 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { msToString } from '../../Utilities/timeFunctions';
 
 import { setCenter, setZoom, setNudge, setCascade } from '../../Redux/timelineSlice';
-import allErrors from '../../Utilities/mockErrors'
+// import allErrors from '../../Utilities/mockErrors'
 
 
 export default function TimelineToolbar() {
 
     const dispatch = useDispatch();
-
+    const allErrors = useSelector(state => state.errorSlice.allErrors.errors)
     // const { start, end, center, elapsed, zoom, nudge, cascade, hatch25, hatch75, filtered } = useSelector(state => state.timeline);
     const { centerInput, elapsedInput, zoomInput, nudgeInput, cascadeInput } = useSelector(state => state.timeline);
 

@@ -15,22 +15,28 @@ import { reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/
 
 export default function Timeline() {
 
+    const errorData = useSelector(state => state.errorSlice.allErrors.errors)
+
+    console.log('error data: ', errorData)
+    console.log('errorData2: ', useSelector(state => state.errorSlice))
+
+
     const dispatch = useDispatch();
 
     const handleNudgeLeft = () => {
-        dispatch(nudgeLeft())
+        dispatch(nudgeLeft(errorData))
     }
     const handleNudgeRight = () => {
-        dispatch(nudgeRight())
+        dispatch(nudgeRight(errorData))
     }
     const handleReCenter = () => {
-        dispatch(reCenterNodes())
+        dispatch(reCenterNodes(errorData))
     }
     const handleZoomOut = () => {
-        dispatch(zoomOut())
+        dispatch(zoomOut(errorData))
     }
     const handleZoomIn = () => {
-        dispatch(zoomIn())
+        dispatch(zoomIn(errorData))
     }
 
 
