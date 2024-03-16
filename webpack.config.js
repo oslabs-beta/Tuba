@@ -43,7 +43,7 @@ module.exports = {
         compress: true,
         historyApiFallback: true,
         proxy: {
-            '/server/*': {
+            '/': {
                 target: 'http://localhost:3000',
 
             }
