@@ -12,15 +12,15 @@ const initialState = {
     end: now,
     center: now - 500,
     elapsed: 1000,
-    zoom: 500,
-    nudge: 500,
+    zoom: 500000,
+    nudge: 50000,
     cascade: 1000,
     hatch25: now - 750,
     hatch75: now - 250,
     filtered: [],
     centerInput: msToString(now - 500).full,
-    zoomInput: 500,
-    nudgeInput: 500,
+    zoomInput: 500000,
+    nudgeInput: 50000,
     cascadeInput: 1000,
 
 
@@ -62,7 +62,8 @@ export const timelineSlice = createSlice({
     initialState,
     reducers: {
 
-        reCenterNodes: (state) => {
+        reCenterNodes: (state, action) => {
+            console.log('recenter nodes: action.payload: ', action.payload)
             state.cascade = Number(state.cascadeInput)
             state.center = stringToMs(state.centerInput);
             state.start = state.center - (state.elapsed / 2)
@@ -70,9 +71,9 @@ export const timelineSlice = createSlice({
             state.hatch25 = state.center - (state.elapsed / 4)
             state.hatch75 = state.center + (state.elapsed / 4)
 
-            state.filtered = filter(errors, state.start, state.end, state.cascade)
+            state.filtered = filter(action.payload, state.start, state.end, state.cascade)
         },
-        nudgeRight: (state) => {
+        nudgeRight: (state, action) => {
 
             state.cascade = Number(state.cascadeInput)
 
@@ -84,12 +85,12 @@ export const timelineSlice = createSlice({
             state.hatch75 = stringToMs(new Date(state.hatch75)) + state.nudge;
             state.end = stringToMs(new Date(state.end)) + state.nudge;
 
-            state.filtered = filter(errors, state.start, state.end, state.cascade)
+            state.filtered = filter(action.payload, state.start, state.end, state.cascade)
 
 
             // state.filtered = filter(allErrors, state.start, state.end)
         },
-        nudgeLeft: (state) => {
+        nudgeLeft: (state, action) => {
             state.cascade = Number(state.cascadeInput)
 
             state.nudge = Number(state.nudgeInput);
@@ -100,7 +101,7 @@ export const timelineSlice = createSlice({
             state.hatch75 = stringToMs(new Date(state.hatch75)) - state.nudge;
             state.end = stringToMs(new Date(state.end)) - state.nudge;
 
-            state.filtered = filter(errors, state.start, state.end, state.cascade)
+            state.filtered = filter(action.payload, state.start, state.end, state.cascade)
 
 
             // state.filtered = filter(allErrors, state.start, state.end)
@@ -121,7 +122,7 @@ export const timelineSlice = createSlice({
             state.hatch25 = stringToMs(new Date(state.center)) - adjustment;
             state.hatch75 = stringToMs(new Date(state.center)) + adjustment;
 
-            state.filtered = filter(errors, state.start, state.end, state.cascade)
+            state.filtered = filter(action.payload, state.start, state.end, state.cascade)
 
 
             // state.filtered = filter(allErrors, state.start, state.end)
@@ -143,7 +144,7 @@ export const timelineSlice = createSlice({
 
             // state.filtered = filter(allErrors, state.start, state.end)
 
-            state.filtered = filter(errors, state.start, state.end, state.cascade)
+            state.filtered = filter(action.payload, state.start, state.end, state.cascade)
 
 
         },
