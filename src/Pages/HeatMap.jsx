@@ -135,10 +135,50 @@ const links = linkFunc(node, srvResponse)
       const width = 500;
       const height = 500;
 
+      const color = d3.scaleOrdinal(d3.schemeTableau10);
+
       const svg = d3.select(svgRef.current)
         .attr('width', width)
         .attr('height', height);
-  
+
+      const nodeElements = svg.append('g')
+        .selectAll('circle')
+        .data(nodes)
+        .on('mouseover', (event, d) => {
+            console.log('Hovered over node:', d);
+          })
+          .on('mouseout', () => {
+            console.log('Mouseout');
+        })
+        // Sets the size and color of each node
+        .enter().append('circle')
+        .attr('r', 17)
+        .style('fill', node => color(node.group))
+
+        // adds text to each node. Doesn't work
+        // .enter().append('text')
+        // .text(d => d.label.charAt(0)) // Displaying the first letter of the label
+        // .attr('font-size', 10) // Set font size as needed
+        // .attr('text-anchor', 'middle') // Center the text horizontally
+        // .attr('dy', 3); // Adjust vertical position if necessary
+      
+
+      const textElements = svg.append('g')
+        .selectAll('text')
+        .data(nodes)
+        .enter().append('text')
+        .text(node => node.label)
+        .attr('font-size', 15)
+        .attr('dx', 19)
+        .attr('dy', 3.5)
+
+      const linkElements = svg.append('g')
+        .selectAll('line')
+        .data(links)
+        .enter().append('line')
+        .attr('stroke-width', 1)
+        .attr('stroke', '#D3D3D3')
+
       const simulation = d3.forceSimulation(nodes)
         .force('charge', d3.forceManyBody().strength(-160))
         .force('center', d3.forceCenter(width / 2, height / 2))
@@ -153,34 +193,7 @@ const links = linkFunc(node, srvResponse)
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
         });
-  
-      const nodeElements = svg.append('g')
-        .selectAll('circle')
-        .data(nodes)
-        .enter().append('circle')
-        .attr('r', 10)
-        .on('mouseover', (event, d) => {
-            console.log('Hovered over node:', d);
-          })
-          .on('mouseout', () => {
-            console.log('Mouseout');
-        });
 
-      const textElements = svg.append('g')
-        .selectAll('text')
-        .data(nodes)
-        .enter().append('text')
-        .text(node => node.label)
-        .attr('font-size', 15)
-        .attr('dx', 15)
-        .attr('dy', 4);
-  
-      const linkElements = svg.append('g')
-        .selectAll('line')
-        .data(links)
-        .enter().append('line')
-        .attr('stroke-width', 1)
-        .attr('stroke', '#E5E5E5');
   
       return () => {
         simulation.stop();
