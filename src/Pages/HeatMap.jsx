@@ -152,7 +152,7 @@ const links = linkFunc(node, srvResponse)
         })
         // Sets the size and color of each node
         .enter().append('circle')
-        .attr('r', 17)
+        .attr('r', 15)
         .style('fill', node => color(node.group))
 
         // adds text to each node. Doesn't work
