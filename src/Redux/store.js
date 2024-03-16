@@ -9,7 +9,7 @@ import errorSlice from './errorSlice'
 export const store = configureStore({
     reducer: {
         nav: navReducer,
-        timeline: timelineReducer
+        timeline: timelineReducer,
         errorSlice: errorSlice
     },
 })

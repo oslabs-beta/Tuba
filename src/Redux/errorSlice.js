@@ -4,14 +4,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // allErrors: array of objects, each object is an error. Queue data structure
 const initialState = {
   services: [],
-  allErrors: [],
+  allErrors: null,
   status: 'idle',
   error: null,
 }
 
 export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, {rejectWithValue}) => {
  
-  // try {
     fetch(`/errorData/allErrors`)
     .then(data => data.json())
     .then(json => {
@@ -21,21 +20,6 @@ export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allE
     .catch(error => {
       console.log('error in getAllErrors, fetch catch block', error);
     })
-
-    // return errorRes
-
-    // console.log('errorRes line 17: ', errorRes)
-
-    // if(!errorRes) throw new TypeError('error response unsucessful in errorSlice, getErrors')
-
-    // const errorData = await errorRes.json()
-    // console.log('errorData line 22', errorData);
-    // return errorData;
-
-  // } catch (error) {
-  //   console.log('Error occured in errorSlice, getErrors', error.message);
-  //   return rejectWithValue(error.message);
-  // }
 })
 
 export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (allErrors, {rejectWithValue}) => {
@@ -71,26 +55,26 @@ export const getServices = createAsyncThunk('errorSlice/getServices', async (ser
 
 export const errorSlice = createSlice({
   name: 'errorSlice',
-  initialState,
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getAllErrors.fulfilled, (state, action) => {
-        console.log('getAllErrors Extra Reducer >>>', action.payload);
-        state.status = 'success';
-        const errorData = action.payload.errors;
-        state.allErrors = errorData;
+        // console.log('getAllErrors Extra Reducer >>>', action.payload);
+        // const errorData = action.payload;
+        state.allErrors = action.payload;
 
         // nested loops, needs refactor
-        if (state.services[0]) {
-          errorData.forEach(error => {
-            state.services.forEach(service => {
-              if(error.err_job_name === service.servName) {
-                  service.servErrors.push(error)
-                }
-              })
-          })
-        }
+        // if (state.services[0]) {
+        //   errorData.forEach(error => {
+        //     state.services.forEach(service => {
+        //       if(error.err_job_name === service.servName) {
+        //           service.servErrors.push(error)
+        //         }
+        //       })
+        //   })
+        // }
+        state.status = 'success';
       })
       .addCase(getAllErrors.rejected, (state, action) => {
         state.status = 'failed';
