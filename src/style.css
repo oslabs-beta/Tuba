@@ -250,15 +250,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 20px;
     filter: drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))
 }
 
 .graph-node:hover {
-    scale: 2.5;
+    scale: 3;
     transition-duration: 100ms;
     z-index: 4
+}
+
+#cascade {
+    background-color: crimson !important;
+    margin-top: -25px;
+    scale: .8
+}
+
+#cascade:hover {
+    margin-top: -60px;
+    scale: 3 !important;
+    transition-duration: 100ms !important;
+    z-index: 4 !important
 }
 
 .toolbar {
@@ -270,8 +283,21 @@ body {
     padding: 20px;
     width: 300px;
     display: grid;
-    grid-template-columns: [left] 125px [center] 175px [right]
+    grid-template-columns: [left] 125px [center] 175px [right];
+    gap: 5px;
 }
+
+.toolbarInputs>input {
+    /* border-radius: 15px;
+    border: 1px solid black;
+    height: 20px;
+    padding-left: 10px;
+    padding-right: 10px; */
+}
+
+
+
+
 
 label {
     color: black;
@@ -282,21 +308,23 @@ label {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 7px;
     padding: 20px;
     margin-bottom: 50px;
 }
 
+
+
 .timelineButton {
-    height: 70px;
-    width: 70px;
-    border-radius: 35px;
+    height: 50px;
+    width: 50px;
+    border-radius: 23px;
     background-color: white;
     color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
+    font-size: 30px;
     transition-duration: 300ms;
 
 }
