@@ -59,9 +59,9 @@ export default function Home() {
             <Nav />
             {/* <h2>{tab}</h2> */}
             <div className='background' >
-                <div className='tab' onClick={() => changeTabHandler(left)}>{left}</div>
+                {/* <div className='tab' onClick={() => changeTabHandler(left)}>{left}</div> */}
                 {displayCurrentTab()}
-                <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div>
+                {/* <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div> */}
             </div>
 
         </>
