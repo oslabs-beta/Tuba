@@ -43,7 +43,7 @@ module.exports = {
         compress: true,
         historyApiFallback: true,
         proxy: {
-            '/server/*': {
+            '/': {
                 target: 'http://localhost:3000',
 
             }
@@ -53,7 +53,7 @@ module.exports = {
 
     },
     resolve: {
-        extensions: ['.jsx', '.js', 'ts', 'tsx'],
+        extensions: ['.jsx', '.js', '.ts', '.tsx'],
     },
     plugins: [
         new HtmlWebpackPlugin({

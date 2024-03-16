@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Dashboard from './Pages/Dashboard';
+import Home from './Pages/Home';
 import HeatMap from './Pages/HeatMap';
 import Timeline from './Pages/Timeline';
 import History from './Pages/History';
@@ -12,17 +12,17 @@ export default function App() {
 
     return (
         <>
-       
+
             <Router>
                 <Routes>
-                    
 
-                    <Route path="/" element={<Dashboard />} />
+
+                    <Route path="/" element={<Home />} />
                     <Route path="/heatmap" element={<HeatMap />} />
                     <Route path="/timeline" element={<Timeline />} />
                     <Route path="/history" element={<History />} />
                 </Routes>
-                
+
             </Router>
         </>
     )
