@@ -1,16 +1,69 @@
 import React from 'react';
-import Nav from '../Components/Nav'
+
+import { Chrono } from "react-chrono";
+
+import { useSelector, useDispatch } from 'react-redux'
+
+
+import TimelineGraph from '../Components/Timeline/TimelineGraph'
+import TimelineToolbar from '../Components/Timeline/TimelineToolbar'
+import TimelineButton from '../Components/Timeline/TimelineButton'
+
+import { reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/timelineSlice'
+
+
 
 export default function Timeline() {
 
+    const errorData = useSelector(state => state.errorSlice.allErrors.errors)
+
+    console.log('error data: ', errorData)
+    console.log('errorData2: ', useSelector(state => state.errorSlice))
+
+
+    const dispatch = useDispatch();
+
+    const handleNudgeLeft = () => {
+        dispatch(nudgeLeft(errorData))
+    }
+    const handleNudgeRight = () => {
+        dispatch(nudgeRight(errorData))
+    }
+    const handleReCenter = () => {
+        dispatch(reCenterNodes(errorData))
+    }
+    const handleZoomOut = () => {
+        dispatch(zoomOut(errorData))
+    }
+    const handleZoomIn = () => {
+        dispatch(zoomIn(errorData))
+    }
+
+
+
+
     return (
-        <>
-            <Nav />
-            <div className='background'>
-                Timeline goes here!
+
+        <div className='component'>
+            <div className='timelineComponent'>
+                <TimelineGraph />
+                <div className='timelineButtonSection'>
+
+                    <TimelineButton text="⫷" handle={handleNudgeLeft} />
+                    <TimelineButton text="⫸" handle={handleNudgeRight} />
+                    <TimelineButton text="║" handle={handleReCenter} />
+                    <TimelineButton text="－" handle={handleZoomOut} />
+                    <TimelineButton text="＋" handle={handleZoomIn} />
+
+
+                </div>
+                <TimelineToolbar />
             </div>
-        </>
+
+        </div>
+
     )
 
 
 }
+

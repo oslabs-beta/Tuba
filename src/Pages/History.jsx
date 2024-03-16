@@ -1,16 +1,17 @@
 import React from 'react';
+import { Chrono } from "react-chrono";
 
-import Nav from '../Components/Nav';
+
 
 export default function History() {
 
+
     return (
-        <>
-            <Nav />
-            <div className='background'>
-                History goes here!
-            </div>
-        </>
+
+        <div className='component'>
+            History goes here!
+        </div>
+
     )
 
 

@@ -1,16 +1,30 @@
-import React from 'react'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllErrors } from '../Redux/errorSlice';
 
-import Nav from '../Components/Nav'
+import Nav from '../Components/Nav';
+
+
 
 export default function Dashboard() {
 
+    const dispatch = useDispatch();
+
+    // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
+
+    const errorData = useSelector(state => state.errorSlice.allErrors)
+
+    console.log('ErrorData from state: ', errorData)
+
     return (
-        <>
-            <Nav />
-            <div className='background'>
-                Dashboard goes here!
-            </div>
-        </>
+
+        <div className='component'>
+            Dashboard goes here!
+
+            <button onClick={() => dispatch(getAllErrors())}>Click for Errors</button>
+
+        </div>
+
     )
 
 

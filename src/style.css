@@ -1,19 +1,337 @@
+/* 
+#2c2c2c figma black
+#444444 figma border
+#figma white $e3e3e3
+#figma white #f9f9f9
+#03001C black blue
+#301E67 purple
+#5B8FB9 sea blue
+#B6EADA teal 
+#88d3b5 tuba logo blue*/
+
+
+
 body {
     margin: 0px 0px 0px 0px;
+    background-color: #03001C;
+    color: #e3e3e3;
+    color: #f9f9f9;
+
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+
+    background: rgb(2, 0, 36);
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%);
+    min-height: 100vh;
+    user-select: none;
+}
+
+
+
+.logo {
+    font-family: "Ojuju", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 32px;
+    letter-spacing: 1.5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.centerGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.leftGrid {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 40px;
+}
+
+.leftGrid>img {
+    height: 60px;
+    margin-right: 5px;
+
+}
+
+.tab {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #585563;
+    margin: 30px;
+}
+
+.tab:hover {
+    cursor: pointer;
+    border: 1px solid #88d3b5;
+    color: #D4E9E0;
+
 
 }
 
 .nav-background {
-    background-color: white;
     margin: 0px 0px 0px 0px;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: [left] 20% [center-left] 60% [center-right] 20% [right];
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #585563;
+
+    /* background: rgb(91, 143, 185);
+    background: linear-gradient(180deg, rgba(91, 143, 185, 1) 43%, rgba(136, 211, 181, 1) 100%); */
 }
 
-.nav-background>ul {
+.centerGrid>ul {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 2px;
     list-style-type: none;
+
+
+
+
+}
+
+.rightGrid {
+
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.rightGrid>ul {
+    /* display: flex;
+    flex-direction: row;
+    gap: 2px;
+    list-style-type: none; */
+
+
+}
+
+.centerGrid>ul>li {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 2px;
+}
+
+.centerGrid>ul>li:hover {
+    cursor: pointer;
+    color: #88d3b5
+}
+
+.selected {
+
+    background-color: #4447cf;
+    /* background: rgb(48, 30, 103);
+    background: linear-gradient(180deg, rgba(48, 30, 103, 1) 71%, rgba(28, 18, 59, 1) 100%); */
+}
+
+
+
+.background {
+    min-height: 650px;
+
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.component {
+    margin-top: 60px;
+    /* height: 700px; */
+    /* border: solid 1px white; */
+    /* background-color: black; */
+
+}
+
+/* timeline */
+.timelineComponent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.graph {
+    width: 1125px;
+    margin-top: 50px;
+    /* height: 300px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* background-color: white; */
+}
+
+.graph>h1 {
+    margin: 0px;
+    font-size: 50px
+}
+
+.graph-line {
+    height: 7px;
+    margin: 20px;
+    width: 900px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: visible;
+    position: relative;
+    z-index: 1;
+}
+
+.hatch {
+    width: 2.5px;
+    height: 60px;
+    background-color: white;
+    z-index: 0;
+    border-radius: 5px;
+
+    position: absolute;
+}
+
+.ruler {
+    width: 100%;
+    height: 100px;
+    display: grid;
+    grid-template-columns: [left] 20% [middle] 20% [right] 20% [righter] 20% [center] 20% [end]
+}
+
+.rulerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px 0px 0px;
+}
+
+
+.timestamp {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+
+
+.graph-node {
+    /* margin-left: calc(50% - 15px); */
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background-color: orange;
+    position: absolute;
+    cursor: pointer;
+    transition-duration: 100ms;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 20px;
+    filter: drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))
+}
+
+.graph-node:hover {
+    scale: 3;
+    transition-duration: 100ms;
+    z-index: 4
+}
+
+#cascade {
+    background-color: crimson !important;
+    margin-top: -25px;
+    scale: .8
+}
+
+#cascade:hover {
+    margin-top: -60px;
+    scale: 3 !important;
+    transition-duration: 100ms !important;
+    z-index: 4 !important
+}
+
+.toolbar {
+    background-color: white;
+    /* width: 1000px; */
+}
+
+.toolbarInputs {
+    padding: 20px;
+    width: 300px;
+    display: grid;
+    grid-template-columns: [left] 125px [center] 175px [right];
+    gap: 5px;
+}
+
+.toolbarInputs>input {
+    /* border-radius: 15px;
+    border: 1px solid black;
+    height: 20px;
+    padding-left: 10px;
+    padding-right: 10px; */
+}
+
+
+
+
+
+label {
+    color: black;
+}
+
+.timelineButtonSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    padding: 20px;
+    margin-bottom: 50px;
+}
+
+
+
+.timelineButton {
+    height: 50px;
+    width: 50px;
+    border-radius: 23px;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    transition-duration: 300ms;
+
+}
+
+.timelineButton:hover {
+    background-color: #88d3b5;
+    cursor: pointer;
+    transition-duration: 300ms;
 
 }
