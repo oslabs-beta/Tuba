@@ -11,7 +11,7 @@ const initialState = {
 
 export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, {rejectWithValue}) => {
  
-    fetch(`/errorData/allErrors`)
+  const errorFetch = await fetch(`/errorData/allErrors`)
     .then(data => data.json())
     .then(json => {
       console.log('json error data: ', json);
@@ -20,6 +20,8 @@ export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allE
     .catch(error => {
       console.log('error in getAllErrors, fetch catch block', error);
     })
+
+    return errorFetch;
 })
 
 export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (allErrors, {rejectWithValue}) => {
@@ -60,20 +62,20 @@ export const errorSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllErrors.fulfilled, (state, action) => {
-        // console.log('getAllErrors Extra Reducer >>>', action.payload);
+        console.log('getAllErrors Extra Reducer >>>', action.payload);
         // const errorData = action.payload;
         state.allErrors = action.payload;
 
         // nested loops, needs refactor
-        // if (state.services[0]) {
-        //   errorData.forEach(error => {
-        //     state.services.forEach(service => {
-        //       if(error.err_job_name === service.servName) {
-        //           service.servErrors.push(error)
-        //         }
-        //       })
-        //   })
-        // }
+        if (state.services[0]) {
+          errorData.forEach(error => {
+            state.services.forEach(service => {
+              if(error.err_job_name === service.servName) {
+                  service.servErrors.push(error)
+                }
+              })
+          })
+        }
         state.status = 'success';
       })
       .addCase(getAllErrors.rejected, (state, action) => {
