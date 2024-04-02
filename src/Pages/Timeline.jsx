@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import TimelineGraph from '../Components/Timeline/TimelineGraph'
 import TimelineToolbar from '../Components/Timeline/TimelineToolbar'
 import TimelineButton from '../Components/Timeline/TimelineButton'
+import TimelineDescription from '../Components/Timeline/TimelineDescription'
+
 
 import { reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/timelineSlice'
 
@@ -16,9 +18,10 @@ import { reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/
 export default function Timeline() {
 
     const errorData = useSelector(state => state.errorSlice.allErrors.errors)
+    const selected = useSelector(state => state.timeline.selected)
 
     console.log('error data: ', errorData)
-    console.log('errorData2: ', useSelector(state => state.errorSlice))
+    // console.log('errorData2: ', useSelector(state => state.errorSlice))
 
 
     const dispatch = useDispatch();
@@ -54,10 +57,11 @@ export default function Timeline() {
                     <TimelineButton text="║" handle={handleReCenter} />
                     <TimelineButton text="－" handle={handleZoomOut} />
                     <TimelineButton text="＋" handle={handleZoomIn} />
-
+                    <TimelineButton text="T" handle={handleZoomIn} />
 
                 </div>
                 <TimelineToolbar />
+                {selected && <TimelineDescription />}
             </div>
 
         </div>

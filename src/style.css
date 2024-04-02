@@ -335,3 +335,19 @@ label {
     transition-duration: 300ms;
 
 }
+
+
+.description {
+
+    width: 1000px;
+    display: grid;
+    grid-template-columns: [left] 15% [center] 85% [right];
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.description>h3>span {
+    font-weight: 300;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TimelineNode({ percentage, letter, color, cascade }) {
+export default function TimelineNode({ handler, id, percentage, letter, color, cascade }) {
 
 
     const style = {
@@ -20,7 +20,7 @@ export default function TimelineNode({ percentage, letter, color, cascade }) {
 
 
     return (
-        <div className='graph-node' id= {cascade ? 'cascade' : ''} style={style}>
+        <div className='graph-node' id={cascade ? 'cascade' : ''} style={style} onClick={() => handler(id)}>
             {letter.toUpperCase().slice(0, 1)}
         </div>
     )
