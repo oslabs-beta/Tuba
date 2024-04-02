@@ -1,70 +1,37 @@
 import React, { useEffect, useRef } from 'react';
 import Nav from '../Components/Nav';
 import * as d3 from 'd3'
-
+import errors from '../Utilities/mockErrors'
 
 export default /*async*/ function HeatMap() {
 
-    const nodes = [ 
-      { id: "mammal", group: "mamm", label: "Mammals", level: "top" },
-      { id: "dog"   , group: "mamm", label: "Dogs"   , level: "Individual" },
-      { id: "cat"   , group: "mamm", label: "Cats"   , level: "Individual" },
-      { id: "fox"   , group: "mamm", label: "Foxes"  , level: "Individual" }, 
-      { id: "elk"   , group: "mamm", label: "Elk"    , level: "Individual" },
-      { id: "insect", group: "inse", label: "Insects", level: "top" },
-      { id: "ant"   , group: "inse", label: "Ants"   , level: "Individual" },
-      { id: "bee"   , group: "inse", label: "Bees"   , level: "Individual" },  
-      { id: "fish"  , group: "fish", label: "Fish"   , level: "top" },
-      { id: "carp"  , group: "fish", label: "Carp"   , level: "Individual" },
-      { id: "pike"  , group: "fish", label: "Pikes"  , level: "Individual" } 
-    ];
-  
-    const links = [
-      { target: "mammal", source: "dog" , strength: 0.4 },
-      { target: "mammal", source: "cat" , strength: 0.4 },
-      { target: "mammal", source: "fox" , strength: 0.4 },
-      { target: "mammal", source: "elk" , strength: 0.4 },
-      { target: "insect", source: "ant" , strength: 0.4 },
-      { target: "insect", source: "bee" , strength: 0.4 },
-      { target: "fish"  , source: "carp", strength: 0.4 },
-      { target: "fish"  , source: "pike", strength: 0.4 },
-
-      { target: 'mammal', source: 'fish',   strength: 0.1 },
-      { target: 'fish',   source: 'insect', strength: 0.1 },
-      { target: 'insect', source: 'mammal', strength: 0.1 }
-
-      // { target: "cat"   , source: "elk" , strength: 0.1 },
-      // { target: "carp"  , source: "ant" , strength: 0.1 },
-      // { target: "elk"   , source: "bee" , strength: 0.1 },
-      // { target: "dog"   , source: "cat" , strength: 0.1 },
-      // { target: "fox"   , source: "ant" , strength: 0.1 },
-      // { target: "pike"  , source: "dog" , strength: 0.1 }
-    ];
-  
     const svgRef = useRef(null);
   
+    const nodes = []
+    const links = []
+
     useEffect(() => {
   
-// Fetch array of error objects. Not sure if this is coming from state or as a fetch request to server/db
-/*
 // fetch the error data and populate an array of nodes.
-const nodeResponse = await fetch(error_data)
+// const nodeResponse = await fetch(error_data)
 
-const nodes = nodeResponse.map((element) =>{
-  const { err_id,
-    err_srv_id,
-    err_job_name,
-    err_time,
-    err_message,
-    err_type,
-    err_stack,
-    err_file_path,
-    err_file,
-    err_line_num,
-    err_module, 
-    err_module_function } = element
 
-    return {
+const nodeCreator = (errorData) => {
+  errorData.forEach((element) =>{
+    const { err_id,
+      err_srv_id,
+      err_job_name,
+      err_time,
+      err_message,
+      err_type,
+      err_stack,
+      err_file_path,
+      err_file,
+      err_line_num,
+      err_module, 
+      err_module_function } = element
+
+    nodes.push ({
       id: err_id,
       group: err_srv_id,
       label: {
@@ -75,33 +42,49 @@ const nodes = nodeResponse.map((element) =>{
         err_file,
         err_module_function,
         err_line_num
-        }
+        },
       level: "err"
-      }
+      })
   })
+}
+nodeCreator(errors)
 
 // fetch the list of services and populate the links.
-const srvResponse = await fetch(services)
+// const srvResponse = await fetch(services)
+// mocked data to be replaced
+const srvResponse = [
+  {
+    'srv_id': 1,
+    'srv_name': 'test1'
+  },
+  {
+    'srv_id': 2,
+    'srv_name': 'test2'
+  },
+  {
+    'srv_id': 3,
+    'srv_name': 'test3'
+  }
+]
 
 // Update the node list with a "srv" group
 srvResponse.forEach((element) => {
   const { srv_id, srv_name } = element
-  node.push({
-    id: srv_id
-    group: srv_id
-    label: srv_name
+  nodes.push({
+    id: srv_id,
+    group: srv_id,
+    label: srv_name,
     level: "srv"
   })
 })
 
 // create a helper function that returns the link object.
 const linkFunc = (nodeArr, srvArr) =>{
-  const linkArr = []
 
   // all errors with the same srv_id should link to the srv_id node with a strength of 0.6 or greater.
   for (let i=0; i<nodeArr.length; i++){
-    if (nodeArr.id !== nodeArr.group){
-      linkArr.push({
+    if (nodeArr[i].id !== nodeArr[i].group){
+      links.push({
         target: nodeArr[i].group,
         source: nodeArr[i].id,
         strength: 0.7
@@ -112,26 +95,24 @@ const linkFunc = (nodeArr, srvArr) =>{
   // all srv_id nodes should like with each other with a strength of 0.2 or less
   for (let i=0; i<srvArr.length; i++){
     if (i === srvArr.length-1){
-     linkArr.push({
+      links.push({
         target: srvArr[i].srv_id,
-        source: srvArr[0],srv_id,
+        source: srvArr[i].srv_id,
         strength: 0.1
       })
     } else {
-      linkArr.push({
+      links.push({
         target: srvArr[i].srv_id,
-        source: srvArr[i+1],srv_id,
+        source: srvArr[i+1].srv_id,
         strength: 0.1
       })
     }
   }
 
-  return linkArr
 }
 
-const links = linkFunc(node, srvResponse)
+linkFunc(nodes, srvResponse)
 
-*/
       const width = 500;
       const height = 500;
 
@@ -144,16 +125,28 @@ const links = linkFunc(node, srvResponse)
       const nodeElements = svg.append('g')
         .selectAll('circle')
         .data(nodes)
-        .on('mouseover', (event, d) => {
-            console.log('Hovered over node:', d);
-          })
-          .on('mouseout', () => {
-            console.log('Mouseout');
-        })
         // Sets the size and color of each node
         .enter().append('circle')
         .attr('r', 15)
         .style('fill', node => color(node.group))
+        .on('mouseover', (event, d) => {
+            console.log('Hovered over node:', d);
+            // makes node slightly larger
+            d3.select(event.currentTarget)
+              .attr('r', 20)
+              .style('stroke-width', 2)
+              .style('stroke', 'black');
+          })
+          .on('mouseout', () => {
+            console.log('Mouseout');
+            // restores node to previous size
+            d3.select(event.currentTarget)
+              .attr('r', 15)
+              .style('stroke-width', null)
+              .style('stroke', null);
+        })
+
+
 
         // adds text to each node. Doesn't work
         // .enter().append('text')
@@ -167,10 +160,11 @@ const links = linkFunc(node, srvResponse)
         .selectAll('text')
         .data(nodes)
         .enter().append('text')
-        .text(node => node.label)
+        .text(node => node.id)
         .attr('font-size', 15)
         .attr('dx', 19)
         .attr('dy', 3.5)
+        .attr('fill', 'white')
 
       const linkElements = svg.append('g')
         .selectAll('line')
@@ -210,4 +204,3 @@ const links = linkFunc(node, srvResponse)
       </>
     );
   }
-  
