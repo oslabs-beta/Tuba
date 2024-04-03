@@ -90,7 +90,9 @@ body {
     justify-content: center;
     width: 100%;
     height: 80px;
-    border-bottom: 1px solid #585563;
+    background: rgb(91, 143, 185);
+
+    /* border-bottom: 1px solid #585563; */
 
     /* background: rgb(91, 143, 185);
     background: linear-gradient(180deg, rgba(91, 143, 185, 1) 43%, rgba(136, 211, 181, 1) 100%); */
@@ -130,7 +132,8 @@ body {
     padding-bottom: 30px;
     padding-left: 20px;
     padding-right: 20px;
-    font-weight: 2px;
+    font-weight: 400;
+    font-size: 16px
 }
 
 .centerGrid>ul>li:hover {
@@ -140,8 +143,8 @@ body {
 
 .selected {
 
-    background-color: #4447cf;
-    /* background: rgb(48, 30, 103);
+    background-color: #224E75
+        /* background: rgb(48, 30, 103);
     background: linear-gradient(180deg, rgba(48, 30, 103, 1) 71%, rgba(28, 18, 59, 1) 100%); */
 }
 
@@ -150,14 +153,17 @@ body {
 .background {
     min-height: 650px;
 
+
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 60px;
+
 }
 
 .component {
-    margin-top: 60px;
+
     /* height: 700px; */
     /* border: solid 1px white; */
     /* background-color: black; */
@@ -367,8 +373,8 @@ label {
     grid-template-columns: [left] 15% [center] 85% [right];
     flex-direction: column;
     align-items: flex-start;
-    overflow-x: auto;
-    padding: 20px;
+    /* overflow-x: auto;
+    padding: 20px; */
 }
 
 .description>h3>span {

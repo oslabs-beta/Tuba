@@ -59,6 +59,7 @@ export default function TimelineToolbar() {
     return (
         <div className='toolbar'>
 
+
             <div className='toolbarInputs'>
                 <label for='errorSelection'><span className='toolbarSpan'>Error</span></label>
                 <select onChange={selectError} >
