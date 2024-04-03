@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Nav from '../Components/Nav';
+// import Nav from '../Components/Nav';
 import * as d3 from 'd3'
 import errors from '../Utilities/mockErrors'
 
@@ -10,12 +10,16 @@ export default /*async*/ function HeatMap() {
     const nodes = []
     const links = []
 
-    useEffect(() => {
-  
-// fetch the error data and populate an array of nodes.
+useEffect(() => {
+
+  // Clear existing nodes and links
+  nodes.length = 0;
+  links.length = 0;
+
+// fetch the error data and populate an array of nodes
 // const nodeResponse = await fetch(error_data)
 
-
+// parse through the error data and create a node for each error/element
 const nodeCreator = (errorData) => {
   errorData.forEach((element) =>{
     const { err_id,
@@ -51,23 +55,24 @@ nodeCreator(errors)
 
 // fetch the list of services and populate the links.
 // const srvResponse = await fetch(services)
+
 // mocked data to be replaced
 const srvResponse = [
   {
     'srv_id': 1,
-    'srv_name': 'test1'
+    'srv_name': 'service1'
   },
   {
     'srv_id': 2,
-    'srv_name': 'test2'
+    'srv_name': 'service2'
   },
   {
     'srv_id': 3,
-    'srv_name': 'test3'
+    'srv_name': 'service2'
   }
 ]
 
-// Update the node list with a "srv" group
+// update the node list/array with an element for each service.
 srvResponse.forEach((element) => {
   const { srv_id, srv_name } = element
   nodes.push({
@@ -78,7 +83,7 @@ srvResponse.forEach((element) => {
   })
 })
 
-// create a helper function that returns the link object.
+// populate the link array. Each error should point to its service and all services should be connected
 const linkFunc = (nodeArr, srvArr) =>{
 
   // all errors with the same srv_id should link to the srv_id node with a strength of 0.6 or greater.
@@ -87,18 +92,18 @@ const linkFunc = (nodeArr, srvArr) =>{
       links.push({
         target: nodeArr[i].group,
         source: nodeArr[i].id,
-        strength: 0.7
+        strength: 0.2
       })
     }
   }
   
-  // all srv_id nodes should like with each other with a strength of 0.2 or less
+  // all srv_id nodes should link with each other with a strength of 0.2 or less
   for (let i=0; i<srvArr.length; i++){
     if (i === srvArr.length-1){
       links.push({
         target: srvArr[i].srv_id,
         source: srvArr[i].srv_id,
-        strength: 0.1
+        strength: 0.9
       })
     } else {
       links.push({
@@ -113,8 +118,10 @@ const linkFunc = (nodeArr, srvArr) =>{
 
 linkFunc(nodes, srvResponse)
 
-      const width = 500;
-      const height = 500;
+      // const width = 500;
+      // const height = 500;
+      const width = window.innerWidth * 0.8; 
+      const height = window.innerHeight * 0.5; 
 
       const color = d3.scaleOrdinal(d3.schemeTableau10);
 
@@ -122,29 +129,49 @@ linkFunc(nodes, srvResponse)
         .attr('width', width)
         .attr('height', height);
 
-      const nodeElements = svg.append('g')
+
+      const tooltip = d3.select('body')
+        .append('div')
+        .attr('class', 'tooltip')
+        .style('position', 'absolute')
+        .style('pointer-events', 'none')
+        .style('background-color', 'white')
+        .style('border', '1px solid black')
+        .style('padding', '5px')
+        .style('display', 'none');
+
+        const nodeElements = svg.append('g')
         .selectAll('circle')
         .data(nodes)
-        // Sets the size and color of each node
         .enter().append('circle')
         .attr('r', 15)
         .style('fill', node => color(node.group))
         .on('mouseover', (event, d) => {
-            console.log('Hovered over node:', d);
-            // makes node slightly larger
-            d3.select(event.currentTarget)
-              .attr('r', 20)
-              .style('stroke-width', 2)
-              .style('stroke', 'black');
-          })
-          .on('mouseout', () => {
-            console.log('Mouseout');
-            // restores node to previous size
-            d3.select(event.currentTarget)
-              .attr('r', 15)
-              .style('stroke-width', null)
-              .style('stroke', null);
+
+          console.log('Hovered over node:', d);
+
+          // Display tooltip with node data
+          tooltip.html(`<strong>Node Data:</strong><br>ID: ${d.id}<br>Group: ${d.group}<br>Level: ${d.level}`)
+            .style('display', 'block')
+            .style('left', `${event.pageX + 10}px`)
+            .style('top', `${event.pageY + 10}px`);
+      
+          // Make node slightly larger
+          d3.select(event.currentTarget)
+            .attr('r', 20)
+            .style('stroke-width', 2)
+            .style('stroke', 'black');
         })
+        .on('mouseout', (event) => {
+          // Hide tooltip
+          tooltip.style('display', 'none');
+      
+          // Restore node to previous size
+          d3.select(event.currentTarget)
+            .attr('r', 15)
+            .style('stroke-width', null)
+            .style('stroke', null);
+        });
 
 
 
@@ -156,11 +183,13 @@ linkFunc(nodes, srvResponse)
         // .attr('dy', 3); // Adjust vertical position if necessary
       
 
+
       const textElements = svg.append('g')
         .selectAll('text')
         .data(nodes)
         .enter().append('text')
-        .text(node => node.id)
+        // if there is no err_type then it is a service, an the service name should be displayed
+        .text(node => node.label.err_type ? node.label.err_type : node.label )
         .attr('font-size', 15)
         .attr('dx', 19)
         .attr('dy', 3.5)
@@ -196,8 +225,7 @@ linkFunc(nodes, srvResponse)
   
     return (
       <>
-        <Nav />
-        Heat Map goes here!
+        { /* <Nav /> */}
         <div className='background'>
           <svg ref={svgRef}></svg>
         </div>
