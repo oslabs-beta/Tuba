@@ -22,7 +22,8 @@ const initialState = {
     zoomInput: 500000,
     nudgeInput: 50000,
     cascadeInput: 1000,
-    selected: null
+    selected: null,
+    visible: true,
 
 
 }
@@ -170,10 +171,13 @@ export const timelineSlice = createSlice({
         },
         setSelected: (state, action) => {
             state.selected = action.payload
+        },
+        setVisible: (state) => {
+            state.visible = !state.visible
         }
     },
 })
 
-export const { setSelected, reCenterNodes, nudgeRight, nudgeLeft, zoomOut, zoomIn, setCenter, setElapsed, setZoom, setNudge, setCascade } = timelineSlice.actions
+export const { setVisible, setSelected, reCenterNodes, nudgeRight, nudgeLeft, zoomOut, zoomIn, setCenter, setElapsed, setZoom, setNudge, setCascade } = timelineSlice.actions
 
 export default timelineSlice.reducer

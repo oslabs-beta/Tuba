@@ -276,18 +276,39 @@ body {
 
 .toolbar {
     background-color: white;
+    color: rgba(48, 30, 103, 1);
+
+    margin: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
     /* width: 1000px; */
+}
+
+.toolbarSpan {
+    font-weight: 500;
+
 }
 
 .toolbarInputs {
     padding: 20px;
-    width: 300px;
+    width: 350px;
     display: grid;
-    grid-template-columns: [left] 125px [center] 175px [right];
+    grid-template-columns: [left] 150px [center] 200px [right];
     gap: 5px;
+
 }
 
-.toolbarInputs>input {
+.toolbarInputs>input,
+select {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+    border: 1px solid #e3e3e3;
+
+    /* border: none;
+    border-bottom: 1px solid black; */
     /* border-radius: 15px;
     border: 1px solid black;
     height: 20px;
@@ -310,7 +331,7 @@ label {
     align-items: center;
     gap: 7px;
     padding: 20px;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 
 
