@@ -286,6 +286,7 @@ body {
 
 .toolbarSpan {
     font-weight: 500;
+    font-size: 15px;
 
 }
 
@@ -293,7 +294,7 @@ body {
     padding: 20px;
     width: 350px;
     display: grid;
-    grid-template-columns: [left] 150px [center] 200px [right];
+    grid-template-columns: [left] 140px [center] 210px [right];
     gap: 5px;
 
 }
@@ -306,6 +307,7 @@ select {
     font-variation-settings:
         "slnt" 0;
     border: 1px solid #e3e3e3;
+    font-size: 15px;
 
     /* border: none;
     border-bottom: 1px solid black; */
