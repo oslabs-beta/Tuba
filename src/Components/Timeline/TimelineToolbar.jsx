@@ -59,25 +59,18 @@ export default function TimelineToolbar() {
     return (
         <div className='toolbar'>
 
+
             <div className='toolbarInputs'>
-                <label for='errorSelection'>Error</label>
+                <label for='errorSelection'><span className='toolbarSpan'>Error</span></label>
                 <select onChange={selectError} >
                     {options}
                 </select>
 
-                {/* <label for='start'>Start</label>
-                <input type='text' name='start' value={startInput} onInput={submitStart} />
-                <label for='end'>End</label> */}
-                {/* <input type='text' name='end' value={endInput} onInput={submitEnd} /> */}
-                {/* <label for='center'>Center</label>
-                <input type='text' name='center' value={centerInput} onInput={submitCenter} /> */}
-                {/* <label for='elapsed'>Elapsed Time</label>
-                <input type='text' name='elapsed' value={elapsedInput} onInput={submitElapsed} /> */}
-                <label for='zoom'>Zoom Amount</label>
+                <label for='zoom'><span className='toolbarSpan'>Zoom Amount</span></label>
                 <input type='text' name='zoom' value={zoomInput} onInput={submitZoom} />
-                <label for='cascade'>Cascade Time</label>
+                <label for='cascade'><span className='toolbarSpan'>Cascade Time</span></label>
                 <input type='text' name='cascade' value={cascadeInput} onInput={submitCascade} />
-                <label for='nudge'>Nudge</label>
+                <label for='nudge'><span className='toolbarSpan'>Nudge</span></label>
                 <input type='text' name='nudge' value={nudgeInput} onInput={submitNudge} />
 
 

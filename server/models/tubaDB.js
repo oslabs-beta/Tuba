@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const {TUBA_PG_URI} = process.env;
+const { TUBA_PG_URI } = process.env;
 
 const pool = new Pool({
   connectionString: TUBA_PG_URI
