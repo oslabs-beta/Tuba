@@ -17,7 +17,7 @@ import { setVisible, reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } fro
 
 export default function Timeline() {
 
-    const errorData = useSelector(state => state.errorSlice.allErrors.errors)
+    const errorData = useSelector(state => state.errorSlice.allErrors)
     const { selected, visible } = useSelector(state => state.timeline)
 
     console.log('error data: ', errorData)

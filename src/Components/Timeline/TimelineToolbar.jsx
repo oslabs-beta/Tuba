@@ -11,7 +11,7 @@ import { setCenter, setZoom, setNudge, setCascade } from '../../Redux/timelineSl
 export default function TimelineToolbar() {
 
     const dispatch = useDispatch();
-    const allErrors = useSelector(state => state.errorSlice.allErrors.errors)
+    const allErrors = useSelector(state => state.errorSlice.allErrors)
     // const { start, end, center, elapsed, zoom, nudge, cascade, hatch25, hatch75, filtered } = useSelector(state => state.timeline);
     const { centerInput, elapsedInput, zoomInput, nudgeInput, cascadeInput } = useSelector(state => state.timeline);
 

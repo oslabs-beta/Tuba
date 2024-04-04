@@ -5,7 +5,7 @@ import { msToString } from '../../Utilities/timeFunctions';
 
 export default function TimelineDescription() {
 
-    const { errors } = useSelector(state => state.errorSlice.allErrors)
+    const errors = useSelector(state => state.errorSlice.allErrors)
     const { selected } = useSelector(state => state.timeline)
     const error = errors.filter(err => err.err_id === selected)[0]
 
