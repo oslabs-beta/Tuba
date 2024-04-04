@@ -63,8 +63,8 @@ export const errorSlice = createSlice({
     builder
       .addCase(getAllErrors.fulfilled, (state, action) => {
         console.log('getAllErrors Extra Reducer >>>', action.payload);
-        // const errorData = action.payload;
-        state.allErrors = action.payload;
+        const errorData = action.payload.errors;
+        state.allErrors = action.payload.errors;
 
         // nested loops, needs refactor
         if (state.services[0]) {
@@ -102,7 +102,8 @@ export const errorSlice = createSlice({
       })
       .addCase(getServices.fulfilled, (state, action) => {
         state.status = 'success';
-        const serviceData = action.payload;
+        console.log('getServices Extra Reducer >>>', action.payload);
+        const serviceData = action.payload.services;
         serviceData.forEach(service => {
           const servObj = {
             serviceName: service,
