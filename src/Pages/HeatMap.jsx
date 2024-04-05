@@ -6,10 +6,12 @@ export default function HeatMap() {
   // Get error & service data from redux
   const services = useSelector((state) => state.errorSlice.services);
   const errors = useSelector((state) => state.errorSlice.allErrors);
-  
+  const serviceLinks = useSelector((state) => state.errorSlice.connections.connections)
 
   console.log('services-d3: ', services)
   console.log('errors-d3: ', errors)
+  console.log('connections-d3', serviceLinks)
+
   // initialize D3 to paint the DOM
   const svgRef = useRef(null);
   // initialize node & link arrays that will inform the graph <- research better way to do this
@@ -33,6 +35,19 @@ export default function HeatMap() {
       })
     })
 
+    // Map over the connections to create the links.
+    serviceLinks.map((connections) => {
+      links.push({
+        target: connections.con_srv2,
+        source: connections.con_srv1,
+        strength: 0.7
+      })
+    })
+
+    console.log('post map links array: ', links)
+    console.log('post map nodes array: ', nodes)
+    
+
     // define the size of the graph window. To be updated when other components are added
     const width = window.innerWidth * 0.8;
     const height = window.innerHeight * 0.5;
@@ -51,34 +66,45 @@ export default function HeatMap() {
       .attr('r', 30)
       .style('fill', node => color(node.name));
 
-// create the text next to each node
-    const textElements = svg.append('g')
-    .selectAll('text')
-    .data(nodes)
-    .enter().append('text')
-    .text( node => node.name)
-    .attr('font-size', 15)
-    .attr('dx', 19)
-    .attr('dy', 3.5)
-    .attr('fill', 'white')
+  // create the text next to each node
+      const textElements = svg.append('g')
+      .selectAll('text')
+      .data(nodes)
+      .enter().append('text')
+      .text( node => node.name)
+      .attr('font-size', 15)
+      .attr('dx', 19)
+      .attr('dy', 3.5)
+      .attr('fill', 'white')
   
+  // create the links between nodes
+    const linkElements = svg.append('g')
+      .selectAll('line')
+      .data(links)
+      .enter().append('line')
+      .attr('stroke-width', 2)
+      .attr('stroke', '#D3D3D3')
 
-// populate the graph
-  const simulation = d3.forceSimulation(nodes)
-    .force('charge', d3.forceManyBody().strength(-30))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .on('tick', () => {
-      nodeElements.attr('cx', node => node.x)
-        .attr('cy', node => node.y);
-      textElements.attr('x', node => node.x)
-        .attr('y', node => node.y);
-      });
+  // populate the graph
+    const simulation = d3.forceSimulation(nodes)
+      .force('charge', d3.forceManyBody().strength(-30))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .on('tick', () => {
+        nodeElements.attr('cx', node => node.x)
+          .attr('cy', node => node.y);
+        textElements.attr('x', node => node.x)
+          .attr('y', node => node.y);
+        linkElements.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        });
 
     return () => {
       simulation.stop();
     };
 
-  }, [nodes, links])
+  }, [services, serviceLinks])
 
   return (
     <>
