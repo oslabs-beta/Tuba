@@ -40,7 +40,8 @@ export default function HeatMap() {
       links.push({
         target: connections.con_srv2,
         source: connections.con_srv1,
-        strength: 0.7
+      // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
+        strength: 0
       })
     })
 
@@ -83,12 +84,13 @@ export default function HeatMap() {
       .data(links)
       .enter().append('line')
       .attr('stroke-width', 2)
-      .attr('stroke', '#D3D3D3')
+      .attr('stroke', '#FFFFFF')
 
   // populate the graph
     const simulation = d3.forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-30))
       .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
       .on('tick', () => {
         nodeElements.attr('cx', node => node.x)
           .attr('cy', node => node.y);
