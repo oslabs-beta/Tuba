@@ -19,6 +19,7 @@ export default function History() {
 
         <div className='component'>
             <div className='historyList'>
+                <h2>Error Log</h2>
                 {errors}
             </div>
         </div>

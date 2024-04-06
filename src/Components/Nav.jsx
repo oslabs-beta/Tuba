@@ -21,7 +21,7 @@ export default function Nav() {
         return;
     }
 
-    const tabs = ['Dashboard', 'Heat Map', 'Timeline', 'History'].map((tab) => {
+    const tabs = ['Dashboard', 'Timeline', 'Heat Map', 'History'].map((tab) => {
         return tab === useSelector(state => state.nav.tab) ?
             <li onClick={() => changeTabHandler(tab)} className='selected'><a>{tab}</a></li> :
             <li onClick={() => changeTabHandler(tab)}><a>{tab}</a></li>

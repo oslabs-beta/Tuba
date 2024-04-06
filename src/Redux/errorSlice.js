@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // allErrors: array of objects, each object is an error. Queue data structure
 const initialState = {
   services: [],
-  allErrors: null,
+  allErrors: [],
   connections: [],
   status: 'idle',
   error: null,
