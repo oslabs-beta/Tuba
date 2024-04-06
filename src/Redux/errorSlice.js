@@ -5,12 +5,30 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   services: [],
   allErrors: null,
+  connections: [],
   status: 'idle',
   error: null,
 }
 
-export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, {rejectWithValue}) => {
- 
+export const getConnections = createAsyncThunk('/errorData/allConnections', async (connections, { rejectWithValue }) => {
+
+  const connectionInfo = await fetch('/errorData/allConnections')
+    .then(res => res.json())
+    .then(json => {
+      console.log('json connection data: ', json);
+      return json
+    })
+    .catch(error => {
+      console.log('error in allConnections, fetch catch block', error);
+    })
+
+  return connectionInfo
+
+
+})
+
+export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, { rejectWithValue }) => {
+
   const errorFetch = await fetch(`/errorData/allErrors`)
     .then(data => data.json())
     .then(json => {
@@ -21,15 +39,15 @@ export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allE
       console.log('error in getAllErrors, fetch catch block', error);
     })
 
-    return errorFetch;
+  return errorFetch;
 })
 
-export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (allErrors, {rejectWithValue}) => {
+export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (allErrors, { rejectWithValue }) => {
   try {
-    const timeStamp = allErrors[allErrors.length -1].err_time;
+    const timeStamp = allErrors[allErrors.length - 1].err_time;
     const errorRes = await fetch(`/errorData/newErrors/${timeStamp}`);
 
-    if(!errorRes) throw new TypeError('error response unsucessful in errorSlice, getNewErrors')
+    if (!errorRes) throw new TypeError('error response unsucessful in errorSlice, getNewErrors')
 
     const errorData = await errorRes.json()
     return errorData;
@@ -40,11 +58,11 @@ export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (a
   }
 })
 
-export const getServices = createAsyncThunk('errorSlice/getServices', async (services, {rejectWithValue}) => {
+export const getServices = createAsyncThunk('errorSlice/getServices', async (services, { rejectWithValue }) => {
   try {
     const servicesRes = await fetch('/errorData/allServices')
 
-    if(!servicesRes) throw new TypeError('error response unsucessful in errorSlice, getServices')
+    if (!servicesRes) throw new TypeError('error response unsucessful in errorSlice, getServices')
 
     const servicesData = await servicesRes.json()
     return servicesData;
@@ -70,10 +88,10 @@ export const errorSlice = createSlice({
         if (state.services[0]) {
           errorData.forEach(error => {
             state.services.forEach(service => {
-              if(error.err_job_name === service.servName) {
-                  service.servErrors.push(error)
-                }
-              })
+              if (error.err_job_name === service.servName) {
+                service.servErrors.push(error)
+              }
+            })
           })
         }
         state.status = 'success';
@@ -90,10 +108,10 @@ export const errorSlice = createSlice({
         newErrors.forEach(error => {
           state.allErrors.push(error);
           state.services.forEach(service => {
-            if(error.err_job_name === service.servName) {
-                service.servErrors.push(error)
-              }
-            })
+            if (error.err_job_name === service.servName) {
+              service.servErrors.push(error)
+            }
+          })
         });
       })
       .addCase(getNewErrors.rejected, (state, action) => {
@@ -113,6 +131,13 @@ export const errorSlice = createSlice({
         })
       })
       .addCase(getServices.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = `Error occured in errorSlice getServices thunk: ${action.payload}`;
+      })
+      .addCase(getConnections.fulfilled, (state, action) => {
+        state.connections = action.payload
+      })
+      .addCase(getConnections.rejected, (state, action) => {
         state.status = 'failed';
         state.error = `Error occured in errorSlice getServices thunk: ${action.payload}`;
       })
