@@ -143,9 +143,11 @@ body {
 
     color: white;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     margin-top: 60px;
+
+    flex-direction: column;
 
 }
 
