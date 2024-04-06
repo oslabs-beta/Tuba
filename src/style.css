@@ -390,3 +390,37 @@ label {
     font-weight: 300;
 
 }
+
+/* history */
+
+.historyList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.historyContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 1000px;
+    background-color: white;
+    color: black;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.historyHeader {
+    width: 100%;
+    display: grid;
+    grid-template-columns: [left] 25% [left-center] 25% [center] 25% [right-center] 25% [right]
+}
+
+.historyBody {
+
+    grid-template-columns: [left] 15% [center] 85% [right];
+
+}
