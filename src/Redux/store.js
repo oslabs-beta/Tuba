@@ -4,6 +4,8 @@ import navReducer from './navSlice'
 import timelineReducer from './timelineSlice'
 import errorSlice from './errorSlice'
 import heatSlice from './heatSlice'
+import historySlice from './historySlice'
+
 
 
 export const store = configureStore({
@@ -11,6 +13,7 @@ export const store = configureStore({
         nav: navReducer,
         timeline: timelineReducer,
         errorSlice: errorSlice,
-        heat: heatSlice
+        heat: heatSlice,
+        history: historySlice
     },
 })
