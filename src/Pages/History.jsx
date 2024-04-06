@@ -10,6 +10,7 @@ export default function History() {
 
     const allErrors = useSelector(state => state.errorSlice.allErrors)
 
+
     const errors = allErrors.map(error => {
         return <HistoryContainer info={error} />
     })
@@ -17,7 +18,6 @@ export default function History() {
     return (
 
         <div className='component'>
-            History goes here!
             <div className='historyList'>
                 {errors}
             </div>
