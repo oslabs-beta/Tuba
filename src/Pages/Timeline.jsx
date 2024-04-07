@@ -11,7 +11,7 @@ import TimelineButton from '../Components/Timeline/TimelineButton'
 import TimelineDescription from '../Components/Timeline/TimelineDescription'
 
 
-import { setVisible, reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/timelineSlice'
+import { setIntervalId, setVisible, reCenterNodes, nudgeRight, nudgeLeft, zoomIn, zoomOut } from '../Redux/timelineSlice'
 
 
 
@@ -27,19 +27,34 @@ export default function Timeline() {
     const dispatch = useDispatch();
 
     const handleNudgeLeft = () => {
-        dispatch(nudgeLeft(errorData))
+        const id = setInterval(() => {
+            dispatch(nudgeLeft(errorData))
+        }, 50)
+        dispatch(setIntervalId(id))
     }
     const handleNudgeRight = () => {
-        dispatch(nudgeRight(errorData))
+        const id = setInterval(() => {
+            dispatch(nudgeRight(errorData))
+        }, 50)
+        dispatch(setIntervalId(id))
     }
     const handleReCenter = () => {
-        dispatch(reCenterNodes(errorData))
+        const id = setInterval(() => {
+            dispatch(reCenterNodes(errorData))
+        }, 50)
+        dispatch(setIntervalId(id))
     }
     const handleZoomOut = () => {
-        dispatch(zoomOut(errorData))
+        const id = setInterval(() => {
+            dispatch(zoomOut(errorData))
+        }, 50)
+        dispatch(setIntervalId(id))
     }
     const handleZoomIn = () => {
-        dispatch(zoomIn(errorData))
+        const id = setInterval(() => {
+            dispatch(zoomIn(errorData))
+        }, 50)
+        dispatch(setIntervalId(id))
     }
 
     const handleToolbar = () => {
