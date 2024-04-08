@@ -161,6 +161,13 @@ body {
     /* border: solid 1px white; */
     /* background-color: black; */
 
+
+}
+
+.favoriteSplit {
+    display: grid;
+    width: auto;
+    grid-template-columns: [left] 95% [center] 5% [right]
 }
 
 /* timeline */
