@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // allErrors: array of objects, each object is an error. Queue data structure
 const initialState = {
   services: [],
-  allErrors: null,
+  allErrors: [],
   connections: [],
   status: 'idle',
   error: null,
@@ -76,13 +76,23 @@ export const getServices = createAsyncThunk('errorSlice/getServices', async (ser
 export const errorSlice = createSlice({
   name: 'errorSlice',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setVisibility: (state, action) => {
+      state.allErrors = state.allErrors.map(error => {
+        if (error.err_id === action.payload) {
+          return { ...error, visible: !error.visible }
+        } else return error
+      })
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllErrors.fulfilled, (state, action) => {
         console.log('getAllErrors Extra Reducer >>>', action.payload);
         const errorData = action.payload.errors;
-        state.allErrors = action.payload.errors;
+        state.allErrors = action.payload.errors.map((error) => {
+          return { ...error, visible: false }
+        });
 
         // nested loops, needs refactor
         if (state.services[0]) {
@@ -106,7 +116,7 @@ export const errorSlice = createSlice({
 
         // nested loops, needs refactor
         newErrors.forEach(error => {
-          state.allErrors.push(error);
+          state.allErrors.push({ ...error, visible: false });
           state.services.forEach(service => {
             if (error.err_job_name === service.servName) {
               service.servErrors.push(error)
@@ -143,6 +153,8 @@ export const errorSlice = createSlice({
       })
   },
 });
+
+export const { setVisibility } = errorSlice.actions
 
 
 export default errorSlice.reducer;

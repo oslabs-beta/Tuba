@@ -403,6 +403,38 @@ label {
     gap: 20px;
 }
 
+.historyList>h2 {
+    margin: 0px;
+}
+
+.filterSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 20px;
+}
+
+.filterSection>h3 {
+    font-weight: 400;
+}
+
+.filterSection>input {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+    font-size: 18;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+
 .historyContainer {
     display: flex;
     flex-direction: column;
@@ -413,16 +445,40 @@ label {
     color: black;
     padding-left: 20px;
     padding-right: 20px;
+    border-radius: 10px;
+}
+
+.filterContainer {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 1040px;
+}
+
+.historyContainer:hover {
+    cursor: pointer;
+    background-color: lightsteelblue;
+
+
 }
 
 .historyHeader {
+    font-weight: 600;
     width: 100%;
     display: grid;
     grid-template-columns: [left] 25% [left-center] 25% [center] 25% [right-center] 25% [right]
 }
 
 .historyBody {
-
+    font-weight: 600;
+    display: grid;
     grid-template-columns: [left] 15% [center] 85% [right];
+
+}
+
+.historyBody>p>span {
+    font-weight: 300;
 
 }
