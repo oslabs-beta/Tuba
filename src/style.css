@@ -1,6 +1,6 @@
 body {
     margin: 0px 0px 0px 0px;
-    background-color: #03001C;
+    /* background-color: #03001C; */
     color: #e3e3e3;
     color: #f9f9f9;
 
@@ -10,8 +10,10 @@ body {
     font-variation-settings:
         "slnt" 0;
 
-    background: rgb(2, 0, 36);
-    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%);
+    /* background: rgb(2, 0, 36);
+    background: #1e2d67; */
+    /* background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%); */
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, #1e2d67 60%);
     min-height: 100vh;
     user-select: none;
 }
@@ -84,6 +86,8 @@ body {
     /* background: rgb(91, 143, 185);
     background: linear-gradient(180deg, rgba(91, 143, 185, 1) 43%, rgba(136, 211, 181, 1) 100%); */
 }
+
+
 
 .centerGrid>ul {
     display: flex;
