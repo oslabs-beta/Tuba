@@ -88,6 +88,8 @@ export default function HeatMap() {
       .attr('width', width)
       .attr('height', height);
 
+    
+
     // create the links between nodes
     const linkElements = svg.append('g')
       .selectAll('line')
@@ -95,7 +97,6 @@ export default function HeatMap() {
       .enter().append('line')
       .attr('stroke-width', 2)
       .attr('stroke', '#FFFFFF')
-
 
     // create node elements
     const nodeElements = svg.append('g')
@@ -113,15 +114,27 @@ export default function HeatMap() {
         } else {
           console.log('error with handleSelect on heatMap')
         }})
-      .on('mouseover', function(event, node) {      
+      .on('mouseover', function(event, node) {
+        console.log('node: ',node)
+        // expand the node
         const circle = d3.select(this);
         const currentRadius = Number(circle.attr('r'));
         circle.transition().duration(200).attr('r', currentRadius * 1.5);
+
+        // create the tooltip
+        tooltip.style('display', 'block')
+        tooltip.select('text').text(`ID: ${node.id} \n Level: ${node.level} \n Name: ${node.name}`)
+
+        // fix the tooltip to the mouse pointer
+        const [x, y] = d3.pointer(event);
+        tooltip.attr("transform", `translate(${x},${y})`);
       })
       .on('mouseout', function (event, node) {
         const circle = d3.select(this);
         const originalRadius = parseFloat(circle.attr('r'));
         circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
+
+        tooltip.style('display', 'none')
       });
 
   // create the text next to each node
@@ -130,12 +143,32 @@ export default function HeatMap() {
       .data(nodes)
       .enter().append('text')
       .text( node => node.level === 'srv' ? node.name : node.name.charAt(0))
-      .attr('font-size', 15)
-      .attr('dx', node => node.level === 'srv' ? 19 : -5)
-      .attr('dy', node => node.level === 'srv' ? 3.5 : 5)
+      .attr('font-size', 20)
+      .attr('dx', node => node.level === 'srv' ? 19 : -7.5)
+      .attr('dy', node => node.level === 'srv' ? 3.5 : 7.5)
       .attr('fill', 'white')
+      .style('stroke', 'black')
+      .style('stroke-width', 0.65)
       .style('pointer-events', 'none');
 
+    // create the tooltip to be used on hover
+    const tooltip = svg.append('g')
+      .attr('class', 'tooltip')
+      .style('display', 'none');
+    // create a rectangle element for the tooltip
+    tooltip.append("rect")
+      .attr("width", 150)
+      .attr("height", 50)
+      .attr("fill", "white")
+      .style("stroke", "black")
+      .style("stroke-width", 1);
+    // styles the text in the pre-defined rectangle element
+    tooltip.append("text")
+      .attr("x", 10)
+      .attr("y", 20)
+      .style("font-size", "12px")
+      .style("fill", "black")
+      .text('');
 
   // populate the graph
     const simulation = d3.forceSimulation(nodes)
