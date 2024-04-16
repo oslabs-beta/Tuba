@@ -111,7 +111,13 @@ export default function HeatMap() {
           handleSelect(Number(id))
         } else {
           console.log('error with handleSelect on heatMap')
-        }
+        }})
+      .on('mouseover', function() {
+        console.log('mouseover')
+      
+        const circle = d3.select(this);
+        const currentRadius = parseFloat(circle.attr('r'));
+        circle.transition().duration(200).attr('r', currentRadius * 1.5);
 
       });
 
