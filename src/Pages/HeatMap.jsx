@@ -96,6 +96,7 @@ export default function HeatMap() {
       .attr('stroke-width', 2)
       .attr('stroke', '#FFFFFF')
 
+
     // create node elements
     const nodeElements = svg.append('g')
       .selectAll('circle')
@@ -112,13 +113,15 @@ export default function HeatMap() {
         } else {
           console.log('error with handleSelect on heatMap')
         }})
-      .on('mouseover', function() {
-        console.log('mouseover')
-      
+      .on('mouseover', function(event, node) {      
         const circle = d3.select(this);
-        const currentRadius = parseFloat(circle.attr('r'));
+        const currentRadius = Number(circle.attr('r'));
         circle.transition().duration(200).attr('r', currentRadius * 1.5);
-
+      })
+      .on('mouseout', function (event, node) {
+        const circle = d3.select(this);
+        const originalRadius = parseFloat(circle.attr('r'));
+        circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
       });
 
   // create the text next to each node
@@ -131,17 +134,7 @@ export default function HeatMap() {
       .attr('dx', node => node.level === 'srv' ? 19 : -5)
       .attr('dy', node => node.level === 'srv' ? 3.5 : 5)
       .attr('fill', 'white')
-      .on('click', (event, node) => {
-        console.log('clicked on node ', node.id)
-
-        if (node.level === 'err'){
-          const id = node.id.slice(4,node.id.length)
-          handleSelect(Number(id))
-        } else {
-          console.log('error with handleSelect on heatMap')
-        }
-
-      });
+      .style('pointer-events', 'none');
 
 
   // populate the graph
