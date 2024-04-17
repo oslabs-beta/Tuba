@@ -31,6 +31,7 @@ export default function HeatMap() {
 
   const nodes = [];
   const links = [];
+  const srv_name = {}
 
   useEffect(() => {
     // clear node & link arrays for potential legacy data 
@@ -40,17 +41,24 @@ export default function HeatMap() {
 
     // Iterate over service array to create a node.
     services.forEach((service) => {
+      srv_name[service.serviceName.srv_id] = service.serviceName.srv_name
+
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
         name: service.serviceName.srv_name,
+        time: 'srv',
+        srv_num: service.serviceName.srv_id,
         level: "srv"
       })
     })
     // Iterate over Errors to create a node
     errors.forEach((error) => {
+
       nodes.push({
         id: `err_${error.err_id}`,
         name: error.err_type,
+        time: error.err_time,
+        srv: srv_name[error.err_srv_id],
         level: 'err'
       })
     })
@@ -123,7 +131,27 @@ export default function HeatMap() {
 
         // create the tooltip
         tooltip.style('display', 'block')
-        tooltip.select('text').text(`ID: ${node.id} \n Level: ${node.level} \n Name: ${node.name}`)
+        //tooltip.select('text').text(`ID: ${node.id} \nType: ${node.name} \nTime: ${node.time} \nService: ${node.srv}`)
+        // create individual lines for each item on the tooltip. Fix later, this is not DRY
+        tooltip.select('text')
+          .html(null)
+          .append('tspan')
+          .text(`ID: ${node.id}`);
+        tooltip.select('text')
+          .append('tspan')
+          .attr('x', 0)
+          .attr('dy', '1.2em')
+          .text(`Type: ${node.name}`);
+        tooltip.select('text')
+          .append('tspan')
+          .attr('x', 0)
+          .attr('dy', '1.2em')
+          .text(`Time: ${node.time}`);
+        tooltip.select('text')
+          .append('tspan')
+          .attr('x', 0)
+          .attr('dy', '1.2em')
+          .text(`Service: ${node.srv}`);
 
         // fix the tooltip to the mouse pointer
         const [x, y] = d3.pointer(event);
@@ -151,6 +179,7 @@ export default function HeatMap() {
       .style('stroke-width', 0.65)
       .style('pointer-events', 'none');
 
+
     // create the tooltip to be used on hover
     const tooltip = svg.append('g')
       .attr('class', 'tooltip')
@@ -158,11 +187,17 @@ export default function HeatMap() {
     // create a rectangle element for the tooltip
     tooltip.append("rect")
       .attr("width", 150)
-      .attr("height", 50)
+      .attr("height", 80)
       .attr("fill", "white")
       .style("stroke", "black")
       .style("stroke-width", 1);
-    // styles the text in the pre-defined rectangle element
+
+    const tooltipText = tooltip.append('text')
+      .attr('x', 10)
+      .attr('y', 20)
+      .style('font-size', '12px')
+      .style('fill', 'black')
+    //styles the text in the pre-defined rectangle element
     tooltip.append("text")
       .attr("x", 10)
       .attr("y", 20)
