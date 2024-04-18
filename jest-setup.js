@@ -1,5 +1,5 @@
 
 module.exports = () => {
-    global.testServer = require('./server');
+    global.testServer = require('./server/models/tubaDB');
   };
   
