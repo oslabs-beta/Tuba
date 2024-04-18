@@ -107,18 +107,17 @@ export default function HeatMap() {
 
     // create node elements
     const nodeElements = svg.append('g')
-      // .selectAll('ellipse') // Use 'ellipse' instead of 'circle'
+      // .selectAll('ellipse')
       // .data(nodes)
-      // .enter().append('ellipse') // Append 'ellipse' elements
-      // .attr('cx', node => node.x) // x-coordinate of the center
-      // .attr('cy', node => node.y) // y-coordinate of the center
-      // .attr('rx', node => node.level === 'srv' ? 40 : 10) // x-radius (width)
-      // .attr('ry', node => node.level === 'srv' ? 20 : 10) // y-radius (height)
+      // .enter().append('ellipse')
+      // .attr('cx', node => node.x)
+      // .attr('cy', node => node.y)
+      // .attr('rx', node => node.level === 'srv' ? 40 : 10)
+      // .attr('ry', node => node.level === 'srv' ? 20 : 10)
       .selectAll('circle')
       .data(nodes)
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
-      .attr('r', node => node.level === 'srv' ? window.innerWidth * 0.03 : window.innerWidth * 0.01)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)

@@ -145,7 +145,7 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 60px;
+    margin-top: 10px; /* reduced from 60 to 10 for heatmap*/
 
     flex-direction: column;
 
@@ -396,5 +396,5 @@ label {
 .heatmap-container {
     width: 90%;
     height: 90%;
-    border: 2px solid white;
+    /* border: 2px solid white; */
   }
