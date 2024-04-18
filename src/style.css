@@ -392,3 +392,9 @@ label {
     font-weight: 300;
 
 }
+
+.heatmap-container {
+    width: 90%;
+    height: 90%;
+    border: 2px solid white;
+  }

@@ -42,10 +42,9 @@ export default function HeatMap() {
     // Iterate over service array to create a node.
     services.forEach((service) => {
       srv_name[service.serviceName.srv_id] = service.serviceName.srv_name
-
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
-        name: service.serviceName.srv_name,
+        name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, ''),
         time: 'srv',
         srv_num: service.serviceName.srv_id,
         level: "srv"
@@ -53,7 +52,6 @@ export default function HeatMap() {
     })
     // Iterate over Errors to create a node
     errors.forEach((error) => {
-
       nodes.push({
         id: `err_${error.err_id}`,
         name: error.err_type,
@@ -87,8 +85,9 @@ export default function HeatMap() {
     
 
     // define the size of the graph window. To be updated when other components are added
-    const width = window.innerWidth * 1;
-    const height = window.innerHeight * 1;
+
+    const width = window.innerWidth * 0.9;
+    const height = window.innerHeight * 0.9;
     // Default color scheme. To be updated later with a unified scheme
     const color = d3.scaleOrdinal(d3.schemeAccent);
     // define the graph window
@@ -108,10 +107,18 @@ export default function HeatMap() {
 
     // create node elements
     const nodeElements = svg.append('g')
+      // .selectAll('ellipse') // Use 'ellipse' instead of 'circle'
+      // .data(nodes)
+      // .enter().append('ellipse') // Append 'ellipse' elements
+      // .attr('cx', node => node.x) // x-coordinate of the center
+      // .attr('cy', node => node.y) // y-coordinate of the center
+      // .attr('rx', node => node.level === 'srv' ? 40 : 10) // x-radius (width)
+      // .attr('ry', node => node.level === 'srv' ? 20 : 10) // y-radius (height)
       .selectAll('circle')
       .data(nodes)
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
+      .attr('r', node => node.level === 'srv' ? window.innerWidth * 0.03 : window.innerWidth * 0.01)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)
@@ -136,6 +143,7 @@ export default function HeatMap() {
         tooltip.select('text')
           .html(null)
           .append('tspan')
+          .attr('x', 0)
           .text(`ID: ${node.id}`);
         tooltip.select('text')
           .append('tspan')
@@ -171,12 +179,13 @@ export default function HeatMap() {
       .data(nodes)
       .enter().append('text')
       .text( node => node.level === 'srv' ? node.name : node.name.charAt(0))
-      .attr('font-size', 20)
-      .attr('dx', node => node.level === 'srv' ? 19 : -7.5)
-      .attr('dy', node => node.level === 'srv' ? 3.5 : 7.5)
+      .attr('font-size', node => node.level === 'srv' ? 25 : 17)
+      .attr('dx', node => node.level === 'srv' ? -20 : -5)
+      .attr('dy', node => node.level === 'srv' ? 7 : 7)
       .attr('fill', 'white')
       .style('stroke', 'black')
       .style('stroke-width', 0.65)
+      .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
       .style('pointer-events', 'none');
 
 
@@ -208,7 +217,7 @@ export default function HeatMap() {
   // populate the graph
     const simulation = d3.forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-100))
-      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('center', d3.forceCenter(width / 2, height / 4))
       .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
       .on('tick', () => {
         nodeElements.attr('cx', node => node.x)
@@ -229,7 +238,7 @@ export default function HeatMap() {
 
   return (
     <>
-      <div className='background'>
+      <div className='background heatmap-container'>
         <svg ref={svgRef}></svg>
         <HeatmapDescription error = {selectedError[0]} />
       </div>
