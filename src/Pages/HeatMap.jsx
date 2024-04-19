@@ -89,13 +89,15 @@ export default function HeatMap() {
     const width = window.innerWidth * 0.9;
     const height = window.innerHeight * 0.9;
     // Default color scheme. To be updated later with a unified scheme
-    const color = d3.scaleOrdinal(d3.schemeAccent);
+    //const color = d3.scaleOrdinal(d3.schemeAccent);
+    
+    const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
+    const color = d3.scaleOrdinal(customColors)
+    
     // define the graph window
     const svg = d3.select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
-
-    
 
     // create the links between nodes
     const linkElements = svg.append('g')
@@ -107,17 +109,17 @@ export default function HeatMap() {
 
     // create node elements
     const nodeElements = svg.append('g')
-      // .selectAll('ellipse')
-      // .data(nodes)
-      // .enter().append('ellipse')
-      // .attr('cx', node => node.x)
-      // .attr('cy', node => node.y)
-      // .attr('rx', node => node.level === 'srv' ? 40 : 10)
-      // .attr('ry', node => node.level === 'srv' ? 20 : 10)
-      .selectAll('circle')
+      .selectAll('ellipse')
       .data(nodes)
-      .enter().append('circle')
-      .attr('r', node => node.level === 'srv' ? 30 : 10)
+      .enter().append('ellipse')
+      .attr('cx', node => node.x)
+      .attr('cy', node => node.y)
+      .attr('rx', node => node.level === 'srv' ? node.name.length * 10 : 10)
+      .attr('ry', node => node.level === 'srv' ? 20 : 10)
+      // .selectAll('circle')
+      // .data(nodes)
+      // .enter().append('circle')
+      // .attr('r', node => node.level === 'srv' ? 30 : 10)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)
@@ -131,9 +133,13 @@ export default function HeatMap() {
       .on('mouseover', function(event, node) {
         console.log('node: ',node)
         // expand the node
-        const circle = d3.select(this);
-        const currentRadius = Number(circle.attr('r'));
-        circle.transition().duration(200).attr('r', currentRadius * 1.5);
+        // const circle = d3.select(this);
+        // const currentRadius = Number(circle.attr('r'));
+        // circle.transition().duration(200).attr('r', currentRadius * 1.5);
+          const ellipse = d3.select(this)
+          const currentRx = Number(ellipse.attr('rx'))
+          const currentRy = Number(ellipse.attr('ry'))
+          ellipse.transition().duration(200).attr('ry', currentRy * 1.5)//.attr('rx', currentRx * 1.5)
 
         // create the tooltip
         tooltip.style('display', 'block')
@@ -165,9 +171,13 @@ export default function HeatMap() {
         tooltip.attr("transform", `translate(${x},${y})`);
       })
       .on('mouseout', function (event, node) {
-        const circle = d3.select(this);
-        const originalRadius = parseFloat(circle.attr('r'));
-        circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
+        // const circle = d3.select(this);
+        // const originalRadius = parseFloat(circle.attr('r'));
+        // circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
+
+        const ellipse = d3.select(this)
+        const OGX = parseFloat(ellipse.attr('ry'))
+        ellipse.transition().duration(200).attr('ry', node => node.level === 'srv' ? 20 : 10)
 
         tooltip.style('display', 'none')
       });
@@ -179,14 +189,13 @@ export default function HeatMap() {
       .enter().append('text')
       .text( node => node.level === 'srv' ? node.name : node.name.charAt(0))
       .attr('font-size', node => node.level === 'srv' ? 25 : 17)
-      .attr('dx', node => node.level === 'srv' ? -20 : -5)
+      .attr('dx', node => node.level === 'srv' ? node.name.length * -8 : -5)
       .attr('dy', node => node.level === 'srv' ? 7 : 7)
       .attr('fill', 'white')
       .style('stroke', 'black')
       .style('stroke-width', 0.65)
       .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
       .style('pointer-events', 'none');
-
 
     // create the tooltip to be used on hover
     const tooltip = svg.append('g')
