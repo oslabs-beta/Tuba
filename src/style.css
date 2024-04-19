@@ -479,7 +479,7 @@ label {
     font-weight: 600;
     width: 100%;
     display: grid;
-    grid-template-columns: [left] 25% [left-center] 25% [center] 25% [right-center] 25% [right]
+    grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
 }
 
 .historyBody {

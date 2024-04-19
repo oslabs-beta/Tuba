@@ -86,8 +86,8 @@ export const errorSlice = createSlice({
     },
     toggleFavorite: (state, action) => {
       state.allErrors = state.allErrors.map(error => {
-        if (error.err_id === action.payload.id) {
-          return { ...error, favorite: action.payload.value }
+        if (error.err_id == action.payload) {
+          return { ...error, favorite: !error.favorite }
         } else {
           return { ...error }
         }
