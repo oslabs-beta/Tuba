@@ -493,3 +493,76 @@ label {
     font-weight: 300;
 
 }
+
+/* dashboard */
+
+#dashboardContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 1000px;
+    gap: 10px;
+    overflow-y: scroll;
+
+}
+
+#fullContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+
+}
+
+.dashboardVertical {
+    width: 350px;
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+}
+
+.dashboardVertical:hover {
+    background-color: #5380a6;
+}
+
+.dashboardHeader {
+    width: 100px;
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+
+}
+
+.standardBlock {
+    color: black;
+    width: 100%;
+    height: 80px;
+    /* border-bottom: 1px solid black; */
+}
+
+.largeBlock {
+    color: black;
+    width: 100%;
+    height: 100%;
+    word-wrap: break-word;
+    /* border-bottom: 1px solid black; */
+
+}
+
+.headerBlock {
+    color: black;
+    font-weight: 600;
+    width: 100%;
+    height: 80px;
+    /* border-bottom: 1px solid black; */
+}
