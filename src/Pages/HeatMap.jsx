@@ -136,10 +136,14 @@ export default function HeatMap() {
         // const circle = d3.select(this);
         // const currentRadius = Number(circle.attr('r'));
         // circle.transition().duration(200).attr('r', currentRadius * 1.5);
-          const ellipse = d3.select(this)
-          const currentRx = Number(ellipse.attr('rx'))
-          const currentRy = Number(ellipse.attr('ry'))
-          ellipse.transition().duration(200).attr('ry', currentRy * 1.5)//.attr('rx', currentRx * 1.5)
+        const ellipse = d3.select(this)
+        const currentRx = Number(ellipse.attr('rx'))
+        const currentRy = Number(ellipse.attr('ry'))
+        if (node.level === 'srv'){
+          ellipse.transition().duration(200).attr('ry', currentRy * 1.5)
+        } else {
+          ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
+        }
 
         // create the tooltip
         tooltip.style('display', 'block')
@@ -168,7 +172,7 @@ export default function HeatMap() {
 
         // fix the tooltip to the mouse pointer
         const [x, y] = d3.pointer(event);
-        tooltip.attr("transform", `translate(${x},${y})`);
+        tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
       })
       .on('mouseout', function (event, node) {
         // const circle = d3.select(this);
@@ -176,9 +180,11 @@ export default function HeatMap() {
         // circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
 
         const ellipse = d3.select(this)
-        const OGX = parseFloat(ellipse.attr('ry'))
-        ellipse.transition().duration(200).attr('ry', node => node.level === 'srv' ? 20 : 10)
-
+        if (node.level === 'srv'){
+          ellipse.transition().duration(200).attr('ry', 20)
+        } else {
+          ellipse.transition().duration(200).attr('ry', 10).attr('rx', 10)
+        }
         tooltip.style('display', 'none')
       });
 
