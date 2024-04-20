@@ -537,6 +537,7 @@ label {
 .dashboardVertical:hover {
     cursor: pointer;
     background-color: #F0F5F9;
+
 }
 
 .dashboardHeader {
@@ -550,6 +551,7 @@ label {
     justify-content: flex-start;
     align-items: flex-start;
     background-color: white;
+
 
 }
 

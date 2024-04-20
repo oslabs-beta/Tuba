@@ -19,7 +19,7 @@ export default function TimelineToolbar() {
     // const allErrors = useSelector(state.errorSlice.allErrors);
     const options = allErrors.map((error) => {
         return <option>{msToString(Number(error.err_time)).full}</option>
-    })
+    }).reverse()
 
 
     const submitStart = (event) => {
