@@ -87,7 +87,7 @@ export default function HeatMap() {
     // define the size of the graph window. To be updated when other components are added
 
     const width = window.innerWidth * 0.9;
-    const height = window.innerHeight * 0.9;
+    const height = window.innerHeight * 0.6;
     // Default color scheme. To be updated later with a unified scheme
     //const color = d3.scaleOrdinal(d3.schemeAccent);
     
