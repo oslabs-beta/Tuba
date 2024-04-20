@@ -61,18 +61,16 @@ describe('Server Route Tests', () => {
     // end errorData/allErrors
     });
 
-    // describe('test: /errorData/newErrors/:err_time', () => {
-    //   it('responds with 200 status and application/json content type', async () => {
-    //     await request(server)
-    //       .get('/errorData/newErrors/:err_time')
-    //       .expect('Content-Type', /application\/json/)
-    //       .expect(200);
-    //   });
-
-      // test to check if correct errors are sent according to time?
+    describe('test: /errorData/newErrors/:err_time', () => {
+      it('responds with 200 status and application/json content type', async () => {
+        await request(server)
+          .get('/errorData/newErrors/1710290245997')
+          .expect('Content-Type', /application\/json/)
+          .expect(200);
+      });
 
     // end errorData/newErrors
-    // });
+    });
 
     describe('test: /errorData/allServices', () => {
       it('responds with 200 status and application/json content type', async () => {
