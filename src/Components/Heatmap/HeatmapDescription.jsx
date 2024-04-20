@@ -2,8 +2,12 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { msToString } from '../../Utilities/timeFunctions';
 
+import { toggleFavorite } from '../../Redux/errorSlice';
 
-export default function HeatmapDescription( {error} ) {
+
+export default function HeatmapDescription({ error }) {
+
+    const dispatch = useDispatch()
 
     // const errors = useSelector(state => state.errorSlice.allErrors)
     // const { selected } = useSelector(state => state.timeline)
@@ -11,12 +15,17 @@ export default function HeatmapDescription( {error} ) {
 
     // console.log('error: ', error)
 
+    function handleCheck() {
+        dispatch(toggleFavorite(Number(error.err_id)))
+
+    }
+
 
 
     return (
         <div className='description'>
 
-
+            <h3>Favorite: </h3><h3 onClick={handleCheck}>{error.favorite ? "☑" : "☐"}</h3>
             <h3>Service:</h3><h3><span>{error.err_job_name}</span></h3>
             <h3>Type: </h3><h3><span>{error.err_type}</span></h3>
             <h3>Date: </h3><h3><span>{msToString(Number(error.err_time)).date}</span></h3>
@@ -38,7 +47,7 @@ export default function HeatmapDescription( {error} ) {
 
 
 
-        
+
         </div>
     )
 
