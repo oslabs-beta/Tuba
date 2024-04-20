@@ -24,7 +24,7 @@ export default function History() {
     const errorsFiltered = allErrors.filter((err) => {
 
         return err.err_stack.includes(search) || msToString(Number(err.err_time)).date.includes(search) || msToString(Number(err.err_time)).time.includes(search)
-    })
+    }).reverse()
 
     const errors = errorsFiltered.map(error => {
         return <HistoryContainer info={error} />
