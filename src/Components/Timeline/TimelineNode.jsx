@@ -5,7 +5,7 @@ export default function TimelineNode({ data, handler, id, percentage, letter, co
 
 
 
-    const modId = (Number(data.err_srv_id) * 10) % 10;
+    const modId = (Number(data.err_srv_id)) % 10;
 
     const colors = [
         "#FF6347", // Tomato
