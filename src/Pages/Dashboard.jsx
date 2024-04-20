@@ -7,15 +7,19 @@ import HeaderBlock from '../Components/Dashboard/HeaderBlock';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllErrors, getServices, getConnections } from '../Redux/errorSlice';
-
+import { toggleFavorite } from '../Redux/errorSlice';
 import { msToString } from '../Utilities/timeFunctions';
 
-import Nav from '../Components/Nav';
 
 
 export default function Dashboard() {
 
     const dispatch = useDispatch();
+
+    function handleClick(id) {
+        dispatch(toggleFavorite(id))
+
+    }
 
     // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
 
@@ -28,6 +32,8 @@ export default function Dashboard() {
 
         return (
             < div className='dashboardVertical' >
+
+                <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
                 <StandardBlock body={msToString(Number(error.err_time)).time} />
                 <StandardBlock body={error.err_job_name} />
@@ -44,6 +50,7 @@ export default function Dashboard() {
 
     const headers = (
         <div className='dashboardHeader'>
+            <HeaderBlock body={'Favorite:'} />
             <HeaderBlock body={'Date:'} />
             <HeaderBlock body={'Time:'} />
             <HeaderBlock body={'Service:'} />
@@ -71,13 +78,13 @@ export default function Dashboard() {
             }}>Click For Errors</button>
 
 
-            <div id='fullContainer'>
+            {favoriteErrors.length >= 1 && <div id='fullContainer'>
                 {headers}
                 <div id='dashboardContainer'>
 
                     {[dashboardMap]}
                 </div>
-            </div>
+            </div>}
 
         </div>
 

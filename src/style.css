@@ -15,7 +15,7 @@ body {
     /* background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%); */
     background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, #1e2d67 60%);
     min-height: 100vh;
-    user-select: none;
+    /* user-select: none; */
 }
 
 
@@ -504,6 +504,8 @@ label {
     width: 1000px;
     gap: 10px;
     overflow-y: scroll;
+    border-left: 2px solid black;
+
 
 }
 
@@ -513,6 +515,11 @@ label {
     justify-content: flex-start;
     align-items: flex-start;
     background-color: white;
+    border: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    /* border-radius: 15px; */
 
 }
 
@@ -524,16 +531,19 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background-color: white;
+    /* background-color: white; */
 }
 
 .dashboardVertical:hover {
-    background-color: #5380a6;
+    cursor: pointer;
+    background-color: #F0F5F9;
 }
 
 .dashboardHeader {
-    width: 100px;
+    width: 70px;
     padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -543,10 +553,19 @@ label {
 
 }
 
+.dashboardCheckbox {
+    color: black;
+    position: absolute;
+    /* backgrou÷nd-color: pink; */
+    margin: 0px;
+    margin-left: 90%;
+    font-size: 25px;
+}
+
 .standardBlock {
     color: black;
     width: 100%;
-    height: 80px;
+    height: 75px;
     /* border-bottom: 1px solid black; */
 }
 
@@ -555,14 +574,18 @@ label {
     width: 100%;
     height: 100%;
     word-wrap: break-word;
+
     /* border-bottom: 1px solid black; */
 
 }
 
 .headerBlock {
+    display: flex;
+    flex-direction: row;
     color: black;
     font-weight: 600;
     width: 100%;
-    height: 80px;
+    height: 75px;
+
     /* border-bottom: 1px solid black; */
 }
