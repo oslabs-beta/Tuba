@@ -12,7 +12,7 @@ const initialState = {
     end: now,
     center: now - 500,
     elapsed: 1000,
-    zoom: 500000,
+    zoom: 5000,
     nudge: 50000,
     cascade: 1000,
     hatch25: now - 750,
@@ -24,6 +24,7 @@ const initialState = {
     cascadeInput: 1000,
     selected: null,
     visible: true,
+    intervalId: undefined,
 
 
 }
@@ -150,6 +151,9 @@ export const timelineSlice = createSlice({
 
 
         },
+        setIntervalId: (state, action) => {
+            state.intervalId = action.payload;
+        },
 
 
 
@@ -178,6 +182,6 @@ export const timelineSlice = createSlice({
     },
 })
 
-export const { setVisible, setSelected, reCenterNodes, nudgeRight, nudgeLeft, zoomOut, zoomIn, setCenter, setElapsed, setZoom, setNudge, setCascade } = timelineSlice.actions
+export const { setIntervalId, setVisible, setSelected, reCenterNodes, nudgeRight, nudgeLeft, zoomOut, zoomIn, setCenter, setElapsed, setZoom, setNudge, setCascade } = timelineSlice.actions
 
 export default timelineSlice.reducer
