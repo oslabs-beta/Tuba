@@ -83,6 +83,15 @@ export const errorSlice = createSlice({
           return { ...error, visible: !error.visible }
         } else return error
       })
+    },
+    toggleFavorite: (state, action) => {
+      state.allErrors = state.allErrors.map(error => {
+        if (error.err_id == action.payload) {
+          return { ...error, favorite: !error.favorite }
+        } else {
+          return { ...error }
+        }
+      })
     }
   },
   extraReducers: (builder) => {
@@ -91,7 +100,7 @@ export const errorSlice = createSlice({
         console.log('getAllErrors Extra Reducer >>>', action.payload);
         const errorData = action.payload.errors;
         state.allErrors = action.payload.errors.map((error) => {
-          return { ...error, visible: false }
+          return { ...error, visible: false, favorite: false }
         });
 
         // nested loops, needs refactor
@@ -116,7 +125,7 @@ export const errorSlice = createSlice({
 
         // nested loops, needs refactor
         newErrors.forEach(error => {
-          state.allErrors.push({ ...error, visible: false });
+          state.allErrors.push({ ...error, visible: false, favorite: false });
           state.services.forEach(service => {
             if (error.err_job_name === service.servName) {
               service.servErrors.push(error)
@@ -154,7 +163,7 @@ export const errorSlice = createSlice({
   },
 });
 
-export const { setVisibility } = errorSlice.actions
+export const { toggleFavorite, setVisibility } = errorSlice.actions
 
 
 export default errorSlice.reducer;
