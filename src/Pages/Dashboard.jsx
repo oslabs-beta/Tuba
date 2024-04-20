@@ -12,9 +12,9 @@ export default function Dashboard() {
 
     // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
 
-    const errorData = useSelector(state => state.errorSlice.allErrors)
+    const favoriteErrors = useSelector(state => state.errorSlice.allErrors).filter(error => error.favorite)
 
-    console.log('ErrorData from state: ', errorData)
+    console.log('Favorites: ', favoriteErrors)
 
 
     return (
