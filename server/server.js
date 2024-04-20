@@ -1,10 +1,14 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 const port = 3000
 const errorDataRouter = require('./routes/errorDataRoute')
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'))
+})
 
 app.get('/server', (req, res) => {
 
@@ -28,6 +32,8 @@ app.use((err, req, res, next) => {
   });
 
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`listening on port ${port}`)
 })
+
+module.exports = server;
