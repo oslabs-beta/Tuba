@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import StandardBlock from '../Components/Dashboard/standardBlock';
 import LargeBlock from '../Components/Dashboard/LargeBlock';
 import HeaderBlock from '../Components/Dashboard/HeaderBlock';
 import HeaderBigBlock from '../Components/Dashboard/HeaderBigBlock';
 import BigBlock from '../Components/Dashboard/BigBlock'
+import tubaLogo from '../Images/TubaLogo.png'
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +37,8 @@ export default function Dashboard() {
         }
 
         return (
+
+
             < div className='dashboardVertical' style={{ backgroundColor: color(i) }}>
                 <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
@@ -70,34 +73,40 @@ export default function Dashboard() {
         </div>
     )
 
+    useEffect(() => {
+        // dispatch(getAllErrors())
+        // dispatch(getServices())
+        // dispatch(getConnections())
+    }, [])
+
 
     return (
 
-        <div className='component'>
 
-            <button onClick={() => {
+
+        < div className='component' >
+
+            {/* <button onClick={() => {
                 dispatch(getAllErrors())
                 dispatch(getServices())
                 dispatch(getConnections())
-            }}>Click For Errors</button>
+            }}>Click For Errors</button> */}
 
 
-            {favoriteErrors.length >= 1 && <div id='fullContainer'>
-                {headers}
-                <div id='dashboardContainer'>
+            {
+                favoriteErrors.length >= 1 ? <div id='fullContainer'>
+                    {headers}
+                    <div id='dashboardContainer'>
 
-                    {[dashboardMap]}
-                </div>
-            </div>}
+                        {[dashboardMap]}
+                    </div>
+                </div> : <img style={{ marginTop: '100px' }} src={tubaLogo} />
+            }
 
-        </div>
-
-
-
+        </div >
 
 
 
     )
-
 
 }

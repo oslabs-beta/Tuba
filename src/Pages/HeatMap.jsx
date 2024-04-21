@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { useDispatch, useSelector } from 'react-redux';
 import HeatmapDescription from '../Components/Heatmap/HeatmapDescription';
 import { setSelected } from '../Redux/heatSlice';
+import { Colors } from '../Utilities/Colors';
 
 
 export default function HeatMap() {
@@ -20,7 +21,7 @@ export default function HeatMap() {
   console.log('selected node: ', selected)
   console.log('selected error: ', selectedError[0])
 
-  function handleSelect(id){
+  function handleSelect(id) {
     dispatch(setSelected(id))
   }
 
@@ -66,13 +67,13 @@ export default function HeatMap() {
       links.push({
         target: `srv_${connections.con_srv2}`,
         source: `srv_${connections.con_srv1}`,
-      // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
+        // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
         strength: 0.1
       })
     })
 
     // Assign each node a link
-    errors.forEach((error) =>{
+    errors.forEach((error) => {
       links.push({
         target: `srv_${error.err_srv_id}`,
         source: `err_${error.err_id}`,
@@ -82,7 +83,7 @@ export default function HeatMap() {
 
     console.log('post map links array: ', links)
     console.log('post map nodes array: ', nodes)
-    
+
 
     // define the size of the graph window. To be updated when other components are added
 
@@ -90,10 +91,13 @@ export default function HeatMap() {
     const height = window.innerHeight * 0.6;
     // Default color scheme. To be updated later with a unified scheme
     //const color = d3.scaleOrdinal(d3.schemeAccent);
-    
-    const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
+
+    // const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
+
+    const customColors = Colors()
+
     const color = d3.scaleOrdinal(customColors)
-    
+
     // define the graph window
     const svg = d3.select(svgRef.current)
       .attr('width', width)
@@ -124,14 +128,15 @@ export default function HeatMap() {
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)
 
-        if (node.level === 'err'){
-          const id = node.id.slice(4,node.id.length)
+        if (node.level === 'err') {
+          const id = node.id.slice(4, node.id.length)
           handleSelect(Number(id))
         } else {
           console.log('error with handleSelect on heatMap')
-        }})
-      .on('mouseover', function(event, node) {
-        console.log('node: ',node)
+        }
+      })
+      .on('mouseover', function (event, node) {
+        console.log('node: ', node)
         // expand the node
         // const circle = d3.select(this);
         // const currentRadius = Number(circle.attr('r'));
@@ -139,7 +144,7 @@ export default function HeatMap() {
         const ellipse = d3.select(this)
         const currentRx = Number(ellipse.attr('rx'))
         const currentRy = Number(ellipse.attr('ry'))
-        if (node.level === 'srv'){
+        if (node.level === 'srv') {
           ellipse.transition().duration(200).attr('ry', currentRy * 1.5)
         } else {
           ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
@@ -180,7 +185,7 @@ export default function HeatMap() {
         // circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
 
         const ellipse = d3.select(this)
-        if (node.level === 'srv'){
+        if (node.level === 'srv') {
           ellipse.transition().duration(200).attr('ry', 20)
         } else {
           ellipse.transition().duration(200).attr('ry', 10).attr('rx', 10)
@@ -188,12 +193,12 @@ export default function HeatMap() {
         tooltip.style('display', 'none')
       });
 
-  // create the text next to each node
-      const textElements = svg.append('g')
+    // create the text next to each node
+    const textElements = svg.append('g')
       .selectAll('text')
       .data(nodes)
       .enter().append('text')
-      .text( node => node.level === 'srv' ? node.name : node.name.charAt(0))
+      .text(node => node.level === 'srv' ? node.name : node.name.charAt(0))
       .attr('font-size', node => node.level === 'srv' ? 25 : 17)
       .attr('dx', node => node.level === 'srv' ? node.name.length * -8 : -5)
       .attr('dy', node => node.level === 'srv' ? 7 : 7)
@@ -228,7 +233,7 @@ export default function HeatMap() {
       .style("fill", "black")
       .text('');
 
-  // populate the graph
+    // populate the graph
     const simulation = d3.forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-100))
       .force('center', d3.forceCenter(width / 2, height / 4))
@@ -242,7 +247,7 @@ export default function HeatMap() {
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y);
-        });
+      });
 
     return () => {
       simulation.stop();
@@ -254,7 +259,7 @@ export default function HeatMap() {
     <>
       <div className='background heatmap-container'>
         <svg ref={svgRef}></svg>
-        <HeatmapDescription error = {selectedError[0]} />
+        <HeatmapDescription error={selectedError[0]} />
       </div>
 
     </>

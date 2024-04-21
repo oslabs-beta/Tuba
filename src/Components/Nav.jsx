@@ -3,6 +3,8 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 
+import { getAllErrors, getServices, getConnections } from '../Redux/errorSlice';
+
 import { changeTab } from '../Redux/navSlice'
 
 import tubaLogo from '../Images/TubaLogo.png'
@@ -28,6 +30,12 @@ export default function Nav() {
     })
 
 
+    function toggleScan() {
+        dispatch(getAllErrors())
+        dispatch(getServices())
+        dispatch(getConnections())
+    }
+
     return (
         <div className='nav-background'>
             <div className='leftGrid'>
@@ -41,7 +49,7 @@ export default function Nav() {
             </div>
             <div>
                 <ul>
-                    <li className='rightGrid'><a>Connect</a></li>
+                    <li className='rightGrid'><a className="scan" onClick={toggleScan}>Scan</a></li>
                 </ul>
             </div>
         </div>

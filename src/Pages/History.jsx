@@ -34,7 +34,7 @@ export default function History() {
 
         <div className='component'>
             <div className='historyList'>
-                <h2>Error Log</h2>
+                {/* <h2>Error Log</h2> */}
                 <div className='filterContainer'>
                     <div className='filterSection'>
 

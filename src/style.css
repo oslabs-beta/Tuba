@@ -71,6 +71,11 @@ body {
 
 }
 
+.scan:hover {
+    cursor: pointer;
+    color: #d4e9e0
+}
+
 .nav-background {
     margin: 0px 0px 0px 0px;
     display: grid;
@@ -543,11 +548,11 @@ label {
 }
 
 .dashboardVertical:hover {
-    /* cursor: pointer;
-    background-color: #F0F5F9; */
+    cursor: pointer;
+    /* background-color: pink; */
     /* background-color: transparent; */
 
-    background-color: #F0F5F9;
+    /* background-color: #F0F5F9; */
 
 }
 
