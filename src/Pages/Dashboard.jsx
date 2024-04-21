@@ -1,8 +1,10 @@
 import React from 'react';
 
-import StandardBlock from '../Components/Dashboard/StandardBlock';
+import StandardBlock from '../Components/Dashboard/standardBlock';
 import LargeBlock from '../Components/Dashboard/LargeBlock';
 import HeaderBlock from '../Components/Dashboard/HeaderBlock';
+import HeaderBigBlock from '../Components/Dashboard/HeaderBigBlock';
+import BigBlock from '../Components/Dashboard/BigBlock'
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,17 +34,16 @@ export default function Dashboard() {
 
         return (
             < div className='dashboardVertical' >
-
-                <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
+                <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
                 <StandardBlock body={msToString(Number(error.err_time)).time} />
-                <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={error.err_type} />
+                <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
                 <StandardBlock body={decodeURIComponent(error.err_message)} />
                 <StandardBlock body={error.err_file} />
-                <StandardBlock body={error.err_file_path} />
                 <StandardBlock body={error.err_line_num} />
                 <StandardBlock body={error.err_module} />
+                <BigBlock body={error.err_file_path} />
                 <LargeBlock body={decodeURIComponent(error.err_stack)} />
             </div >
         )
@@ -50,16 +51,16 @@ export default function Dashboard() {
 
     const headers = (
         <div className='dashboardHeader'>
-            <HeaderBlock body={'Favorite:'} />
+            <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Date:'} />
             <HeaderBlock body={'Time:'} />
-            <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Type:'} />
+            <HeaderBlock body={'Favorite:'} />
             <HeaderBlock body={'Message:'} />
             <HeaderBlock body={'File:'} />
-            <HeaderBlock body={'Path:'} />
             <HeaderBlock body={'Line:'} />
             <HeaderBlock body={'Module:'} />
+            <HeaderBigBlock body={'Path:'} />
             <HeaderBlock body={'Stack:'} />
 
 

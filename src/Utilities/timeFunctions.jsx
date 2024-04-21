@@ -11,8 +11,13 @@ export function stringToMs(string) {
 export function msToString(ms) {
     const date = new Date(ms);
 
-    const fullString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')
-        }-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')
+    // const fullString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')
+    //     }-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')
+    //     }:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')
+    //     }.${String(date.getMilliseconds()).padStart(3, '0')}`;
+
+    const fullString = `${String(date.getMonth() + 1).padStart(2, '0')
+        }-${String(date.getDate()).padStart(2, '0')}-${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')
         }:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')
         }.${String(date.getMilliseconds()).padStart(3, '0')}`;
 
