@@ -29,11 +29,14 @@ export default function Dashboard() {
 
     console.log('Favorites: ', favoriteErrors)
 
-    const dashboardMap = favoriteErrors.map(error => {
+    const dashboardMap = favoriteErrors.map((error, i) => {
 
+        function color(index) {
+            return index % 2 === 0 ? '#DBE4F0' : 'white'
+        }
 
         return (
-            < div className='dashboardVertical' >
+            < div className='dashboardVertical' style={{ backgroundColor: color(i) }}>
                 <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
                 <StandardBlock body={msToString(Number(error.err_time)).time} />
