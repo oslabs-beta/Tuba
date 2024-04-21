@@ -26,8 +26,8 @@ export default function Dashboard() {
 
     // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
 
-    const favoriteErrors = useSelector(state => state.errorSlice.allErrors).filter(error => error.favorite)
-
+    const allErrors = useSelector(state => state.errorSlice.allErrors)
+    const favoriteErrors = allErrors.filter(error => error.favorite)
     console.log('Favorites: ', favoriteErrors)
 
     const dashboardMap = favoriteErrors.map((error, i) => {
@@ -73,11 +73,11 @@ export default function Dashboard() {
         </div>
     )
 
-    useEffect(() => {
-        // dispatch(getAllErrors())
-        // dispatch(getServices())
-        // dispatch(getConnections())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getAllErrors())
+    //     dispatch(getServices())
+    //     dispatch(getConnections())
+    // }, [allErrors])
 
 
     return (
