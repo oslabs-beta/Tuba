@@ -6,6 +6,7 @@ import HeaderBlock from '../Components/Dashboard/HeaderBlock';
 import HeaderBigBlock from '../Components/Dashboard/HeaderBigBlock';
 import BigBlock from '../Components/Dashboard/BigBlock'
 import tubaLogo from '../Images/TubaLogo.png'
+import { downloadCSV } from '../Utilities/DownloadCSV';
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,11 +25,16 @@ export default function Dashboard() {
 
     }
 
+
+
     // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
 
     const allErrors = useSelector(state => state.errorSlice.allErrors)
     const favoriteErrors = allErrors.filter(error => error.favorite)
     console.log('Favorites: ', favoriteErrors)
+
+
+
 
     const dashboardMap = favoriteErrors.map((error, i) => {
 

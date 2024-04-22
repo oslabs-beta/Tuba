@@ -8,6 +8,8 @@ import { setSearch } from '../Redux/historySlice';
 
 import { msToString } from '../Utilities/timeFunctions';
 
+import { downloadCSV } from '../Utilities/DownloadCSV';
+
 
 
 
@@ -30,11 +32,17 @@ export default function History() {
         return <HistoryContainer info={error} />
     })
 
+    function handleDownload() {
+        downloadCSV(errorsFiltered)
+    }
+
     return (
 
         <div className='component'>
             <div className='historyList'>
                 {/* <h2>Error Log</h2> */}
+
+                <button onClick={handleDownload}>Download CSV</button>
                 <div className='filterContainer'>
                     <div className='filterSection'>
 
