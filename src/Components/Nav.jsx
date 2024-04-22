@@ -51,7 +51,7 @@ export default function Nav() {
 
         const favoriteErrors = errorData.filter(error => error.favorite)
 
-        downloadCSV(favoriteErrors, 'Pinned', errorData, 'History');
+        downloadCSV(errorData, 'History', favoriteErrors, 'Pinned',);
 
 
 

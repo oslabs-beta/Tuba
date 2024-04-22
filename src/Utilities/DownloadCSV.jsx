@@ -6,28 +6,50 @@ export function downloadCSV(data, title, data2, title2) {
     const first = msToString(Number(data[data.length - 1].err_time)).date
     const last = msToString(Number(data[0].err_time)).date
 
-    const csv = [[
-        'Date', 'Type', 'Message', 'File', 'Path', 'ID', 'Service', 'Line', 'Module', 'Service ID', 'Stack'
-    ], [''], [title],
-    ...data.map(error => [
-        new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
-    ]
+    let csv;
+
+    if (data2.length > 0) {
+
+        csv = [[
+            'Date', 'Type', 'Message', 'File', 'Path', 'ID', 'Service', 'Line', 'Module', 'Service ID', 'Stack'
+        ], [''], [title2],
+        ...data2.map(error => [
+            new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
+        ]
 
 
 
 
-    ), [''], [title2],
+        ), [''], [title],
 
-    ...data2.map(error => [
-        new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
-    ]
-
-
+        ...data.map(error => [
+            new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
+        ]
 
 
-    )
 
-    ].map(e => e.join(",")).join("\n");
+
+        )
+
+        ].map(e => e.join(",")).join("\n");
+
+
+    } else {
+
+        csv = [[
+            'Date', 'Type', 'Message', 'File', 'Path', 'ID', 'Service', 'Line', 'Module', 'Service ID', 'Stack'
+        ], [''], [title],
+        ...data.map(error => [
+            new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
+        ]
+
+
+
+
+        ),
+        ].map(e => e.join(",")).join("\n");
+
+    }
 
     console.log(csv)
 
