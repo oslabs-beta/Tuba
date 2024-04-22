@@ -2,14 +2,13 @@ import React, { useEffect } from 'react'
 
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-
 import { getAllErrors, getServices, getConnections } from '../Redux/errorSlice';
-
 import { initialize } from '../Redux/timelineSlice';
-
 import { changeTab } from '../Redux/navSlice'
 
 import tubaLogo from '../Images/TubaLogo.png'
+import download from '../Images/download.png'
+import { downloadCSV } from '../Utilities/DownloadCSV';
 
 
 
@@ -48,6 +47,15 @@ export default function Nav() {
     }, [errorData])
 
 
+    function handleDownload() {
+
+        const favoriteErrors = errorData.filter(error => error.favorite)
+
+        downloadCSV(favoriteErrors, 'Pinned', errorData, 'History');
+
+
+
+    }
 
 
     return (
@@ -63,7 +71,7 @@ export default function Nav() {
             </div>
             <div>
                 <ul>
-                    <li className='rightGrid'><a className="scan" onClick={toggleScan}>Scan</a></li>
+                    <li className='rightGrid'><a className="scan" onClick={toggleScan}>Scan</a><img onClick={handleDownload} className='downloadButton' src={download} /></li>
                 </ul>
             </div>
         </div>

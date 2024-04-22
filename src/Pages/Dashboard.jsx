@@ -64,7 +64,7 @@ export default function Dashboard() {
 
     const headers = (
         <div className='dashboardHeader'>
-            <HeaderBlock body={'Favorite:'} />
+            <HeaderBlock body={'Pin:'} />
             <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Date:'} />
             <HeaderBlock body={'Time:'} />

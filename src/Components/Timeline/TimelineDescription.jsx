@@ -26,7 +26,7 @@ export default function TimelineDescription() {
 
 
         <div className='description'>
-            <h3>Favorite: </h3><h3 className='check' onClick={handleCheck}>{error.favorite ? "☑" : "☐"}</h3>
+            <h3>Pin: </h3><h3 className='check' onClick={handleCheck}>{error.favorite ? "☑" : "☐"}</h3>
             <h3>Service:</h3><h3><span>{error.err_job_name}</span></h3>
             <h3>Type: </h3><h3><span>{error.err_type}</span></h3>
             <h3>Date: </h3><h3><span>{msToString(Number(error.err_time)).date}</span></h3>

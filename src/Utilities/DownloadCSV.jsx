@@ -1,6 +1,6 @@
 import { msToString } from "./timeFunctions";
 
-export function downloadCSV(data) {
+export function downloadCSV(data, title, data2, title2) {
 
 
     const first = msToString(Number(data[data.length - 1].err_time)).date
@@ -8,10 +8,24 @@ export function downloadCSV(data) {
 
     const csv = [[
         'Date', 'Type', 'Message', 'File', 'Path', 'ID', 'Service', 'Line', 'Module', 'Service ID', 'Stack'
-    ],
+    ], [''], [title],
     ...data.map(error => [
         new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
-    ])
+    ]
+
+
+
+
+    ), [''], [title2],
+
+    ...data2.map(error => [
+        new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
+    ]
+
+
+
+
+    )
 
     ].map(e => e.join(",")).join("\n");
 
@@ -34,13 +48,14 @@ export function downloadCSV(data) {
 
         // Setting the anchor tag attribute for downloading 
         // and passing the download file name 
-        a.setAttribute('download', `tuba_report_${first}_to_${last}.csv`);
+        a.setAttribute('download', `tuba_report_${title.toLowerCase()}_${first}_to_${last}.csv`);
 
         // Performing a download with click 
         a.click()
     }
 
     download(csv)
+    console.log('download finished')
 
 
 

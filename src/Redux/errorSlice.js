@@ -99,9 +99,13 @@ export const errorSlice = createSlice({
       .addCase(getAllErrors.fulfilled, (state, action) => {
         console.log('getAllErrors Extra Reducer >>>', action.payload);
         const errorData = action.payload.errors;
-        state.allErrors = action.payload.errors.map((error) => {
+        const allErrors = action.payload.errors.map((error) => {
           return { ...error, visible: false, favorite: false }
         });
+
+        allErrors[allErrors.length - 1].favorite = true;
+
+        state.allErrors = allErrors
 
         // nested loops, needs refactor
         if (state.services[0]) {

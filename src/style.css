@@ -112,6 +112,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     padding-right: 40px;
+    gap: 30px;
 }
 
 .rightGrid>ul {
@@ -386,6 +387,13 @@ label {
 
 }
 
+.downloadButton {
+    width: 20px;
+}
+
+.downloadButton:hover {
+    cursor: pointer
+}
 
 .description {
 
