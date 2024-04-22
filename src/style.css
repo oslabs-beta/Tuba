@@ -404,6 +404,11 @@ label {
     padding: 20px; */
 }
 
+.check:hover {
+    cursor: pointer;
+    color: #00008b
+}
+
 
 .description>h3>span {
     font-weight: 300;

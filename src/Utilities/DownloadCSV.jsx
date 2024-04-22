@@ -6,9 +6,6 @@ export function downloadCSV(data) {
     const first = msToString(Number(data[data.length - 1].err_time)).date
     const last = msToString(Number(data[0].err_time)).date
 
-
-
-
     const csv = [[
         'Date', 'Type', 'Message', 'File', 'Path', 'ID', 'Service', 'Line', 'Module', 'Service ID', 'Stack'
     ],
@@ -16,12 +13,9 @@ export function downloadCSV(data) {
         new Date(Number(error.err_time)), error.err_type, decodeURI(error.err_message), error.err_file, error.err_file_path, error.err_id, error.err_job_name, error.err_line_num, error.err_module, error.err_srv_id, error.err_stack
     ])
 
-
     ].map(e => e.join(",")).join("\n");
 
     console.log(csv)
-
-
 
     const download = function (data) {
 

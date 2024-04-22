@@ -46,11 +46,12 @@ export default function Dashboard() {
 
 
             < div className='dashboardVertical' style={{ backgroundColor: color(i) }}>
+                <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
                 <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
                 <StandardBlock body={msToString(Number(error.err_time)).time} />
                 <StandardBlock body={error.err_type} />
-                <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
+
                 <StandardBlock body={decodeURIComponent(error.err_message)} />
                 <StandardBlock body={error.err_file} />
                 <StandardBlock body={error.err_line_num} />
@@ -63,11 +64,11 @@ export default function Dashboard() {
 
     const headers = (
         <div className='dashboardHeader'>
+            <HeaderBlock body={'Favorite:'} />
             <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Date:'} />
             <HeaderBlock body={'Time:'} />
             <HeaderBlock body={'Type:'} />
-            <HeaderBlock body={'Favorite:'} />
             <HeaderBlock body={'Message:'} />
             <HeaderBlock body={'File:'} />
             <HeaderBlock body={'Line:'} />
