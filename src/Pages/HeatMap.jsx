@@ -43,9 +43,10 @@ export default function HeatMap() {
     // Iterate over service array to create a node.
     services.forEach((service) => {
       srv_name[service.serviceName.srv_id] = service.serviceName.srv_name
+    
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
-        name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, ''),
+        name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, '').charAt(0),
         time: 'srv',
         srv_num: service.serviceName.srv_id,
         level: "srv"
@@ -68,7 +69,7 @@ export default function HeatMap() {
         target: `srv_${connections.con_srv2}`,
         source: `srv_${connections.con_srv1}`,
         // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
-        strength: 0.1
+        strength: 0.3
       })
     })
 
@@ -87,8 +88,11 @@ export default function HeatMap() {
 
     // define the size of the graph window. To be updated when other components are added
 
-    const width = window.innerWidth * 0.9;
-    const height = window.innerHeight * 0.6;
+    // const width = window.innerWidth * 0.9;
+    // const height = window.innerHeight * 0.6;
+    const width = 1100
+    const height = 700
+
     // Default color scheme. To be updated later with a unified scheme
     //const color = d3.scaleOrdinal(d3.schemeAccent);
 
@@ -113,17 +117,17 @@ export default function HeatMap() {
 
     // create node elements
     const nodeElements = svg.append('g')
-      .selectAll('ellipse')
-      .data(nodes)
-      .enter().append('ellipse')
-      .attr('cx', node => node.x)
-      .attr('cy', node => node.y)
-      .attr('rx', node => node.level === 'srv' ? node.name.length * 10 : 10)
-      .attr('ry', node => node.level === 'srv' ? 20 : 10)
-      // .selectAll('circle')
+      // .selectAll('ellipse')
       // .data(nodes)
-      // .enter().append('circle')
-      // .attr('r', node => node.level === 'srv' ? 30 : 10)
+      // .enter().append('ellipse')
+      // .attr('cx', node => node.x)
+      // .attr('cy', node => node.y)
+      // .attr('rx', node => node.level === 'srv' ? node.name.length * 10 : 10)
+      // .attr('ry', node => node.level === 'srv' ? 20 : 10)
+      .selectAll('circle')
+      .data(nodes)
+      .enter().append('circle')
+      .attr('r', node => node.level === 'srv' ? 30 : 10)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)
@@ -138,17 +142,17 @@ export default function HeatMap() {
       .on('mouseover', function (event, node) {
         console.log('node: ', node)
         // expand the node
-        // const circle = d3.select(this);
-        // const currentRadius = Number(circle.attr('r'));
-        // circle.transition().duration(200).attr('r', currentRadius * 1.5);
-        const ellipse = d3.select(this)
-        const currentRx = Number(ellipse.attr('rx'))
-        const currentRy = Number(ellipse.attr('ry'))
-        if (node.level === 'srv') {
-          ellipse.transition().duration(200).attr('ry', currentRy * 1.5)
-        } else {
-          ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
-        }
+        const circle = d3.select(this);
+        const currentRadius = Number(circle.attr('r'));
+        circle.transition().duration(200).attr('r', currentRadius * 1.5);
+        // const ellipse = d3.select(this)
+        // const currentRx = Number(ellipse.attr('rx'))
+        // const currentRy = Number(ellipse.attr('ry'))
+        // if (node.level === 'srv') {
+        //   ellipse.transition().duration(200).attr('ry', currentRy * 1.5)
+        // } else {
+        //   ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
+        // }
 
         // create the tooltip
         tooltip.style('display', 'block')
@@ -180,16 +184,16 @@ export default function HeatMap() {
         tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
       })
       .on('mouseout', function (event, node) {
-        // const circle = d3.select(this);
-        // const originalRadius = parseFloat(circle.attr('r'));
-        // circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
+        const circle = d3.select(this);
+        const originalRadius = parseFloat(circle.attr('r'));
+        circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
 
-        const ellipse = d3.select(this)
-        if (node.level === 'srv') {
-          ellipse.transition().duration(200).attr('ry', 20)
-        } else {
-          ellipse.transition().duration(200).attr('ry', 10).attr('rx', 10)
-        }
+        // const ellipse = d3.select(this)
+        // if (node.level === 'srv') {
+        //   ellipse.transition().duration(200).attr('ry', 20)
+        // } else {
+        //   ellipse.transition().duration(200).attr('ry', 10).attr('rx', 10)
+        // }
         tooltip.style('display', 'none')
       });
 
@@ -200,11 +204,12 @@ export default function HeatMap() {
       .enter().append('text')
       .text(node => node.level === 'srv' ? node.name : node.name.charAt(0))
       .attr('font-size', node => node.level === 'srv' ? 25 : 17)
-      .attr('dx', node => node.level === 'srv' ? node.name.length * -8 : -5)
+      .attr('dx', node => node.level === 'srv' ? -7 : -5)
       .attr('dy', node => node.level === 'srv' ? 7 : 7)
       .attr('fill', 'white')
-      .style('stroke', 'black')
-      .style('stroke-width', 0.65)
+      // .style('stroke', 'black')
+      // .style('stroke-width', 0.65)
+      .style('font-family', 'Comic Sans MS')
       .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
       .style('pointer-events', 'none');
 
@@ -236,7 +241,7 @@ export default function HeatMap() {
     // populate the graph
     const simulation = d3.forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-100))
-      .force('center', d3.forceCenter(width / 2, height / 4))
+      .force('center', d3.forceCenter(width / 2, height / 2))
       .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
       .on('tick', () => {
         nodeElements.attr('cx', node => node.x)
