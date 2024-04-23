@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import StandardBlock from '../Components/Dashboard/StandardBlock';
+import StandardBlock from '../Components/Dashboard/standardBlock';
 import LargeBlock from '../Components/Dashboard/LargeBlock';
 import HeaderBlock from '../Components/Dashboard/HeaderBlock';
+import HeaderBigBlock from '../Components/Dashboard/HeaderBigBlock';
+import BigBlock from '../Components/Dashboard/BigBlock'
+import tubaLogo from '../Images/TubaLogo.png'
+import { downloadCSV } from '../Utilities/DownloadCSV';
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,28 +25,38 @@ export default function Dashboard() {
 
     }
 
+
+
     // const getAllErrors = useSelector(state => state.errorSlice.allErrors)
 
-    const favoriteErrors = useSelector(state => state.errorSlice.allErrors).filter(error => error.favorite)
-
+    const allErrors = useSelector(state => state.errorSlice.allErrors)
+    const favoriteErrors = allErrors.filter(error => error.favorite)
     console.log('Favorites: ', favoriteErrors)
 
-    const dashboardMap = favoriteErrors.map(error => {
 
+
+
+    const dashboardMap = favoriteErrors.map((error, i) => {
+
+        function color(index) {
+            return index % 2 === 0 ? '#DBE4F0' : 'white'
+        }
 
         return (
-            < div className='dashboardVertical' >
 
+
+            < div className='dashboardVertical' style={{ backgroundColor: color(i) }}>
                 <StandardBlock body={'☑'} handle={handleClick} id={error.err_id} />
+                <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={msToString(Number(error.err_time)).date} />
                 <StandardBlock body={msToString(Number(error.err_time)).time} />
-                <StandardBlock body={error.err_job_name} />
                 <StandardBlock body={error.err_type} />
+
                 <StandardBlock body={decodeURIComponent(error.err_message)} />
                 <StandardBlock body={error.err_file} />
-                <StandardBlock body={error.err_file_path} />
                 <StandardBlock body={error.err_line_num} />
                 <StandardBlock body={error.err_module} />
+                <BigBlock body={error.err_file_path} />
                 <LargeBlock body={decodeURIComponent(error.err_stack)} />
             </div >
         )
@@ -50,50 +64,56 @@ export default function Dashboard() {
 
     const headers = (
         <div className='dashboardHeader'>
-            <HeaderBlock body={'Favorite:'} />
+            <HeaderBlock body={'Pin:'} />
+            <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Date:'} />
             <HeaderBlock body={'Time:'} />
-            <HeaderBlock body={'Service:'} />
             <HeaderBlock body={'Type:'} />
             <HeaderBlock body={'Message:'} />
             <HeaderBlock body={'File:'} />
-            <HeaderBlock body={'Path:'} />
             <HeaderBlock body={'Line:'} />
             <HeaderBlock body={'Module:'} />
+            <HeaderBigBlock body={'Path:'} />
             <HeaderBlock body={'Stack:'} />
 
 
         </div>
     )
 
+    // useEffect(() => {
+    //     dispatch(getAllErrors())
+    //     dispatch(getServices())
+    //     dispatch(getConnections())
+    // }, [allErrors])
+
 
     return (
 
-        <div className='component'>
 
-            <button onClick={() => {
+
+        < div className='component' >
+
+            {/* <button onClick={() => {
                 dispatch(getAllErrors())
                 dispatch(getServices())
                 dispatch(getConnections())
-            }}>Click For Errors</button>
+            }}>Click For Errors</button> */}
 
 
-            {favoriteErrors.length >= 1 && <div id='fullContainer'>
-                {headers}
-                <div id='dashboardContainer'>
+            {
+                favoriteErrors.length >= 1 ? <div id='fullContainer'>
+                    {headers}
+                    <div id='dashboardContainer'>
 
-                    {[dashboardMap]}
-                </div>
-            </div>}
+                        {[dashboardMap]}
+                    </div>
+                </div> : <img style={{ marginTop: '100px' }} src={tubaLogo} />
+            }
 
-        </div>
-
-
-
+        </div >
 
 
 
     )
-
 
 }

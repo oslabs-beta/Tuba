@@ -6,11 +6,15 @@ import HeatMap from './HeatMap'
 import History from './History'
 import Timeline from './Timeline'
 
+import tubaLogo from '../Images/TubaLogo.png'
+
 import { changeTab } from '../Redux/navSlice'
 
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function Home() {
+
+    const errors = useSelector(state => state.errorSlice.allErrors)
 
     const dispatch = useDispatch();
 
@@ -52,20 +56,20 @@ export default function Home() {
 
     // }
 
-
+    console.log('errorserrors: ', errors)
 
     return (
         <>
             <Nav />
-            {/* <h2>{tab}</h2> */}
+
             <div className='background' >
                 {/* <div className='tab' onClick={() => changeTabHandler(left)}>{left}</div> */}
                 {displayCurrentTab()}
                 {/* <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div> */}
             </div>
-
         </>
     )
+
 
 
 }
