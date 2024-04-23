@@ -646,7 +646,7 @@ label {
     /* border-bottom: 1px solid black; */
 }
 
-.heatmap-container{
-    border: 2px;
-    border-color: 'white'
-}
+.heatmap-container {
+    border: 1px solid white;
+    padding: 1px
+  }

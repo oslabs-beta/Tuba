@@ -27,23 +27,20 @@ export default function HeatMap() {
 
   // initialize D3 to paint the DOM
   const svgRef = useRef(null);
+
   // initialize node & link arrays that will inform the graph <- research better way to do this
-
-
   const nodes = [];
   const links = [];
   const srv_name = {}
 
   useEffect(() => {
     // clear node & link arrays for potential legacy data 
-
     nodes.length = 0;
     links.length = 0;
 
     // Iterate over service array to create a node.
     services.forEach((service) => {
       srv_name[service.serviceName.srv_id] = service.serviceName.srv_name
-    
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
         name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, '').charAt(0),
@@ -62,7 +59,6 @@ export default function HeatMap() {
         level: 'err'
       })
     })
-
     // Map over the connections to create the links.
     serviceLinks.forEach((connections) => {
       links.push({
@@ -72,8 +68,7 @@ export default function HeatMap() {
         strength: 0.3
       })
     })
-
-    // Assign each node a link
+    // Assign each error node a link
     errors.forEach((error) => {
       links.push({
         target: `srv_${error.err_srv_id}`,
@@ -87,36 +82,41 @@ export default function HeatMap() {
 
 
     // define the size of the graph window. To be updated when other components are added
-
     // const width = window.innerWidth * 0.9;
     // const height = window.innerHeight * 0.6;
     const width = 1100
     const height = 700
 
-    // Default color scheme. To be updated later with a unified scheme
-    //const color = d3.scaleOrdinal(d3.schemeAccent);
 
     // const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
-
     const customColors = Colors()
-
     const color = d3.scaleOrdinal(customColors)
 
     // define the graph window
     const svg = d3.select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
+    // create a global container element
+    const container = svg.append('g')
+    // Handle zoom and pan actions on the window
+    const zoom = d3.zoom()
+      .scaleExtent([0.5, 5])
+      .on('zoom', (event) => {
+        container.attr('transform', event.transform); // Use event directly
+      });
+    
+    // Add the zoom behavior to the SVG container
+    svg.call(zoom);
 
     // create the links between nodes
-    const linkElements = svg.append('g')
-      .selectAll('line')
+    const linkElements = container.selectAll('line')
       .data(links)
       .enter().append('line')
       .attr('stroke-width', 2)
       .attr('stroke', '#FFFFFF')
 
     // create node elements
-    const nodeElements = svg.append('g')
+    const nodeElements = container.selectAll('circle')
       // .selectAll('ellipse')
       // .data(nodes)
       // .enter().append('ellipse')
@@ -124,7 +124,7 @@ export default function HeatMap() {
       // .attr('cy', node => node.y)
       // .attr('rx', node => node.level === 'srv' ? node.name.length * 10 : 10)
       // .attr('ry', node => node.level === 'srv' ? 20 : 10)
-      .selectAll('circle')
+      // .selectAll('circle')
       .data(nodes)
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
@@ -198,8 +198,7 @@ export default function HeatMap() {
       });
 
     // create the text next to each node
-    const textElements = svg.append('g')
-      .selectAll('text')
+    const textElements = container.selectAll('text')
       .data(nodes)
       .enter().append('text')
       .text(node => node.level === 'srv' ? node.name : node.name.charAt(0))
@@ -237,6 +236,9 @@ export default function HeatMap() {
       .style("font-size", "12px")
       .style("fill", "black")
       .text('');
+
+
+
 
     // populate the graph
     const simulation = d3.forceSimulation(nodes)
