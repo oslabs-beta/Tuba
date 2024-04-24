@@ -14,10 +14,10 @@ export default function HeatMap() {
   // Get error & service data from redux
   const dispatch = useDispatch()
   const services = useSelector((state) => state.errorSlice.services);
-  const errors = useSelector((state) => state.errorSlice.allErrors);
+  const errorsUnfiltered = useSelector((state) => state.errorSlice.allErrors);
   const serviceLinks = useSelector((state) => state.errorSlice.connections.connections)
   const selected = useSelector((state) => state.heat.selected)
-  const selectedError = errors.filter((error) => error.err_id === selected)
+  const selectedError = errorsUnfiltered.filter((error) => error.err_id === selected)
   const { start, end } = useSelector(state => state.heat)
 
 
@@ -25,11 +25,12 @@ export default function HeatMap() {
   const msStart = new Date(start).getTime()
   const msEnd = new Date(end).getTime()
 
-  const errorsFiltered = errors.filter(error => error.err_time >= msStart && error.err_time <= msEnd)
+  const errors = errorsUnfiltered.filter(error => Number(error.err_time) >= msStart && Number(error.err_time) <= msEnd)
+
+  // const errorsFiltered = errors.filter(error => error.err_time >= msStart && error.err_time <= msEnd)
 
 
 
-  console.log('filtered errors: ', errorsFiltered)
 
   function handleSelect(id) {
     dispatch(setSelected(id))
@@ -43,6 +44,7 @@ export default function HeatMap() {
   const srv_name = {}
 
   useEffect(() => {
+    d3.select(svgRef.current).selectAll("*").remove();
     // clear node & link arrays for potential legacy data 
     nodes.length = 0;
     links.length = 0;
@@ -253,7 +255,7 @@ export default function HeatMap() {
       simulation.stop();
     };
 
-  }, [services, serviceLinks])
+  }, [services, serviceLinks, start, end])
 
   return (
     <>
