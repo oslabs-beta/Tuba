@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import StandardBlock from '../Components/Dashboard/standardBlock';
+import StandardBlock from '../Components/Dashboard/StandardBlock';
 import LargeBlock from '../Components/Dashboard/LargeBlock';
 import HeaderBlock from '../Components/Dashboard/HeaderBlock';
 import HeaderBigBlock from '../Components/Dashboard/HeaderBigBlock';

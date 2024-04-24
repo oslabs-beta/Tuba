@@ -9,5 +9,5 @@ export default function StandardBlock({ body, id, handle }) {
             {!id && body}
             {id && <div onClick={() => handle(id)}>☑</div>}
         </div>
-    ) 
+    )
 }
