@@ -71,7 +71,9 @@ export default function Nav() {
             </div>
             <div>
                 <ul>
-                    <li className='rightGrid'><a className="scan" onClick={toggleScan}>Scan</a><img onClick={handleDownload} className='downloadButton' src={download} /></li>
+                    <li className='rightGrid'>
+                        {/* <a className="scan" onClick={toggleScan}>Scan</a> */}
+                        <img onClick={handleDownload} className='downloadButton' src={download} /></li>
                 </ul>
             </div>
         </div>
