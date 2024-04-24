@@ -40,12 +40,13 @@ module.exports = {
     },
     devServer: {
         static: './dist',
+        port: 42069,
         hot: true,
         compress: true,
         historyApiFallback: true,
         proxy: {
             '/': {
-                target: 'http://localhost:3000',
+                target: 'http://localhost:42070',
 
             }
 
