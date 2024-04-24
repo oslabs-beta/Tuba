@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const port = 3000
+const port = 42070
 const errorDataRouter = require('./routes/errorDataRoute')
 
 app.use(express.json());
