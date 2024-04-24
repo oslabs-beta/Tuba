@@ -259,7 +259,9 @@ export default function HeatMap() {
 
   return (
     <>
+
       <div className='background heatmap-container'>
+
         <svg ref={svgRef}></svg>
         <DateSelector />
         <HeatmapDescription error={selectedError[0]} />

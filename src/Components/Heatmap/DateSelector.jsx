@@ -23,11 +23,11 @@ export default function DateSelector() {
 
     return (
         <div className='dateSelector'>
-            <input type='date' onChange={toggleStart} value={start}></input><h3>Through</h3>
+            <div className='filterRow'><h3>Filter Start:</h3> <input type='date' onChange={toggleStart} value={start}></input></div><div className='filterRow'><h3>Filter End:</h3>
 
-            <input type='date' onChange={toggleEnd} value={end}></input>
+                <input type='date' onChange={toggleEnd} value={end}></input></div>
 
-        </div>
+        </div >
     )
 
 
