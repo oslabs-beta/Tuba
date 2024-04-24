@@ -5,6 +5,9 @@ import HeatmapDescription from '../Components/Heatmap/HeatmapDescription';
 import { setSelected } from '../Redux/heatSlice';
 import { Colors } from '../Utilities/Colors';
 import { msToString } from '../Utilities/timeFunctions';
+import DateSelector from '../Components/Heatmap/DateSelector';
+
+
 
 
 export default function HeatMap() {
@@ -15,6 +18,18 @@ export default function HeatMap() {
   const serviceLinks = useSelector((state) => state.errorSlice.connections.connections)
   const selected = useSelector((state) => state.heat.selected)
   const selectedError = errors.filter((error) => error.err_id === selected)
+  const { start, end } = useSelector(state => state.heat)
+
+
+
+  const msStart = new Date(start).getTime()
+  const msEnd = new Date(end).getTime()
+
+  const errorsFiltered = errors.filter(error => error.err_time >= msStart && error.err_time <= msEnd)
+
+
+
+  console.log('filtered errors: ', errorsFiltered)
 
   function handleSelect(id) {
     dispatch(setSelected(id))
@@ -198,7 +213,7 @@ export default function HeatMap() {
 
     // create a rectangle element for the tooltip
     tooltip.append("rect")
-      .attr("width", 200)
+      .attr("width", 250)
       .attr("height", 80)
       .attr("fill", "white")
 
@@ -244,6 +259,7 @@ export default function HeatMap() {
     <>
       <div className='background heatmap-container'>
         <svg ref={svgRef}></svg>
+        <DateSelector />
         <HeatmapDescription error={selectedError[0]} />
       </div>
 

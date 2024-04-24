@@ -650,5 +650,12 @@ label {
 .heatmap-container {
     border: 1px solid white;
     padding: 1px
-  }
-  
+}
+
+.dateSelector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px
+}
