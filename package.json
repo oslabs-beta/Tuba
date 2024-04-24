@@ -6,6 +6,7 @@
   "scripts": {
     "start": "concurrently \"webpack serve --open\" \"nodemon server/server.js \"",
     "test": "jest --verbose --detectOpenHandles",
+    "start-build": "nodemon dist/bundle.js",
     "build": "webpack"
   },
   "repository": {
