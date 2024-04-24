@@ -15,12 +15,6 @@ export default function HeatMap() {
   const selected = useSelector((state) => state.heat.selected)
   const selectedError = errors.filter((error) => error.err_id === selected)
 
-  // console.log('services-d3: ', services)
-  // console.log('errors-d3: ', errors)
-  // console.log('connections-d3', serviceLinks)
-  // console.log('selected node: ', selected)
-  // console.log('selected error: ', selectedError[0])
-
   function handleSelect(id) {
     dispatch(setSelected(id))
   }
@@ -79,15 +73,10 @@ export default function HeatMap() {
     console.log('post map links array: ', links)
     console.log('post map nodes array: ', nodes)
 
-
     // define the size of the graph window. To be updated when other components are added
-    // const width = window.innerWidth * 0.9;
-    // const height = window.innerHeight * 0.6;
     const width = 1100
     const height = 500
 
-
-    // const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
     const customColors = Colors()
     const color = d3.scaleOrdinal(customColors)
 
@@ -102,7 +91,7 @@ export default function HeatMap() {
     const zoom = d3.zoom()
       .scaleExtent([0.3, 5])
       .on('zoom', (event) => {
-        container.attr('transform', event.transform); // Use event directly
+        container.attr('transform', event.transform); 
       });
     // Add the zoom behavior to the SVG container
     svg.call(zoom);
@@ -116,14 +105,6 @@ export default function HeatMap() {
 
     // create node elements
     const nodeElements = container.selectAll('circle')
-      // .selectAll('ellipse')
-      // .data(nodes)
-      // .enter().append('ellipse')
-      // .attr('cx', node => node.x)
-      // .attr('cy', node => node.y)
-      // .attr('rx', node => node.level === 'srv' ? node.name.length * 10 : 10)
-      // .attr('ry', node => node.level === 'srv' ? 20 : 10)
-      // .selectAll('circle')
       .data(nodes)
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
@@ -144,14 +125,7 @@ export default function HeatMap() {
         const circle = d3.select(this);
         const currentRadius = Number(circle.attr('r'));
         circle.transition().duration(200).attr('r', currentRadius * 1.5);
-        // const ellipse = d3.select(this)
-        // const currentRx = Number(ellipse.attr('rx'))
-        // const currentRy = Number(ellipse.attr('ry'))
-        // if (node.level === 'srv') {
-        //   ellipse.transition().duration(200).attr('ry', currentRy * 1.5)
-        // } else {
-        //   ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
-        // }
+
 
         const tooltipData = [
           { label: 'ID', value: node.id },
@@ -180,12 +154,6 @@ export default function HeatMap() {
         const originalRadius = parseFloat(circle.attr('r'));
         circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
 
-        // const ellipse = d3.select(this)
-        // if (node.level === 'srv') {
-        //   ellipse.transition().duration(200).attr('ry', 20)
-        // } else {
-        //   ellipse.transition().duration(200).attr('ry', 10).attr('rx', 10)
-        // }
         tooltip.style('display', 'none')
       });
 
