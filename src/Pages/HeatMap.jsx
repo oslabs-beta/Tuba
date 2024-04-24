@@ -15,16 +15,15 @@ export default function HeatMap() {
   const selected = useSelector((state) => state.heat.selected)
   const selectedError = errors.filter((error) => error.err_id === selected)
 
-  console.log('services-d3: ', services)
-  console.log('errors-d3: ', errors)
-  console.log('connections-d3', serviceLinks)
-  console.log('selected node: ', selected)
-  console.log('selected error: ', selectedError[0])
+  // console.log('services-d3: ', services)
+  // console.log('errors-d3: ', errors)
+  // console.log('connections-d3', serviceLinks)
+  // console.log('selected node: ', selected)
+  // console.log('selected error: ', selectedError[0])
 
   function handleSelect(id) {
     dispatch(setSelected(id))
   }
-
   // initialize D3 to paint the DOM
   const svgRef = useRef(null);
 
@@ -85,7 +84,7 @@ export default function HeatMap() {
     // const width = window.innerWidth * 0.9;
     // const height = window.innerHeight * 0.6;
     const width = 1100
-    const height = 700
+    const height = 500
 
 
     // const customColors = ['#2BE2FF', '#00FF66', '#00FFFF', '#FF0099', '#33b3a6', '#CC00FF']
@@ -98,13 +97,13 @@ export default function HeatMap() {
       .attr('height', height);
     // create a global container element
     const container = svg.append('g')
+
     // Handle zoom and pan actions on the window
     const zoom = d3.zoom()
-      .scaleExtent([0.5, 5])
+      .scaleExtent([0.3, 5])
       .on('zoom', (event) => {
         container.attr('transform', event.transform); // Use event directly
       });
-    
     // Add the zoom behavior to the SVG container
     svg.call(zoom);
 
@@ -154,30 +153,23 @@ export default function HeatMap() {
         //   ellipse.transition().duration(200).attr('ry', currentRy * 1.5).attr('rx', currentRx * 1.5)
         // }
 
-        // create the tooltip
-        tooltip.style('display', 'block')
-        //tooltip.select('text').text(`ID: ${node.id} \nType: ${node.name} \nTime: ${node.time} \nService: ${node.srv}`)
-        // create individual lines for each item on the tooltip. Fix later, this is not DRY
-        tooltip.select('text')
-          .html(null)
+        const tooltipData = [
+          { label: 'ID', value: node.id },
+          { label: 'Type', value: node.name },
+          { label: 'Time', value: node.time },
+          { label: 'Service', value: node.srv }
+        ];
+        
+        tooltip.style('display', 'block');
+        const text = tooltip.select('text')
+          .html('')
+          .selectAll('tspan')
+          .data(tooltipData)
+          .enter()
           .append('tspan')
           .attr('x', 0)
-          .text(`ID: ${node.id}`);
-        tooltip.select('text')
-          .append('tspan')
-          .attr('x', 0)
-          .attr('dy', '1.2em')
-          .text(`Type: ${node.name}`);
-        tooltip.select('text')
-          .append('tspan')
-          .attr('x', 0)
-          .attr('dy', '1.2em')
-          .text(`Time: ${node.time}`);
-        tooltip.select('text')
-          .append('tspan')
-          .attr('x', 0)
-          .attr('dy', '1.2em')
-          .text(`Service: ${node.srv}`);
+          .attr('dy', (d, i) => i ? '1.2em' : 0)
+          .text(d => `${d.label}: ${d.value}`);
 
         // fix the tooltip to the mouse pointer
         const [x, y] = d3.pointer(event);
@@ -206,9 +198,7 @@ export default function HeatMap() {
       .attr('dx', node => node.level === 'srv' ? -7 : -5)
       .attr('dy', node => node.level === 'srv' ? 7 : 7)
       .attr('fill', 'white')
-      // .style('stroke', 'black')
-      // .style('stroke-width', 0.65)
-      .style('font-family', 'Comic Sans MS')
+      .style('font-family', "'Inter', sans-serif") 
       .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
       .style('pointer-events', 'none');
 
@@ -236,9 +226,6 @@ export default function HeatMap() {
       .style("font-size", "12px")
       .style("fill", "black")
       .text('');
-
-
-
 
     // populate the graph
     const simulation = d3.forceSimulation(nodes)
