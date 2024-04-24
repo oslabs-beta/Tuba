@@ -17,14 +17,11 @@ export default function HeatmapDescription({ error }) {
 
     function handleCheck() {
         dispatch(toggleFavorite(Number(error.err_id)))
-
     }
-
 
 
     return (
         <div className='description'>
-
             <h3>Pin: </h3><h3 onClick={handleCheck} className='check'>{error.favorite ? "☑" : "☐"}</h3>
             <h3>Service:</h3><h3><span>{error.err_job_name}</span></h3>
             <h3>Type: </h3><h3><span>{error.err_type}</span></h3>
