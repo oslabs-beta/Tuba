@@ -51,23 +51,35 @@ export default function HeatMap() {
 
     // Iterate over service array to create a node.
     services.forEach((service) => {
-      srv_name[service.serviceName.srv_id] = service.serviceName.srv_name
+      srv_name[service.serviceName.srv_id] = {
+        name: service.serviceName.srv_name,
+        errNum: 0
+      }
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
         name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, '').charAt(0),
         time: 'srv',
         srv_num: service.serviceName.srv_id,
-        level: "srv"
+        level: "srv",
+        toolTip: {
+          name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, ''),
+          srvNum: service.serviceName.srv_id
+        }
       })
     })
     // Iterate over Errors to create a node
     errors.forEach((error) => {
+      srv_name[error.err_srv_id].errNum = srv_name[error.err_srv_id].errNum + 1
+
       nodes.push({
         id: `err_${error.err_id}`,
         name: error.err_type,
         time: msToString(Number(error.err_time)).date + " " + msToString(Number(error.err_time)).time,
-        srv: srv_name[error.err_srv_id],
-        level: 'err'
+        srv: srv_name[error.err_srv_id].name,
+        level: 'err',
+        toolTip: {
+
+        }
       })
     })
     // Map over the connections to create the links.
@@ -76,7 +88,8 @@ export default function HeatMap() {
         target: `srv_${connections.con_srv2}`,
         source: `srv_${connections.con_srv1}`,
         // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
-        strength: 0.3
+        strength: 0.3,
+        level: 'srv'
       })
     })
     // Assign each error node a link
@@ -84,12 +97,14 @@ export default function HeatMap() {
       links.push({
         target: `srv_${error.err_srv_id}`,
         source: `err_${error.err_id}`,
-        strength: 0.6
+        strength: 0.9,
+        level: 'err'
       })
     })
 
     console.log('post map links array: ', links)
     console.log('post map nodes array: ', nodes)
+    console.log('srv_name: ', srv_name)
 
     // define the size of the graph window. To be updated when other components are added
     const width = 1100
@@ -107,7 +122,7 @@ export default function HeatMap() {
 
     // Handle zoom and pan actions on the window
     const zoom = d3.zoom()
-      .scaleExtent([0.3, 5])
+      .scaleExtent([0.3, 3])
       .on('zoom', (event) => {
         container.attr('transform', event.transform);
       });
@@ -118,7 +133,7 @@ export default function HeatMap() {
     const linkElements = container.selectAll('line')
       .data(links)
       .enter().append('line')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', link => link.level === 'srv' ? 2 : 0)
       .attr('stroke', '#FFFFFF')
 
     // create node elements
@@ -138,10 +153,6 @@ export default function HeatMap() {
         }
       })
       .on('mouseover', function (event, node) {
-
-
-
-
         console.log('node: ', node)
         // expand the node
         const circle = d3.select(this);
@@ -160,10 +171,9 @@ export default function HeatMap() {
           ];
 
         } else {
-
-
           tooltipData = [
-            // { label: 'Service', value: node.name }
+            {label: 'service', value: node.toolTip.name},
+            {label: ' # of errors', value: srv_name[node.toolTip.srvNum].errNum}
           ]
         }
 
@@ -184,9 +194,6 @@ export default function HeatMap() {
         tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
 
       })
-
-
-
       .on('mouseout', function (event, node) {
         const circle = d3.select(this);
         const originalRadius = parseFloat(circle.attr('r'));
@@ -219,14 +226,6 @@ export default function HeatMap() {
       .attr("height", 80)
       .attr("fill", "white")
 
-    // .style("stroke", "black")
-    // .style("stroke-width", 1);
-
-    const tooltipText = tooltip.append('text')
-      .attr('x', 10)
-      .attr('y', 20)
-      .style('font-size', '12px')
-      .style('fill', 'black')
     //styles the text in the pre-defined rectangle element
     tooltip.append("text")
       .attr("x", 10)
