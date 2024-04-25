@@ -10,7 +10,6 @@ export default function DateSelector() {
     const end = useSelector(state => state.heat.end)
 
     function toggleStart(event) {
-        console.log('start target value, ', event.target.value)
         dispatch(setStart(event.target.value))
 
     }
