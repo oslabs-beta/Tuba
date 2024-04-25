@@ -650,5 +650,55 @@ label {
 .heatmap-container {
     border: 1px solid white;
     padding: 1px
-  }
-  
+}
+
+.dateSelector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+
+    background: rgb(91, 143, 185);
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.filterRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 220px;
+    gap: 20px;
+
+
+
+}
+
+.filterRow>h3 {
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.filterRow>input {
+    background-color: rgb(91, 143, 185);
+    color: white;
+    font-size: 15px;
+    border: none;
+    border: 1px solid #5380a6;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+}
+
+.filterRow>input:hover {
+    cursor: pointer;
+
+}

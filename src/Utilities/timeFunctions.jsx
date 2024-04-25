@@ -1,5 +1,13 @@
 import React from 'react'
 
+export function formatDateForInput(input) {
+    const date = new Date(input)
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-indexed, so add 1
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 export function stringToMs(string) {
     const date = new Date(string);
     return date.getTime();

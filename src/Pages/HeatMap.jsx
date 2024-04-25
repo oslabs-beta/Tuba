@@ -4,16 +4,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeatmapDescription from '../Components/Heatmap/HeatmapDescription';
 import { setSelected } from '../Redux/heatSlice';
 import { Colors } from '../Utilities/Colors';
+import { msToString } from '../Utilities/timeFunctions';
+import DateSelector from '../Components/Heatmap/DateSelector';
+
+
 
 
 export default function HeatMap() {
   // Get error & service data from redux
   const dispatch = useDispatch()
   const services = useSelector((state) => state.errorSlice.services);
-  const errors = useSelector((state) => state.errorSlice.allErrors);
+  const errorsUnfiltered = useSelector((state) => state.errorSlice.allErrors);
   const serviceLinks = useSelector((state) => state.errorSlice.connections.connections)
   const selected = useSelector((state) => state.heat.selected)
-  const selectedError = errors.filter((error) => error.err_id === selected)
+  const selectedError = errorsUnfiltered.filter((error) => error.err_id === selected)
+  const { start, end } = useSelector(state => state.heat)
+
+
+
+  const msStart = new Date(start).getTime()
+  const msEnd = new Date(end).getTime()
+
+  const errors = errorsUnfiltered.filter(error => Number(error.err_time) >= msStart && Number(error.err_time) <= msEnd)
+
+  // const errorsFiltered = errors.filter(error => error.err_time >= msStart && error.err_time <= msEnd)
+
+
+
 
   function handleSelect(id) {
     dispatch(setSelected(id))
@@ -27,6 +44,7 @@ export default function HeatMap() {
   const srv_name = {}
 
   useEffect(() => {
+    d3.select(svgRef.current).selectAll("*").remove();
     // clear node & link arrays for potential legacy data 
     nodes.length = 0;
     links.length = 0;
@@ -47,7 +65,7 @@ export default function HeatMap() {
       nodes.push({
         id: `err_${error.err_id}`,
         name: error.err_type,
-        time: error.err_time,
+        time: msToString(Number(error.err_time)).date + " " + msToString(Number(error.err_time)).time,
         srv: srv_name[error.err_srv_id],
         level: 'err'
       })
@@ -91,7 +109,7 @@ export default function HeatMap() {
     const zoom = d3.zoom()
       .scaleExtent([0.3, 5])
       .on('zoom', (event) => {
-        container.attr('transform', event.transform); 
+        container.attr('transform', event.transform);
       });
     // Add the zoom behavior to the SVG container
     svg.call(zoom);
@@ -120,21 +138,37 @@ export default function HeatMap() {
         }
       })
       .on('mouseover', function (event, node) {
+
+
+
+
         console.log('node: ', node)
         // expand the node
         const circle = d3.select(this);
         const currentRadius = Number(circle.attr('r'));
         circle.transition().duration(200).attr('r', currentRadius * 1.5);
+        circle.style('cursor', 'pointer')
+
+        let tooltipData;
+
+        if (node.level === 'err') {
+          tooltipData = [
+            // { label: 'ID', value: node.id },
+            { label: 'Time', value: node.time },
+            { label: 'Type', value: node.name },
+            { label: 'Service', value: node.srv }
+          ];
+
+        } else {
 
 
-        const tooltipData = [
-          { label: 'ID', value: node.id },
-          { label: 'Type', value: node.name },
-          { label: 'Time', value: node.time },
-          { label: 'Service', value: node.srv }
-        ];
-        
+          tooltipData = [
+            // { label: 'Service', value: node.name }
+          ]
+        }
+
         tooltip.style('display', 'block');
+
         const text = tooltip.select('text')
           .html('')
           .selectAll('tspan')
@@ -142,13 +176,17 @@ export default function HeatMap() {
           .enter()
           .append('tspan')
           .attr('x', 0)
-          .attr('dy', (d, i) => i ? '1.2em' : 0)
+          .attr('dy', (d, i) => i ? '1.4em' : 0)
           .text(d => `${d.label}: ${d.value}`);
 
         // fix the tooltip to the mouse pointer
         const [x, y] = d3.pointer(event);
         tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
+
       })
+
+
+
       .on('mouseout', function (event, node) {
         const circle = d3.select(this);
         const originalRadius = parseFloat(circle.attr('r'));
@@ -166,21 +204,23 @@ export default function HeatMap() {
       .attr('dx', node => node.level === 'srv' ? -7 : -5)
       .attr('dy', node => node.level === 'srv' ? 7 : 7)
       .attr('fill', 'white')
-      .style('font-family', "'Inter', sans-serif") 
+      .style('font-family', "'Inter', sans-serif")
       .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
       .style('pointer-events', 'none');
 
     // create the tooltip to be used on hover
     const tooltip = svg.append('g')
       .attr('class', 'tooltip')
-      .style('display', 'none');
+      .style('display', 'none')
+
     // create a rectangle element for the tooltip
     tooltip.append("rect")
-      .attr("width", 150)
+      .attr("width", 250)
       .attr("height", 80)
       .attr("fill", "white")
-      .style("stroke", "black")
-      .style("stroke-width", 1);
+
+    // .style("stroke", "black")
+    // .style("stroke-width", 1);
 
     const tooltipText = tooltip.append('text')
       .attr('x', 10)
@@ -215,12 +255,15 @@ export default function HeatMap() {
       simulation.stop();
     };
 
-  }, [services, serviceLinks])
+  }, [services, serviceLinks, start, end])
 
   return (
     <>
+
       <div className='background heatmap-container'>
+
         <svg ref={svgRef}></svg>
+        <DateSelector />
         <HeatmapDescription error={selectedError[0]} />
       </div>
 

@@ -12,40 +12,42 @@ import { getAllErrors, getServices, getConnections } from './Redux/errorSlice';
 
 export default function App() {
 
-    const dispatch = useDispatch();
+  // console.log('formated date: ', formatDateForInput(12341234))
 
-    function initialScan() {
-      let hasRun = false;
-      return () => {
-        console.log('initalScan triggered')
-        if(hasRun === false) {
-          dispatch(getAllErrors())
-          dispatch(getServices())
-          dispatch(getConnections())
-          hasRun = true;
-        }
+  const dispatch = useDispatch();
+
+  function initialScan() {
+    let hasRun = false;
+    return () => {
+      console.log('initalScan triggered')
+      if (hasRun === false) {
+        dispatch(getAllErrors())
+        dispatch(getServices())
+        dispatch(getConnections())
+        hasRun = true;
       }
     }
+  }
 
-    useEffect(() => {
-      const scan1 = initialScan()
-      scan1();
-    }, [])
+  useEffect(() => {
+    const scan1 = initialScan()
+    scan1();
+  }, [])
 
-    return (
-        <>
+  return (
+    <>
 
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/heatmap" element={<HeatMap />} />
-                    <Route path="/timeline" element={<Timeline />} />
-                    <Route path="/history" element={<History />} />
-                </Routes>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/heatmap" element={<HeatMap />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/history" element={<History />} />
+        </Routes>
 
-            </Router>
-        </>
-    )
+      </Router>
+    </>
+  )
 
 
 }
