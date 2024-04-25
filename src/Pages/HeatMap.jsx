@@ -20,17 +20,10 @@ export default function HeatMap() {
   const selectedError = errorsUnfiltered.filter((error) => error.err_id === selected)
   const { start, end } = useSelector(state => state.heat)
 
-
-
   const msStart = new Date(start).getTime()
   const msEnd = new Date(end).getTime()
 
   const errors = errorsUnfiltered.filter(error => Number(error.err_time) >= msStart && Number(error.err_time) <= msEnd)
-
-  // const errorsFiltered = errors.filter(error => error.err_time >= msStart && error.err_time <= msEnd)
-
-
-
 
   function handleSelect(id) {
     dispatch(setSelected(id))
@@ -57,7 +50,7 @@ export default function HeatMap() {
       }
       nodes.push({
         id: `srv_${service.serviceName.srv_id}`,
-        name: service.serviceName.srv_name.replace(/^[^-]+-|(-[^-]+)$/g, '').charAt(0),
+        name: service.serviceName.srv_name.replace(/^[^-]+-/, '').charAt(0),
         time: 'srv',
         srv_num: service.serviceName.srv_id,
         level: "srv",
@@ -70,16 +63,12 @@ export default function HeatMap() {
     // Iterate over Errors to create a node
     errors.forEach((error) => {
       srv_name[error.err_srv_id].errNum = srv_name[error.err_srv_id].errNum + 1
-
       nodes.push({
         id: `err_${error.err_id}`,
         name: error.err_type,
         time: msToString(Number(error.err_time)).date + " " + msToString(Number(error.err_time)).time,
         srv: srv_name[error.err_srv_id].name,
         level: 'err',
-        toolTip: {
-
-        }
       })
     })
     // Map over the connections to create the links.
@@ -87,7 +76,7 @@ export default function HeatMap() {
       links.push({
         target: `srv_${connections.con_srv2}`,
         source: `srv_${connections.con_srv1}`,
-        // a positive strength value pulls nodes together. A negative strength value pushes them apart. 0 negates strength
+        // increase strength to pull service nodes closer to each other
         strength: 0.3,
         level: 'srv'
       })
@@ -97,6 +86,7 @@ export default function HeatMap() {
       links.push({
         target: `srv_${error.err_srv_id}`,
         source: `err_${error.err_id}`,
+        // increase strength to pull error nodes closer to service node
         strength: 0.9,
         level: 'err'
       })
@@ -164,34 +154,30 @@ export default function HeatMap() {
 
         if (node.level === 'err') {
           tooltipData = [
-            // { label: 'ID', value: node.id },
             { label: 'Time', value: node.time },
             { label: 'Type', value: node.name },
             { label: 'Service', value: node.srv }
           ];
-
         } else {
           tooltipData = [
-            {label: 'service', value: node.toolTip.name},
-            {label: ' # of errors', value: srv_name[node.toolTip.srvNum].errNum}
+            {label: 'Service', value: node.toolTip.name},
+            {label: 'Errors', value: srv_name[node.toolTip.srvNum].errNum}
           ]
         }
-
-        tooltip.style('display', 'block');
-
-        const text = tooltip.select('text')
+        
+        tooltip.style('display', 'block')
+          .select('text')
           .html('')
           .selectAll('tspan')
           .data(tooltipData)
           .enter()
           .append('tspan')
-          .attr('x', 0)
+          .attr('x', 5)
           .attr('dy', (d, i) => i ? '1.4em' : 0)
           .text(d => `${d.label}: ${d.value}`);
-
-        // fix the tooltip to the mouse pointer
-        const [x, y] = d3.pointer(event);
-        tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
+          // fix the tooltip one px off of the pointer
+          const [x, y] = d3.pointer(event);
+          tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
 
       })
       .on('mouseout', function (event, node) {
