@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const port = 42070
 const errorDataRouter = require('./routes/errorDataRoute')
+const setupRouter = require('./routes/setupRouter')
 
 app.use(express.json());
 
@@ -16,6 +17,8 @@ app.get('/server', (req, res) => {
 })
 
 app.use('/errorData', errorDataRouter)
+
+app.use('/setup', setupRouter)
 
 
 app.use((err, req, res, next) => {
