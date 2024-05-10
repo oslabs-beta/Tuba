@@ -171,6 +171,18 @@ body {
 
 }
 
+.loadingComponent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    font-size: 17p;
+    padding: 300px;
+    /* width: 500px; */
+}
+
+
 .favoriteSplit {
     display: grid;
     width: auto;

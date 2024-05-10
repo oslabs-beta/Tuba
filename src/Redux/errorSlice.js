@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from 'axios'
 
 // services: array of objects, each object is a service in the app architecture. Also contains all associated errors.
 // allErrors: array of objects, each object is an error. Queue data structure
@@ -6,7 +7,9 @@ const initialState = {
   services: [],
   allErrors: [],
   connections: [],
+  frontend: false,
   status: 'idle',
+  loading: true,
   error: null,
 }
 
@@ -23,6 +26,17 @@ export const getConnections = createAsyncThunk('/errorData/allConnections', asyn
     })
 
   return connectionInfo
+
+
+})
+
+export const checkDbStatus = createAsyncThunk('setup/check', async (status, { rejectWithValue }) => {
+
+  const response = await axios.get('/setup/check');
+  const data = response.data;
+  console.log(' this is the response from server: ', data)
+
+  return data
 
 
 })
@@ -77,6 +91,9 @@ export const errorSlice = createSlice({
   name: 'errorSlice',
   initialState: initialState,
   reducers: {
+    enableFrontend: (state) => {
+      state.frontend = true;
+    },
     setVisibility: (state, action) => {
       state.allErrors = state.allErrors.map(error => {
         if (error.err_id === action.payload) {
@@ -96,6 +113,10 @@ export const errorSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(checkDbStatus.fulfilled, (state, action) => {
+        console.log('does database exist??', action.payload)
+        state.loading = action.payload ? false : true;
+      })
       .addCase(getAllErrors.fulfilled, (state, action) => {
         console.log('getAllErrors Extra Reducer >>>', action.payload);
         const errorData = action.payload.errors;
@@ -158,7 +179,8 @@ export const errorSlice = createSlice({
         state.error = `Error occured in errorSlice getServices thunk: ${action.payload}`;
       })
       .addCase(getConnections.fulfilled, (state, action) => {
-        state.connections = action.payload
+        state.connections = action.payload;
+        // state.frontend = true;
       })
       .addCase(getConnections.rejected, (state, action) => {
         state.status = 'failed';
@@ -167,7 +189,7 @@ export const errorSlice = createSlice({
   },
 });
 
-export const { toggleFavorite, setVisibility } = errorSlice.actions
+export const { enableFrontend, toggleFavorite, setVisibility } = errorSlice.actions
 
 
 export default errorSlice.reducer;

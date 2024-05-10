@@ -7,41 +7,44 @@ import Timeline from './Pages/Timeline';
 import History from './Pages/History';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getAllErrors, getServices, getConnections } from './Redux/errorSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkDbStatus, getAllErrors, getServices, getConnections, enableFrontend } from './Redux/errorSlice';
 
 
 export default function App() {
 
 
+  const { loading, frontend } = useSelector(state => state.errorSlice)
+  const errors = useSelector(state => state.errorSlice.allErrors)
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loading === false && frontend === false)
+      dispatch(enableFrontend())
+  }, [errors])
 
   async function initialScan() {
 
     let hasRun = false
-    console.log('in initialScan')
+    dispatch(checkDbStatus())
 
-    const response = await axios.get('/setup/check');
-
-
-
-    if (!response.data) return () => {
-      console.log('Unsuccessful Database Connection')
-    };
-
-
-    console.log('end')
     return () => {
-      console.log('initalScan triggered')
-      console.log('hasRun ===', hasRun, 'check: ', response.data)
-      if (hasRun === false && response.data === true) {
-        console.log('passing dispatch test!')
+      // console.log('initalScan triggered')
+      // console.log('hasRun ===', hasRun, 'check: ', response.data)
+      if (hasRun === false && loading === false) {
+        // console.log('passing dispatch test!')
+        // dispatch(checkDbStatus())
+        console.log('about to dispatch website')
         dispatch(getAllErrors())
         dispatch(getServices())
         dispatch(getConnections())
+        // dispatch(enableFrontend())
+
+        console.log('website dispatched')
         hasRun = true;
       } else {
+
         console.log(' failed')
       }
     }
@@ -62,7 +65,7 @@ export default function App() {
 
 
     console.log('scan complete')
-  }, [])
+  }, [loading])
 
   return (
     <>

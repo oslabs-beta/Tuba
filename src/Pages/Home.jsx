@@ -5,6 +5,7 @@ import Dashboard from './Dashboard'
 import HeatMap from './HeatMap'
 import History from './History'
 import Timeline from './Timeline'
+import Loading from './Loading'
 
 import tubaLogo from '../Images/TubaLogo.png'
 
@@ -19,6 +20,7 @@ export default function Home() {
     const dispatch = useDispatch();
 
     const { tab, left, right } = useSelector(state => state.nav);
+    const frontend = useSelector(state => state.errorSlice.frontend);
 
 
     const displayCurrentTab = () => {
@@ -59,7 +61,7 @@ export default function Home() {
     console.log('errorserrors: ', errors)
 
     return (
-        <>
+        frontend ? <>
             <Nav />
 
             <div className='background' >
@@ -67,7 +69,7 @@ export default function Home() {
                 {displayCurrentTab()}
                 {/* <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div> */}
             </div>
-        </>
+        </> : <Loading />
     )
 
 

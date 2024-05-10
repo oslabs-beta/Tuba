@@ -66,7 +66,7 @@ export default function Nav() {
             </div>
             <div className='centerGrid'>
                 <ul>
-                    {tabs}
+                    {errorData.length > 0 ? tabs : <span>No Errors In Database</span>}
                 </ul>
             </div>
             <div>
