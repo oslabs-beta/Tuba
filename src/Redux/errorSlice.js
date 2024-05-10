@@ -103,7 +103,7 @@ export const errorSlice = createSlice({
           return { ...error, visible: false, favorite: false }
         });
 
-        allErrors[allErrors.length - 1].favorite = true;
+        if (allErrors.length) allErrors[allErrors.length - 1].favorite = true;
 
         state.allErrors = allErrors
 

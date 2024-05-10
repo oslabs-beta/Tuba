@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-const { setup } = require('../controllers/errorDataController');
+const { setup, check } = require('../controllers/errorDataController');
 
 
-router.use('/', setup, (req, res) => {
-    res.status(200).json({})
+
+
+router.get('/check', check, (req, res) => {
+    res.send(res.locals.exists)
+})
+
+router.get('/', setup, (req, res) => {
+    res.status(res.locals.code).json(res.locals.setup)
+    // res.status(res.locals.code).json('xxx')
 })
 
 module.exports = router;

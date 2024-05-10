@@ -122,13 +122,14 @@ errorDataController.setup = async function (req, res, next) {
 
         if (!tubaDB) {
             res.locals.setup = 'No PSQL database found in .env';
+            res.locals.code = 400;
             return next()
         }
 
         const queryCheck = `SELECT CASE WHEN EXISTS (
             SELECT 1
             FROM information_schema.tables
-            WHERE table_name = 'users'
+            WHERE table_name = 'error_data'
         ) THEN 'true' ELSE 'false' END AS table_exists;`
 
         const queryCreate = `CREATE TABLE users (
@@ -173,16 +174,19 @@ errorDataController.setup = async function (req, res, next) {
             );`
 
         const initialQuery = await tubaDB.query(queryCheck);
-        const tableExists = initialQuery.rows[0].table_exists;
 
-        if (tableExists) {
+        const tableExists = initialQuery.rows[0].table_exists;
+        console.log('table exists: ', tableExists)
+        if (tableExists === 'true') {
+            res.locals.code = 400;
             res.locals.setup = 'Tuba database already instantiated'
             return next()
         }
 
         else {
             await tubaDB.query(queryCreate);
-            res.locals.setup = 'Tuba database instantiated. You can now use Tuba'
+            res.locals.code = 200;
+            res.locals.setup = 'Tuba database instantiated.'
             return next()
         }
 
@@ -193,6 +197,44 @@ errorDataController.setup = async function (req, res, next) {
 
     } catch (error) {
 
+    }
+}
+
+errorDataController.check = async (req, res, next) => {
+    try {
+
+        if (!tubaDB) {
+
+            res.locals.exists = false;
+            return next()
+        }
+
+        const queryCheck = `SELECT CASE WHEN EXISTS (
+            SELECT 1
+            FROM information_schema.tables
+            WHERE table_name = 'error_data'
+        ) THEN 'true' ELSE 'false' END AS table_exists;`
+
+
+        const initialQuery = await tubaDB.query(queryCheck);
+
+        const tubaExists = initialQuery.rows[0].table_exists;
+
+        if (tubaExists === 'true') {
+            res.locals.exists = true;
+        } else {
+            res.locals.exists = false;
+        }
+
+        return next()
+
+
+
+
+
+    } catch (error) {
+        res.send(false);
+        return next(error)
     }
 }
 

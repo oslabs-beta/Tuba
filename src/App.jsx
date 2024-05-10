@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import axios from 'axios'
 
 import Home from './Pages/Home';
 import HeatMap from './Pages/HeatMap';
@@ -12,26 +13,55 @@ import { getAllErrors, getServices, getConnections } from './Redux/errorSlice';
 
 export default function App() {
 
-  // console.log('formated date: ', formatDateForInput(12341234))
+
 
   const dispatch = useDispatch();
 
-  function initialScan() {
-    let hasRun = false;
+  async function initialScan() {
+
+    let hasRun = false
+    console.log('in initialScan')
+
+    const response = await axios.get('/setup/check');
+
+
+
+    if (!response.data) return () => {
+      console.log('Unsuccessful Database Connection')
+    };
+
+
+    console.log('end')
     return () => {
       console.log('initalScan triggered')
-      if (hasRun === false) {
+      console.log('hasRun ===', hasRun, 'check: ', response.data)
+      if (hasRun === false && response.data === true) {
+        console.log('passing dispatch test!')
         dispatch(getAllErrors())
         dispatch(getServices())
         dispatch(getConnections())
         hasRun = true;
+      } else {
+        console.log(' failed')
       }
     }
+
+
+
+
+
   }
 
   useEffect(() => {
-    const scan1 = initialScan()
-    scan1();
+    console.log('before invoking constructor')
+
+    initialScan().then(inner => inner())
+
+    // const scan1 = initialScan()
+    // scan1()
+
+
+    console.log('scan complete')
   }, [])
 
   return (
