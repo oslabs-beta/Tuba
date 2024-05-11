@@ -494,6 +494,7 @@ label {
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 10px;
+
 }
 
 .filterContainer {
@@ -516,15 +517,25 @@ label {
     font-weight: 600;
     width: 100%;
     display: grid;
+    cursor: default;
     grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
+}
+
+.historyHeader>p {
+    cursor: pointer;
 }
 
 .historyBody {
     font-weight: 600;
     display: grid;
+    cursor: default;
+    /* cursor: pointer; */
+
     grid-template-columns: [left] 15% [center] 85% [right];
 
 }
+
+
 
 .historyBody>p>span {
     font-weight: 300;
@@ -723,4 +734,8 @@ label {
 .filterRow>input:hover {
     cursor: pointer;
 
+}
+
+svg:hover {
+    cursor: grab;
 }

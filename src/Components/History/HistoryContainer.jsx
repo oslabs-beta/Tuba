@@ -19,9 +19,9 @@ export default function HistoryContainer({ info }) {
 
 
     return (
-        <div className='historyContainer' onClick={() => handleClick(Number(info.err_id))}>
-            <HistoryHeader info={info} />
-            {info.visible && <HistoryBody info={info} />}
+        <div className='historyContainer' >
+            <HistoryHeader info={info} handleButton={() => handleClick(Number(info.err_id))} />
+            {info.visible && <HistoryBody info={info} handleButton={() => handleClick(Number(info.err_id))} />}
         </div>
 
     )

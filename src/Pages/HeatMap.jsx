@@ -133,8 +133,8 @@ export default function HeatMap() {
       .attr('r', node => node.level === 'srv' ? 30 : 10)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
       // .style('fill', node => node.level === 'err' && '#5bb3b3')
-      .style('fill', node => node.level === 'err' && '#FF4646')
-
+      .style('fill', node => node.level === 'err' && '#1ea669')
+      .style('stroke', node => node.level === 'err' && '1px solid pink')
 
 
 
@@ -149,6 +149,7 @@ export default function HeatMap() {
         }
       })
       .on('mouseover', function (event, node) {
+
         console.log('node: ', node)
         // expand the node
         const circle = d3.select(this);
@@ -156,6 +157,8 @@ export default function HeatMap() {
         circle.transition().duration(200).attr('r', node => node.level === 'err' ? currentRadius * 1.4 : currentRadius * 1.1);
         circle.style('cursor', 'pointer')
         circle.style('fill', node => node.level === 'err' && 'crimson')
+        circle.style('filter', 'drop-shadow(10px 10px 10px rgb(0, 0, 0, 40%))')
+
 
         let tooltipData;
 
@@ -191,7 +194,8 @@ export default function HeatMap() {
         const circle = d3.select(this);
         const originalRadius = parseFloat(circle.attr('r'));
         circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
-        circle.style('fill', node => node.level === 'err' && '#FF4646')
+        circle.style('fill', node => node.level === 'err' && '#1ea669')
+        circle.style('filter', 'none')
 
         tooltip.style('display', 'none')
       });
@@ -206,11 +210,11 @@ export default function HeatMap() {
       // .attr('dy', node => node.level === 'srv' ? 7 : 6.4)
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
-      .attr('dy', node => node.level === 'srv' ? 2 : 1.7)
+      .attr('dy', node => node.level === 'srv' ? 1.5 : 1.7)
 
       .attr('fill', 'white')
       .style('font-family', "'Inter', sans-serif")
-      .style('font-weight', node => node.level === 'srv' ? 800 : 700)
+      .style('font-weight', node => node.level === 'srv' ? 800 : 600)
       .style('pointer-events', 'none');
 
 
@@ -225,6 +229,10 @@ export default function HeatMap() {
       .attr("height", 80)
       .attr("fill", "white")
       .style('filter', 'drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))')
+      .style('display', 'flex')
+      .style('justify-content', 'center')
+      .style('align-items', 'center')
+
 
 
 

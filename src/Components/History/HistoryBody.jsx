@@ -6,11 +6,11 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 
-export default function HistoryBody({ info }) {
+export default function HistoryBody({ info, handleButton }) {
 
 
     return (
-        <div className='historyBody'>
+        <div className='historyBody' >
             <p>Message: </p><p><span>{decodeURIComponent(info.err_message)}</span></p>
             <p>File: </p><p><span>{info.err_file}</span></p>
             <p>Path:</p><p><span>{info.err_file_path}</span></p>
