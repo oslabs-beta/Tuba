@@ -132,9 +132,7 @@ export default function HeatMap() {
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
-      // .style('fill', node => node.level === 'err' && '#5bb3b3')
       .style('fill', node => node.level === 'err' && '#1ea669')
-      .style('stroke', node => node.level === 'err' && '1px solid pink')
 
 
 
@@ -156,7 +154,7 @@ export default function HeatMap() {
         const currentRadius = Number(circle.attr('r'));
         circle.transition().duration(200).attr('r', node => node.level === 'err' ? currentRadius * 1.4 : currentRadius * 1.1);
         circle.style('cursor', 'pointer')
-        circle.style('fill', node => node.level === 'err' && 'crimson')
+        circle.style('fill', node => node.level === 'err' && '#167b4e')
         circle.style('filter', 'drop-shadow(10px 10px 10px rgb(0, 0, 0, 40%))')
 
 
@@ -205,7 +203,7 @@ export default function HeatMap() {
       .data(nodes)
       .enter().append('text')
       .text(node => node.level === 'srv' ? node.name : node.name.charAt(0))
-      .attr('font-size', node => node.level === 'srv' ? 25 : 17)
+      .attr('font-size', node => node.level === 'srv' ? 25 : 16)
       // .attr('dx', node => node.level === 'srv' ? -7 : -5.7)
       // .attr('dy', node => node.level === 'srv' ? 7 : 6.4)
       .attr('text-anchor', 'middle')

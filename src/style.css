@@ -521,6 +521,23 @@ label {
     grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
 }
 
+.historyColumns {
+    width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 20px;
+    /* background-color: orange; */
+    font-weight: 600;
+    display: grid;
+    cursor: default;
+    grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
+}
+
+.historyColumns>p {
+    margin: 0px;
+}
+
+
 .historyHeader>p {
     cursor: pointer;
 }
