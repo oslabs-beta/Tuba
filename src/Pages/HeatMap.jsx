@@ -132,6 +132,12 @@ export default function HeatMap() {
       .enter().append('circle')
       .attr('r', node => node.level === 'srv' ? 30 : 10)
       .style('fill', node => color(node.level === 'srv' ? node.id : node.level))
+      // .style('fill', node => node.level === 'err' && '#5bb3b3')
+      .style('fill', node => node.level === 'err' && '#FF4646')
+
+
+
+
       .on('click', (event, node) => {
         console.log('clicked on node ', node.id)
 
@@ -147,8 +153,9 @@ export default function HeatMap() {
         // expand the node
         const circle = d3.select(this);
         const currentRadius = Number(circle.attr('r'));
-        circle.transition().duration(200).attr('r', currentRadius * 1.5);
+        circle.transition().duration(200).attr('r', node => node.level === 'err' ? currentRadius * 1.4 : currentRadius * 1.1);
         circle.style('cursor', 'pointer')
+        circle.style('fill', node => node.level === 'err' && 'crimson')
 
         let tooltipData;
 
@@ -160,12 +167,12 @@ export default function HeatMap() {
           ];
         } else {
           tooltipData = [
-            {label: 'Service', value: node.toolTip.name},
-            {label: 'Errors', value: srv_name[node.toolTip.srvNum].errNum}
+            { label: 'Service', value: node.toolTip.name },
+            { label: 'Errors', value: srv_name[node.toolTip.srvNum].errNum }
           ]
         }
-        
-        tooltip.style('display', 'block')
+
+        tooltip.style('display', 'flex')
           .select('text')
           .html('')
           .selectAll('tspan')
@@ -175,15 +182,16 @@ export default function HeatMap() {
           .attr('x', 5)
           .attr('dy', (d, i) => i ? '1.4em' : 0)
           .text(d => `${d.label}: ${d.value}`);
-          // fix the tooltip one px off of the pointer
-          const [x, y] = d3.pointer(event);
-          tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
+        // fix the tooltip one px off of the pointer
+        const [x, y] = d3.pointer(event);
+        tooltip.attr("transform", `translate(${x + 1},${y + 1})`);
 
       })
       .on('mouseout', function (event, node) {
         const circle = d3.select(this);
         const originalRadius = parseFloat(circle.attr('r'));
         circle.transition().duration(200).attr('r', node => node.level === 'srv' ? 30 : 10)
+        circle.style('fill', node => node.level === 'err' && '#FF4646')
 
         tooltip.style('display', 'none')
       });
@@ -194,12 +202,17 @@ export default function HeatMap() {
       .enter().append('text')
       .text(node => node.level === 'srv' ? node.name : node.name.charAt(0))
       .attr('font-size', node => node.level === 'srv' ? 25 : 17)
-      .attr('dx', node => node.level === 'srv' ? -7 : -5)
-      .attr('dy', node => node.level === 'srv' ? 7 : 7)
+      // .attr('dx', node => node.level === 'srv' ? -7 : -5.7)
+      // .attr('dy', node => node.level === 'srv' ? 7 : 6.4)
+      .attr('text-anchor', 'middle')
+      .attr('alignment-baseline', 'middle')
+      .attr('dy', node => node.level === 'srv' ? 2 : 1.7)
+
       .attr('fill', 'white')
       .style('font-family', "'Inter', sans-serif")
-      .style('font-weight', node => node.level === 'srv' ? 'bold' : 'bold')
+      .style('font-weight', node => node.level === 'srv' ? 800 : 700)
       .style('pointer-events', 'none');
+
 
     // create the tooltip to be used on hover
     const tooltip = svg.append('g')
@@ -211,12 +224,15 @@ export default function HeatMap() {
       .attr("width", 250)
       .attr("height", 80)
       .attr("fill", "white")
+      .style('filter', 'drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))')
+
+
 
     //styles the text in the pre-defined rectangle element
     tooltip.append("text")
       .attr("x", 10)
       .attr("y", 20)
-      .style("font-size", "12px")
+      .style("font-size", "14px")
       .style("fill", "black")
       .text('');
 

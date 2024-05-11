@@ -15,7 +15,7 @@ body {
     /* background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%); */
     background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, #1e2d67 60%);
     min-height: 100vh;
-    /* user-select: none; */
+    user-select: none;
 }
 
 
@@ -288,6 +288,7 @@ body {
     align-items: center;
     font-weight: 700;
     font-size: 20px;
+
     filter: drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))
 }
 
@@ -423,8 +424,8 @@ label {
     color: black;
     border-radius: 20px;
     margin-top: 40px;
-
-    /* overflow-x: auto;
+    user-select: text
+        /* overflow-x: auto;
     padding: 20px; */
 }
 
@@ -447,6 +448,7 @@ label {
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    user-select: text
 }
 
 .historyList>h2 {
@@ -541,8 +543,7 @@ label {
     overflow-x: scroll;
     /* border-left: 2px solid black; */
     border-radius: 15px;
-
-
+    user-select: text
 }
 
 #fullContainer {
@@ -576,11 +577,6 @@ label {
     /* height: 1800px; */
 }
 
-.dashboardVertical:hover {
-    cursor: pointer;
-
-
-}
 
 .dashboardHeader {
     width: 65px;
@@ -592,6 +588,7 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    user-select: text;
     /* border: 1.5px solid grey; */
 
 
@@ -655,6 +652,7 @@ label {
     color: black;
     width: 100%;
     height: 120px;
+
 }
 
 .headerBigBlock {
@@ -665,6 +663,7 @@ label {
     font-weight: 600;
     width: 100%;
     height: 120px;
+
 
     /* border-bottom: 1px solid black; */
 }
