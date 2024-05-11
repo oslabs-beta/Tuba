@@ -85,6 +85,10 @@ body {
     width: 100%;
     height: 80px;
     background: rgb(91, 143, 185);
+    overflow-x: hidden;
+    white-space: nowrap;
+
+
 
     /* border-bottom: 1px solid #585563; */
 
@@ -588,8 +592,10 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    /* border: 1.5px solid grey; */
 
-    background-color: white;
+
+    /* background-color: white; */
     /* background-color: lightsteelblue; */
 
     border-radius: 15px;
@@ -631,10 +637,14 @@ label {
 .headerBlock {
     display: flex;
     flex-direction: row;
-    color: black;
+    justify-content: flex-end;
+    color: #e6e6e6;
     font-weight: 500;
     width: 100%;
     height: 50px;
+    /* letter-spacing: 1px; */
+    /* border-bottom: 1px solid white; */
+
 
     /* border-bottom: 1px solid black; */
 }
@@ -650,7 +660,8 @@ label {
 .headerBigBlock {
     display: flex;
     flex-direction: row;
-    color: black;
+    justify-content: flex-end;
+    color: #e6e6e6;
     font-weight: 600;
     width: 100%;
     height: 120px;

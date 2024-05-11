@@ -8,8 +8,10 @@ const initialState = {
   allErrors: [],
   connections: [],
   frontend: false,
+  scanned: false,
   status: 'idle',
-  loading: true,
+  description: 'Fetching Errors from Database',
+  checking: true,
   error: null,
 }
 
@@ -115,7 +117,7 @@ export const errorSlice = createSlice({
     builder
       .addCase(checkDbStatus.fulfilled, (state, action) => {
         console.log('does database exist??', action.payload)
-        state.loading = action.payload ? false : true;
+        state.checking = action.payload ? false : true;
       })
       .addCase(getAllErrors.fulfilled, (state, action) => {
         console.log('getAllErrors Extra Reducer >>>', action.payload);
@@ -139,6 +141,8 @@ export const errorSlice = createSlice({
           })
         }
         state.status = 'success';
+        state.description = 'Retrieved All Errors from Database'
+
       })
       .addCase(getAllErrors.rejected, (state, action) => {
         state.status = 'failed';
@@ -173,6 +177,8 @@ export const errorSlice = createSlice({
           }
           state.services.push(servObj)
         })
+        state.description = 'Discovered All Microservices '
+
       })
       .addCase(getServices.rejected, (state, action) => {
         state.status = 'failed';
@@ -180,7 +186,7 @@ export const errorSlice = createSlice({
       })
       .addCase(getConnections.fulfilled, (state, action) => {
         state.connections = action.payload;
-        // state.frontend = true;
+        state.description = 'Generated All Service Connections '
       })
       .addCase(getConnections.rejected, (state, action) => {
         state.status = 'failed';

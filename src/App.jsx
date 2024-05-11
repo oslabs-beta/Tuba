@@ -13,59 +13,30 @@ import { checkDbStatus, getAllErrors, getServices, getConnections, enableFronten
 
 export default function App() {
 
-
-  const { loading, frontend } = useSelector(state => state.errorSlice)
-  const errors = useSelector(state => state.errorSlice.allErrors)
+  const { checking, frontend, scanned, allErrors } = useSelector(state => state.errorSlice)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (loading === false && frontend === false)
+
+    //adjust for scanned?
+    if (checking === false && frontend === false) {
       dispatch(enableFrontend())
-  }, [errors])
-
-  async function initialScan() {
-
-    let hasRun = false
-    dispatch(checkDbStatus())
-
-    return () => {
-      // console.log('initalScan triggered')
-      // console.log('hasRun ===', hasRun, 'check: ', response.data)
-      if (hasRun === false && loading === false) {
-        // console.log('passing dispatch test!')
-        // dispatch(checkDbStatus())
-        console.log('about to dispatch website')
-        dispatch(getAllErrors())
-        dispatch(getServices())
-        dispatch(getConnections())
-        // dispatch(enableFrontend())
-
-        console.log('website dispatched')
-        hasRun = true;
-      } else {
-
-        console.log(' failed')
-      }
     }
+  }, [allErrors])
 
-
-
-
-
-  }
 
   useEffect(() => {
-    console.log('before invoking constructor')
 
-    initialScan().then(inner => inner())
+    if (checking) {
+      dispatch(checkDbStatus())
+    } else if (!scanned) {
+      dispatch(getAllErrors())
+      dispatch(getServices())
+      dispatch(getConnections())
+    }
 
-    // const scan1 = initialScan()
-    // scan1()
-
-
-    console.log('scan complete')
-  }, [loading])
+  }, [checking])
 
   return (
     <>
