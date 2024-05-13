@@ -66,15 +66,15 @@ export default function Nav() {
             </div>
             <div className='centerGrid'>
                 <ul>
-                    {tabs}
+                    {errorData.length > 0 ? tabs : <span>No Errors In Database</span>}
                 </ul>
             </div>
             <div>
                 <ul>
-                    <li className='rightGrid'>
+                    {errorData.length > 0 && <li className='rightGrid'>
                         {/* <a className="scan" onClick={toggleScan}>Scan</a> */}
                         <img onClick={handleDownload} className='downloadButton' src={download} /></li>
-                </ul>
+                    } </ul>
             </div>
         </div>
     )

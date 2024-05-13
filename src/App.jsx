@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import axios from 'axios'
 
 import Home from './Pages/Home';
 import HeatMap from './Pages/HeatMap';
@@ -6,33 +7,36 @@ import Timeline from './Pages/Timeline';
 import History from './Pages/History';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getAllErrors, getServices, getConnections } from './Redux/errorSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkDbStatus, getAllErrors, getServices, getConnections, enableFrontend } from './Redux/errorSlice';
 
 
 export default function App() {
 
-  // console.log('formated date: ', formatDateForInput(12341234))
+  const { checking, frontend, scanned, allErrors } = useSelector(state => state.errorSlice)
 
   const dispatch = useDispatch();
 
-  function initialScan() {
-    let hasRun = false;
-    return () => {
-      console.log('initalScan triggered')
-      if (hasRun === false) {
-        dispatch(getAllErrors())
-        dispatch(getServices())
-        dispatch(getConnections())
-        hasRun = true;
-      }
+  useEffect(() => {
+
+    //adjust for scanned?
+    if (checking === false && frontend === false) {
+      dispatch(enableFrontend())
     }
-  }
+  }, [allErrors])
+
 
   useEffect(() => {
-    const scan1 = initialScan()
-    scan1();
-  }, [])
+
+    if (checking) {
+      dispatch(checkDbStatus())
+    } else if (!scanned) {
+      dispatch(getAllErrors())
+      dispatch(getServices())
+      dispatch(getConnections())
+    }
+
+  }, [checking])
 
   return (
     <>

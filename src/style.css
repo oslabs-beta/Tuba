@@ -15,7 +15,7 @@ body {
     /* background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%); */
     background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, #1e2d67 60%);
     min-height: 100vh;
-    /* user-select: none; */
+    user-select: none;
 }
 
 
@@ -85,6 +85,11 @@ body {
     width: 100%;
     height: 80px;
     background: rgb(91, 143, 185);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+
 
     /* border-bottom: 1px solid #585563; */
 
@@ -103,6 +108,7 @@ body {
 
 
 
+
 }
 
 .rightGrid {
@@ -113,6 +119,8 @@ body {
     align-items: center;
     padding-right: 40px;
     gap: 30px;
+    height: 80px;
+
 }
 
 .rightGrid>ul {
@@ -170,6 +178,18 @@ body {
 
 
 }
+
+.loadingComponent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    font-size: 17p;
+    padding: 300px;
+    /* width: 500px; */
+}
+
 
 .favoriteSplit {
     display: grid;
@@ -272,6 +292,7 @@ body {
     align-items: center;
     font-weight: 700;
     font-size: 20px;
+
     filter: drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))
 }
 
@@ -407,8 +428,8 @@ label {
     color: black;
     border-radius: 20px;
     margin-top: 40px;
-
-    /* overflow-x: auto;
+    user-select: text
+        /* overflow-x: auto;
     padding: 20px; */
 }
 
@@ -431,6 +452,7 @@ label {
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    user-select: text
 }
 
 .historyList>h2 {
@@ -476,6 +498,7 @@ label {
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 10px;
+
 }
 
 .filterContainer {
@@ -498,15 +521,42 @@ label {
     font-weight: 600;
     width: 100%;
     display: grid;
+    cursor: default;
     grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
+}
+
+.historyColumns {
+    width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 20px;
+    /* background-color: orange; */
+    font-weight: 600;
+    display: grid;
+    cursor: default;
+    grid-template-columns: [left] 24.75% [left-center] 24.75% [center] 24.75% [right-center] 24.75% [right] 1% [final]
+}
+
+.historyColumns>p {
+    margin: 0px;
+}
+
+
+.historyHeader>p {
+    cursor: pointer;
 }
 
 .historyBody {
     font-weight: 600;
     display: grid;
+    cursor: default;
+    /* cursor: pointer; */
+
     grid-template-columns: [left] 15% [center] 85% [right];
 
 }
+
+
 
 .historyBody>p>span {
     font-weight: 300;
@@ -525,8 +575,7 @@ label {
     overflow-x: scroll;
     /* border-left: 2px solid black; */
     border-radius: 15px;
-
-
+    user-select: text
 }
 
 #fullContainer {
@@ -560,11 +609,6 @@ label {
     /* height: 1800px; */
 }
 
-.dashboardVertical:hover {
-    cursor: pointer;
-
-
-}
 
 .dashboardHeader {
     width: 65px;
@@ -576,8 +620,11 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    user-select: text;
+    /* border: 1.5px solid grey; */
 
-    background-color: white;
+
+    /* background-color: white; */
     /* background-color: lightsteelblue; */
 
     border-radius: 15px;
@@ -619,10 +666,14 @@ label {
 .headerBlock {
     display: flex;
     flex-direction: row;
-    color: black;
+    justify-content: flex-end;
+    color: #e6e6e6;
     font-weight: 500;
     width: 100%;
     height: 50px;
+    /* letter-spacing: 1px; */
+    /* border-bottom: 1px solid white; */
+
 
     /* border-bottom: 1px solid black; */
 }
@@ -633,15 +684,18 @@ label {
     color: black;
     width: 100%;
     height: 120px;
+
 }
 
 .headerBigBlock {
     display: flex;
     flex-direction: row;
-    color: black;
+    justify-content: flex-end;
+    color: #e6e6e6;
     font-weight: 600;
     width: 100%;
     height: 120px;
+
 
     /* border-bottom: 1px solid black; */
 }
@@ -701,4 +755,8 @@ label {
 .filterRow>input:hover {
     cursor: pointer;
 
+}
+
+svg:hover {
+    cursor: grab;
 }

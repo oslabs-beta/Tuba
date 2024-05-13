@@ -27,7 +27,7 @@ export default function History() {
         return <HistoryContainer info={error} />
     })
 
-    
+
     return (
 
         <div className='component'>
@@ -39,6 +39,14 @@ export default function History() {
                         <h3>Filter</h3>
                         <input onInput={inputText} value={search}></input>
                     </div>
+                </div>
+                <div className='historyColumns'>
+                    <p >Date</p>
+                    <p >Time</p>
+                    <p >Type</p>
+                    <p >Service</p>
+                    <p >Pin</p>
+
                 </div>
                 {errors}
             </div>
