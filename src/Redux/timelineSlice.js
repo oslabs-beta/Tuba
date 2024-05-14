@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { msToString, stringToMs } from '../Utilities/timeFunctions'
 
-
-
-
-// state.errorSlice.allErrors
 const now = Date.now()
 
 const initialState = {
@@ -25,21 +21,14 @@ const initialState = {
     selected: null,
     visible: true,
     intervalId: undefined,
-
-
 }
 
 const filter = (allErrors, start, end, cascade) => {
-    console.log('filtering');
-
-
-
     const filteredErrors = allErrors.filter(error => {
         return (error.err_time >= start && error.err_time <= end)
     })
 
     let prev = -Infinity;
-
     const filterCascades = filteredErrors.map(error => {
         if (Number(error.err_time) - Number(prev.err_time) <= cascade) {
             const object = { ...error, cascade: prev.err_id };
@@ -54,17 +43,10 @@ const filter = (allErrors, start, end, cascade) => {
     return filterCascades
 }
 
-
-
-
-
-// const reset
-
 export const timelineSlice = createSlice({
     name: 'timeline',
     initialState,
     reducers: {
-
         initialize: (state, action) => {
             console.log('initialize nodes: action.payload: ', action.payload[action.payload.length - 1].err_time)
             state.center = Number(action.payload[action.payload.length - 1].err_time);
@@ -73,7 +55,6 @@ export const timelineSlice = createSlice({
             state.end = state.center + (state.elapsed / 2)
             state.hatch25 = state.center - (state.elapsed / 4)
             state.hatch75 = state.center + (state.elapsed / 4)
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
         },
 
@@ -85,91 +66,53 @@ export const timelineSlice = createSlice({
             state.end = state.center + (state.elapsed / 2)
             state.hatch25 = state.center - (state.elapsed / 4)
             state.hatch75 = state.center + (state.elapsed / 4)
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
         },
         nudgeRight: (state, action) => {
-
             state.cascade = Number(state.cascadeInput)
-
             state.nudge = Number(state.nudgeInput);
-
             state.start = stringToMs(new Date(state.start)) + state.nudge;
             state.hatch25 = stringToMs(new Date(state.hatch25)) + state.nudge;
             state.center = stringToMs(new Date(state.center)) + state.nudge;
             state.hatch75 = stringToMs(new Date(state.hatch75)) + state.nudge;
             state.end = stringToMs(new Date(state.end)) + state.nudge;
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
-
-
-            // state.filtered = filter(allErrors, state.start, state.end)
         },
         nudgeLeft: (state, action) => {
             state.cascade = Number(state.cascadeInput)
-
             state.nudge = Number(state.nudgeInput);
-
             state.start = stringToMs(new Date(state.start)) - state.nudge;
             state.hatch25 = stringToMs(new Date(state.hatch25)) - state.nudge;
             state.center = stringToMs(new Date(state.center)) - state.nudge;
             state.hatch75 = stringToMs(new Date(state.hatch75)) - state.nudge;
             state.end = stringToMs(new Date(state.end)) - state.nudge;
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
-
-
-            // state.filtered = filter(allErrors, state.start, state.end)
-
-
         },
         zoomOut: (state, action) => {
-
             state.cascade = Number(state.cascadeInput)
-
             state.zoom = Number(state.zoomInput);
-
             state.start = stringToMs(new Date(state.start)) - state.zoom;
             state.end = stringToMs(new Date(state.end)) + state.zoom;
             state.elapsed = state.end - state.start;
             const adjustment = state.elapsed / 4;
-
             state.hatch25 = stringToMs(new Date(state.center)) - adjustment;
             state.hatch75 = stringToMs(new Date(state.center)) + adjustment;
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
-
-
-            // state.filtered = filter(allErrors, state.start, state.end)
-
-
         },
         zoomIn: (state, action) => {
             state.cascade = Number(state.cascadeInput)
-
             state.zoom = Number(state.zoomInput);
-
             state.start = stringToMs(new Date(state.start)) + state.zoom;
             state.end = stringToMs(new Date(state.end)) - state.zoom;
             state.elapsed = state.end - state.start;
             const adjustment = state.elapsed / 4;
-
             state.hatch25 = stringToMs(new Date(state.center)) - adjustment;
             state.hatch75 = stringToMs(new Date(state.center)) + adjustment;
-
-            // state.filtered = filter(allErrors, state.start, state.end)
-
             state.filtered = filter(action.payload, state.start, state.end, state.cascade)
-
-
         },
         setIntervalId: (state, action) => {
             state.intervalId = action.payload;
         },
-
-
-
-
         setCenter: (state, action) => {
             state.centerInput = action.payload
         },

@@ -28,19 +28,13 @@ export const getConnections = createAsyncThunk('/errorData/allConnections', asyn
     })
 
   return connectionInfo
-
-
 })
 
 export const checkDbStatus = createAsyncThunk('setup/check', async (status, { rejectWithValue }) => {
-
   const response = await axios.get('/setup/check');
   const data = response.data;
-  console.log(' this is the response from server: ', data)
 
   return data
-
-
 })
 
 export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allErrors, { rejectWithValue }) => {
@@ -64,13 +58,12 @@ export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (a
     const errorRes = await fetch(`/errorData/newErrors/${timeStamp}`);
 
     if (!errorRes) throw new TypeError('error response unsucessful in errorSlice, getNewErrors')
-
-    const errorData = await errorRes.json()
-    return errorData;
+      const errorData = await errorRes.json()
+      return errorData;
 
   } catch (error) {
-    console.log('Error occured in errorSlice, getNewErrors');
-    return rejectWithValue(error.message);
+      console.log('Error occured in errorSlice, getNewErrors');
+      return rejectWithValue(error.message);
   }
 })
 
@@ -78,16 +71,15 @@ export const getServices = createAsyncThunk('errorSlice/getServices', async (ser
   try {
     const servicesRes = await fetch('/errorData/allServices')
 
-    if (!servicesRes) throw new TypeError('error response unsucessful in errorSlice, getServices')
+    if (!servicesRes) throw new TypeError('error response unsuccessful in errorSlice, getServices')
 
     const servicesData = await servicesRes.json()
     return servicesData;
   } catch (error) {
-    console.log('Error occured in errorSlice, getServices');
+    console.log('Error occurred in errorSlice, getServices');
     return rejectWithValue(error.message);
   }
 })
-
 
 export const errorSlice = createSlice({
   name: 'errorSlice',
@@ -130,7 +122,6 @@ export const errorSlice = createSlice({
 
         state.allErrors = allErrors
 
-        // nested loops, needs refactor
         if (state.services[0]) {
           errorData.forEach(error => {
             state.services.forEach(service => {
@@ -142,17 +133,15 @@ export const errorSlice = createSlice({
         }
         state.status = 'success';
         state.description = 'Retrieved All Errors from Database'
-
       })
       .addCase(getAllErrors.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = `Error occured in errorSlice getAllErrors thunk: ${action.payload}`;
+        state.error = `Error occurred in errorSlice getAllErrors thunk: ${action.payload}`;
       })
       .addCase(getNewErrors.fulfilled, (state, action) => {
         state.status = 'success';
         const newErrors = action.payload;
 
-        // nested loops, needs refactor
         newErrors.forEach(error => {
           state.allErrors.push({ ...error, visible: false, favorite: false });
           state.services.forEach(service => {
@@ -164,7 +153,7 @@ export const errorSlice = createSlice({
       })
       .addCase(getNewErrors.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = `Error occured in errorSlice getNewErrors thunk: ${action.payload}`;
+        state.error = `Error occurred in errorSlice getNewErrors thunk: ${action.payload}`;
       })
       .addCase(getServices.fulfilled, (state, action) => {
         state.status = 'success';
@@ -178,11 +167,10 @@ export const errorSlice = createSlice({
           state.services.push(servObj)
         })
         state.description = 'Discovered All Microservices '
-
       })
       .addCase(getServices.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = `Error occured in errorSlice getServices thunk: ${action.payload}`;
+        state.error = `Error occurred in errorSlice getServices thunk: ${action.payload}`;
       })
       .addCase(getConnections.fulfilled, (state, action) => {
         state.connections = action.payload;
@@ -190,12 +178,11 @@ export const errorSlice = createSlice({
       })
       .addCase(getConnections.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = `Error occured in errorSlice getServices thunk: ${action.payload}`;
+        state.error = `Error occurred in errorSlice getServices thunk: ${action.payload}`;
       })
   },
 });
 
 export const { enableFrontend, toggleFavorite, setVisibility } = errorSlice.actions
-
 
 export default errorSlice.reducer;
