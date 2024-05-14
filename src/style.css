@@ -1,24 +1,15 @@
 body {
     margin: 0px 0px 0px 0px;
-    /* background-color: #03001C; */
     color: #e3e3e3;
     color: #f9f9f9;
-
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    font-variation-settings:
-        "slnt" 0;
-
-    /* background: rgb(2, 0, 36);
-    background: #1e2d67; */
-    /* background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(48, 30, 103, 1) 60%); */
+    font-variation-settings: "slnt" 0;
     background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, #1e2d67 60%);
     min-height: 100vh;
     user-select: none;
 }
-
-
 
 .logo {
     font-family: "Ojuju", sans-serif;
@@ -36,7 +27,6 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
 }
 
 .leftGrid {
@@ -49,7 +39,6 @@ body {
 .leftGrid>img {
     height: 60px;
     margin-right: 5px;
-
 }
 
 .tab {
@@ -67,8 +56,6 @@ body {
     cursor: pointer;
     border: 1px solid #88d3b5;
     color: #D4E9E0;
-
-
 }
 
 .scan:hover {
@@ -88,31 +75,16 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     white-space: nowrap;
-
-
-
-    /* border-bottom: 1px solid #585563; */
-
-    /* background: rgb(91, 143, 185);
-    background: linear-gradient(180deg, rgba(91, 143, 185, 1) 43%, rgba(136, 211, 181, 1) 100%); */
 }
-
-
 
 .centerGrid>ul {
     display: flex;
     flex-direction: row;
     gap: 2px;
     list-style-type: none;
-
-
-
-
-
 }
 
 .rightGrid {
-
     height: 80px;
     display: flex;
     justify-content: flex-end;
@@ -120,16 +92,6 @@ body {
     padding-right: 40px;
     gap: 30px;
     height: 80px;
-
-}
-
-.rightGrid>ul {
-    /* display: flex;
-    flex-direction: row;
-    gap: 2px;
-    list-style-type: none; */
-
-
 }
 
 .centerGrid>ul>li {
@@ -147,36 +109,17 @@ body {
 }
 
 .selected {
-
     background-color: #224E75
-        /* background: rgb(48, 30, 103);
-    background: linear-gradient(180deg, rgba(48, 30, 103, 1) 71%, rgba(28, 18, 59, 1) 100%); */
 }
-
-
 
 .background {
     min-height: 650px;
-
-
     color: white;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-top: 10px;
-    /* reduced from 60 to 10 for heatmap*/
-
     flex-direction: column;
-
-}
-
-.component {
-
-    /* height: 700px; */
-    /* border: solid 1px white; */
-    /* background-color: black; */
-
-
 }
 
 .loadingComponent {
@@ -184,12 +127,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
     font-size: 17p;
     padding: 300px;
-    /* width: 500px; */
 }
-
 
 .favoriteSplit {
     display: grid;
@@ -205,18 +145,13 @@ body {
     align-items: center;
 }
 
-
 .graph {
     width: 1125px;
-    /* margin-top: 50px; */
-    /* height: 300px; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     margin-top: 100px;
-
-    /* background-color: blue; */
 }
 
 .graph>h1 {
@@ -244,7 +179,6 @@ body {
     background-color: white;
     z-index: 0;
     border-radius: 5px;
-
     position: absolute;
 }
 
@@ -252,7 +186,6 @@ body {
     width: 100%;
     margin-top: 30px;
     margin-bottom: 20px;
-    /* height: 100px; */
     display: grid;
     grid-template-columns: [left] 20% [middle] 20% [right] 20% [righter] 20% [center] 20% [end]
 }
@@ -262,12 +195,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-
     margin: 0px 0px 0px 0px;
-    /* padding-bottom: 0px; */
-    /* background-color: blue; */
 }
-
 
 .timestamp {
     font-size: 18px;
@@ -275,10 +204,7 @@ body {
     letter-spacing: 2px;
 }
 
-
-
 .graph-node {
-    /* margin-left: calc(50% - 15px); */
     height: 30px;
     width: 30px;
     border-radius: 15px;
@@ -292,7 +218,6 @@ body {
     align-items: center;
     font-weight: 700;
     font-size: 20px;
-
     filter: drop-shadow(10px 10px 10px rgb(0, 0, 0, 20%))
 }
 
@@ -317,21 +242,16 @@ body {
 
 .toolbar {
     background-color: rgb(91, 143, 185);
-    ;
-    /* color: rgba(48, 30, 103, 1); */
-
     margin: 10px;
     margin-top: 30px;
     margin-bottom: 10px;
     border-radius: 10px;
-    /* width: 1000px; */
 }
 
 .toolbarSpan {
     font-weight: 500;
     font-size: 15px;
     color: white;
-
 }
 
 .toolbarInputs {
@@ -340,7 +260,6 @@ body {
     display: grid;
     grid-template-columns: [left] 140px [center] 210px [right];
     gap: 5px;
-
 }
 
 .toolbarInputs>input,
@@ -355,21 +274,7 @@ select {
     color: white;
     font-size: 15px;
     background-color: rgb(91, 143, 185);
-
-    /* border: none;
-    border-bottom: 1px solid black; */
-    /* border-radius: 15px;
-    border: 1px solid black;
-    height: 20px;
-    padding-left: 10px;
-    padding-right: 10px; */
 }
-
-
-
-
-
-
 
 label {
     color: black;
@@ -382,10 +287,7 @@ label {
     align-items: center;
     gap: 7px;
     padding: 20px;
-    /* margin-bottom: 50px; */
 }
-
-
 
 .timelineButton {
     height: 50px;
@@ -398,14 +300,12 @@ label {
     align-items: center;
     font-size: 30px;
     transition-duration: 300ms;
-
 }
 
 .timelineButton:hover {
     background-color: #88d3b5;
     cursor: pointer;
     transition-duration: 300ms;
-
 }
 
 .downloadButton {
@@ -417,7 +317,6 @@ label {
 }
 
 .description {
-
     width: 1000px;
     display: grid;
     grid-template-columns: [left] 15% [center] 85% [right];
@@ -429,8 +328,6 @@ label {
     border-radius: 20px;
     margin-top: 40px;
     user-select: text
-        /* overflow-x: auto;
-    padding: 20px; */
 }
 
 .check:hover {
@@ -438,14 +335,11 @@ label {
     color: #00008b
 }
 
-
 .description>h3>span {
     font-weight: 300;
-
 }
 
 /* history */
-
 .historyList {
     display: flex;
     flex-direction: column;
@@ -486,7 +380,6 @@ label {
     border: none;
 }
 
-
 .historyContainer {
     display: flex;
     flex-direction: column;
@@ -498,11 +391,9 @@ label {
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 10px;
-
 }
 
 .filterContainer {
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -513,8 +404,6 @@ label {
 .historyContainer:hover {
     cursor: pointer;
     background-color: lightsteelblue;
-
-
 }
 
 .historyHeader {
@@ -530,7 +419,6 @@ label {
     padding-left: 20px;
     padding-right: 20px;
     height: 20px;
-    /* background-color: orange; */
     font-weight: 600;
     display: grid;
     cursor: default;
@@ -541,7 +429,6 @@ label {
     margin: 0px;
 }
 
-
 .historyHeader>p {
     cursor: pointer;
 }
@@ -550,21 +437,14 @@ label {
     font-weight: 600;
     display: grid;
     cursor: default;
-    /* cursor: pointer; */
-
     grid-template-columns: [left] 15% [center] 85% [right];
-
 }
-
-
 
 .historyBody>p>span {
     font-weight: 300;
-
 }
 
 /* dashboard */
-
 #dashboardContainer {
     display: flex;
     flex-direction: row;
@@ -573,7 +453,6 @@ label {
     max-width: 1000px;
     gap: 10px;
     overflow-x: scroll;
-    /* border-left: 2px solid black; */
     border-radius: 15px;
     user-select: text
 }
@@ -583,14 +462,8 @@ label {
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    /* background-color: white; */
-    /* border: 2px solid black; */
     margin-top: 20px;
     margin-bottom: 20px;
-
-
-    /* border-radius: 15px; */
-
 }
 
 .dashboardVertical {
@@ -601,14 +474,10 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-
     border-radius: 15px;
     position: relative;
     background-color: white;
-    /* background-color: lightsteelblue; */
-    /* height: 1800px; */
 }
-
 
 .dashboardHeader {
     width: 65px;
@@ -621,46 +490,30 @@ label {
     justify-content: flex-start;
     align-items: flex-start;
     user-select: text;
-    /* border: 1.5px solid grey; */
-
-
-    /* background-color: white; */
-    /* background-color: lightsteelblue; */
-
     border-radius: 15px;
     margin-right: 10px;
     height: 1500px;
-
-
-
 }
 
 .dashboardCheckbox {
     color: black;
     position: absolute;
-    /* backgrou÷nd-color: pink; */
     margin: 0px;
     margin-left: 90%;
     font-size: 25px;
 }
 
 .standardBlock {
-
     color: black;
     width: 100%;
     height: 50px;
-    /* border-bottom: 1px solid black; */
 }
 
 .largeBlock {
-
     color: black;
     width: 100%;
     height: 100%;
     word-wrap: break-word;
-
-    /* border-bottom: 1px solid black; */
-
 }
 
 .headerBlock {
@@ -671,11 +524,6 @@ label {
     font-weight: 500;
     width: 100%;
     height: 50px;
-    /* letter-spacing: 1px; */
-    /* border-bottom: 1px solid white; */
-
-
-    /* border-bottom: 1px solid black; */
 }
 
 .bigBlock {
@@ -684,7 +532,6 @@ label {
     color: black;
     width: 100%;
     height: 120px;
-
 }
 
 .headerBigBlock {
@@ -695,11 +542,7 @@ label {
     font-weight: 600;
     width: 100%;
     height: 120px;
-
-
-    /* border-bottom: 1px solid black; */
 }
-
 
 .heatmap-container {
     border: 1px solid white;
@@ -712,7 +555,6 @@ label {
     justify-content: space-between;
     align-items: center;
     gap: 30px;
-
     background: rgb(91, 143, 185);
     padding: 10px;
     padding-left: 30px;
@@ -728,14 +570,10 @@ label {
     justify-content: space-between;
     min-width: 220px;
     gap: 20px;
-
-
-
 }
 
 .filterRow>h3 {
     font-size: 15px;
-
     font-weight: 600;
 }
 
@@ -754,7 +592,6 @@ label {
 
 .filterRow>input:hover {
     cursor: pointer;
-
 }
 
 svg:hover {
