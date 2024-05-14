@@ -47,12 +47,8 @@ module.exports = {
         proxy: {
             '/': {
                 target: 'http://localhost:42070',
-
             }
-
-
         }
-
     },
     resolve: {
         extensions: ['.jsx', '.js', '.ts', '.tsx'],
@@ -61,7 +57,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Development',
             clean: true,
-
         }),
     ],
 };
