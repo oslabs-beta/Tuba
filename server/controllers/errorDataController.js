@@ -1,6 +1,4 @@
 const tubaDB = require('../models/tubaDB');
-
-
 const errorDataController = {}
 
 errorDataController.getAllData = async function (req, res, next) {
@@ -8,18 +6,12 @@ errorDataController.getAllData = async function (req, res, next) {
 
     tubaDB.query(query)
         .then(data => {
-            // console.log(data.rows);
-
             res.locals.services = data.rows;
-
         })
         .then(() => {
             tubaDB.query(`SELECT * FROM error_data;`)
                 .then(data => {
-                    // console.log(data.rows);
-
                     res.locals.errors = data.rows;
-
                 })
                 .then(() => {
                     tubaDB.query(`SELECT 
@@ -34,7 +26,6 @@ errorDataController.getAllData = async function (req, res, next) {
             INNER JOIN services s2
             ON s2.srv_id = con_srv2`)
                         .then(data => {
-                            console.log(data.rows)
                             res.locals.connections = data.rows;
                             return next();
                         })
@@ -49,21 +40,15 @@ errorDataController.getAllServices = async function (req, res, next) {
 
     tubaDB.query(query)
         .then(data => {
-            // console.log(data.rows);
-
             res.locals.services = data.rows;
             return next();
         })
 }
 
-
 errorDataController.getAllErrors = async function (req, res, next) {
     const query = `SELECT * FROM error_data;`;
-
     tubaDB.query(query)
         .then(data => {
-            console.log('', data.rows);
-
             res.locals.errors = data.rows;
             return next();
         }).catch(error => {
@@ -75,26 +60,18 @@ errorDataController.getAllErrors = async function (req, res, next) {
         })
 }
 
-
 errorDataController.getNewErrors = async function (req, res, next) {
-
     const err_time = req.params.err_time
     const query = `SELECT * FROM error_data WHERE err_time > ${err_time};`;
 
     tubaDB.query(query)
         .then(data => {
-            // console.log(data.rows);
-
             res.locals.newErrors = data.rows;
             return next();
         })
 }
 
-
 errorDataController.getAllConnections = async function (req, res, next) {
-
-
-
 
     const query = `SELECT 
     s1.srv_name AS con_srv1_name,
@@ -110,8 +87,6 @@ errorDataController.getAllConnections = async function (req, res, next) {
 
     tubaDB.query(query)
         .then(data => {
-            // console.log(data.rows);
-
             res.locals.connections = data.rows;
             return next();
         })
@@ -119,7 +94,6 @@ errorDataController.getAllConnections = async function (req, res, next) {
 
 errorDataController.setup = async function (req, res, next) {
     try {
-
         if (!tubaDB) {
             res.locals.setup = 'No PSQL database found in .env';
             res.locals.code = 400;
@@ -176,7 +150,6 @@ errorDataController.setup = async function (req, res, next) {
         const initialQuery = await tubaDB.query(queryCheck);
 
         const tableExists = initialQuery.rows[0].table_exists;
-        console.log('table exists: ', tableExists)
         if (tableExists === 'true') {
             res.locals.code = 400;
             res.locals.setup = 'Tuba database already instantiated'
@@ -189,22 +162,14 @@ errorDataController.setup = async function (req, res, next) {
             res.locals.setup = 'Tuba database instantiated.'
             return next()
         }
-
-
-
-
         return next();
-
     } catch (error) {
-
     }
 }
 
 errorDataController.check = async (req, res, next) => {
     try {
-
         if (!tubaDB) {
-
             res.locals.exists = false;
             return next()
         }
@@ -217,7 +182,6 @@ errorDataController.check = async (req, res, next) => {
 
 
         const initialQuery = await tubaDB.query(queryCheck);
-
         const tubaExists = initialQuery.rows[0].table_exists;
 
         if (tubaExists === 'true') {
@@ -228,16 +192,10 @@ errorDataController.check = async (req, res, next) => {
 
         return next()
 
-
-
-
-
     } catch (error) {
         res.send(false);
         return next(error)
     }
 }
-
-
 
 module.exports = errorDataController;

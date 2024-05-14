@@ -26,7 +26,6 @@ export default function TimelineGraph(props) {
         for (let node of filtered) {
             const elapsedTime = node.err_time - start;
             const percentage = 100 * elapsedTime / elapsed - 1.66666666666666;
-            console.log('percentage: ', percentage)
             nodes.push(<TimelineNode id={node.err_id} handler={nodeHandler} percentage={`${percentage}%`} letter={node.err_type} data={node} cascade={cascade(node)} color={"orange"} />)
         }
         return nodes;

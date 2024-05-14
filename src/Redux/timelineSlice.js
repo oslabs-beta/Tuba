@@ -48,9 +48,7 @@ export const timelineSlice = createSlice({
     initialState,
     reducers: {
         initialize: (state, action) => {
-            console.log('initialize nodes: action.payload: ', action.payload[action.payload.length - 1].err_time)
             state.center = Number(action.payload[action.payload.length - 1].err_time);
-            console.log('state center after: ', typeof state.center)
             state.start = state.center - (state.elapsed / 2)
             state.end = state.center + (state.elapsed / 2)
             state.hatch25 = state.center - (state.elapsed / 4)
@@ -59,7 +57,6 @@ export const timelineSlice = createSlice({
         },
 
         reCenterNodes: (state, action) => {
-            console.log('recenter nodes: action.payload: ', action.payload)
             state.cascade = Number(state.cascadeInput)
             state.center = stringToMs(state.centerInput);
             state.start = state.center - (state.elapsed / 2)

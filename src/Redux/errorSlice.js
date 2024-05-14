@@ -20,7 +20,6 @@ export const getConnections = createAsyncThunk('/errorData/allConnections', asyn
   const connectionInfo = await fetch('/errorData/allConnections')
     .then(res => res.json())
     .then(json => {
-      console.log('json connection data: ', json);
       return json
     })
     .catch(error => {
@@ -42,7 +41,6 @@ export const getAllErrors = createAsyncThunk('errorSlice/getErrors', async (allE
   const errorFetch = await fetch(`/errorData/allErrors`)
     .then(data => data.json())
     .then(json => {
-      console.log('json error data: ', json);
       return json;
     })
     .catch(error => {
@@ -62,7 +60,7 @@ export const getNewErrors = createAsyncThunk('errorSlice/getNewErrors', async (a
       return errorData;
 
   } catch (error) {
-      console.log('Error occured in errorSlice, getNewErrors');
+      console.log('Error occurred in errorSlice, getNewErrors');
       return rejectWithValue(error.message);
   }
 })
@@ -108,11 +106,9 @@ export const errorSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(checkDbStatus.fulfilled, (state, action) => {
-        console.log('does database exist??', action.payload)
         state.checking = action.payload ? false : true;
       })
       .addCase(getAllErrors.fulfilled, (state, action) => {
-        console.log('getAllErrors Extra Reducer >>>', action.payload);
         const errorData = action.payload.errors;
         const allErrors = action.payload.errors.map((error) => {
           return { ...error, visible: false, favorite: false }
@@ -157,7 +153,6 @@ export const errorSlice = createSlice({
       })
       .addCase(getServices.fulfilled, (state, action) => {
         state.status = 'success';
-        console.log('getServices Extra Reducer >>>', action.payload);
         const serviceData = action.payload.services;
         serviceData.forEach(service => {
           const servObj = {

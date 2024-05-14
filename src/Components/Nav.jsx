@@ -31,7 +31,6 @@ export default function Nav() {
 
     useEffect(() => {
         if (errorData.length) {
-            console.log('dispatching initialization nodes')
             dispatch(initialize(errorData))
         }
     }, [errorData])
