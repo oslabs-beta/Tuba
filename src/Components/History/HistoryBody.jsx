@@ -1,13 +1,6 @@
 import React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux'
-
-
-
-
-
 export default function HistoryBody({ info, handleButton }) {
-
 
     return (
         <div className='historyBody' >
@@ -18,7 +11,5 @@ export default function HistoryBody({ info, handleButton }) {
             <p>Module: </p><p><span>{info.err_module}</span></p>
             <p>Stack:</p><p><span>{decodeURIComponent(info.err_stack)}</span></p>
         </div>
-
     )
-
 }

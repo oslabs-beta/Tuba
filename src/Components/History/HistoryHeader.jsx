@@ -1,26 +1,14 @@
 import React from 'react';
-
-import { useSelector, useDispatch } from 'react-redux'
-import { stringToMs, msToString } from '../../Utilities/timeFunctions';
-
-
+import { useDispatch } from 'react-redux'
+import { msToString } from '../../Utilities/timeFunctions';
 import { toggleFavorite } from '../../Redux/errorSlice';
-
-
 export default function HistoryHeader({ info, handleButton }) {
 
     const selected = info.err_id
-
     const dispatch = useDispatch()
-
     function handleCheck() {
         dispatch(toggleFavorite(selected))
-
     }
-
-
-
-
 
     return (
         <div className='historyHeader'>
@@ -30,7 +18,5 @@ export default function HistoryHeader({ info, handleButton }) {
             <p onClick={handleButton}>{info.err_job_name}</p>
             <p onClick={handleCheck}>{info.favorite ? "☑" : "☐"}</p>
         </div>
-
     )
-
 }
