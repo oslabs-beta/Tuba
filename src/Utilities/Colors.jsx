@@ -1,5 +1,4 @@
 export function Colors() {
-
     const nodeColors = [
         "#c955b2",
         "#c979b9", // Purple Thing
@@ -11,10 +10,6 @@ export function Colors() {
         "#4169E1", // Royal Blue
         "#FF1493", // Deep Pink
         "#195449",
-
-
-        // "#fb8b35", // Gold
     ]
     return [...nodeColors]
-
 }
