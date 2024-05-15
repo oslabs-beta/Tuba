@@ -1,24 +1,19 @@
 import React from 'react'
-
 import Nav from '../Components/Nav'
 import Dashboard from './Dashboard'
 import HeatMap from './HeatMap'
 import History from './History'
 import Timeline from './Timeline'
-
+import Loading from './Loading'
 import { changeTab } from '../Redux/navSlice'
-
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function Home() {
-
+    const errors = useSelector(state => state.errorSlice.allErrors)
     const dispatch = useDispatch();
-
     const { tab, left, right } = useSelector(state => state.nav);
-
-
+    const frontend = useSelector(state => state.errorSlice.frontend);
     const displayCurrentTab = () => {
-
         if (tab === 'Dashboard') {
             return <Dashboard />
         } else if (tab === 'Timeline') {
@@ -28,44 +23,19 @@ export default function Home() {
         } else if (tab === 'History') {
             return <History />
         }
-
     }
-
 
     const changeTabHandler = (string) => {
         dispatch(changeTab(string))
-
         return;
     }
 
-
-    // const keyPress = (event) => {
-    //     switch (event.key) {
-    //         case "ArrowLeft":
-    //             changeTabHandler(left);
-    //             break;
-    //         case "ArrowRight":
-    //             changeTabHandler(right);
-    //             break;
-    //     }
-
-
-    // }
-
-
-
     return (
-        <>
+        frontend ? <>
             <Nav />
-            {/* <h2>{tab}</h2> */}
             <div className='background' >
-                {/* <div className='tab' onClick={() => changeTabHandler(left)}>{left}</div> */}
                 {displayCurrentTab()}
-                {/* <div className='tab' onClick={() => changeTabHandler(right)}>{right}</div> */}
             </div>
-
-        </>
+        </> : <Loading />
     )
-
-
 }

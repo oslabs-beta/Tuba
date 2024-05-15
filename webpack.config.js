@@ -7,6 +7,7 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -39,18 +40,15 @@ module.exports = {
     },
     devServer: {
         static: './dist',
+        port: 42069,
         hot: true,
         compress: true,
         historyApiFallback: true,
         proxy: {
             '/': {
-                target: 'http://localhost:3000',
-
+                target: 'http://localhost:42070',
             }
-
-
         }
-
     },
     resolve: {
         extensions: ['.jsx', '.js', '.ts', '.tsx'],
@@ -59,7 +57,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Development',
             clean: true,
-
         }),
     ],
 };

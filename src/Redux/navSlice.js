@@ -30,7 +30,6 @@ export const navSlice = createSlice({
                     break;
             }
             state.tab = action.payload
-
         },
     },
 })

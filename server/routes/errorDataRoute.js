@@ -3,7 +3,6 @@ const router = express.Router();
 
 const { getAllData, getAllServices, getAllErrors, getAllConnections, getNewErrors } = require('../controllers/errorDataController');
 
-
 router.use('/allData', getAllData, (req, res) => {
     res.json({
         services: res.locals.services,
