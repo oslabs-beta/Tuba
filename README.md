@@ -1,4 +1,4 @@
-# TUBA-Tracing
+# TUBA
 
 <p align="center">
   <img width="250px" src="./src/Images/TubaLogo.png" />
