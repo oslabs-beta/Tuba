@@ -108,13 +108,13 @@ The Tuba Docker image can run independently as a standalone container or alongsi
 The TUBA Docker image can be downloaded with Docker Desktop or from Docker Hub with this terminal command:
 
 ```Bash
-docker pull thundergeese/tuba-tracing:tracing 
+docker pull tubatracing/tuba-tracing:latest
 ```
 
 If you are running Tuba as a standalone container, you’ll need to pass in the link to your postgres database when you start up the image container: 
 
 ```Bash
-docker run -p [Your Port]:42069 -e TUBA_PG_URI=[Your URI] thundergeese/tuba-tracing:tracing
+docker run -p [Your Port]:42069 -e TUBA_PG_URI=[Your URI] tubatracing/tuba-tracing:latest
 ```
 Navigte to localhost:[Your Port] to use TUBA
 
@@ -126,7 +126,7 @@ The Tuba image in the below example references a `.env` file that should have th
 version: "3"
 services:
   tuba:
-    image: thundergeese/tuba-tracing:tracing
+    image: tubatracing/tuba-tracing:latest
     env_file:
       - .env
     ports:
