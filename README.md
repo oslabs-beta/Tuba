@@ -29,7 +29,7 @@ TUBA is an error parsing package for Express.js and Docker image that work toget
 
 Have full control of mission-critical historical runtime data in a postgres database you manage.
 
-**Don't Get Lost In The Cloud**
+**Don't Get Lost in the Cloud**
 
 Use the TUBA Interface to visualize your error data in chronological order, highlight any cascades or closely related errors on your Timeline. Review your Heatmap to see errors by service, or search and filter data by keywords. 
 
@@ -41,7 +41,7 @@ TUBA comes with a suite of custom Prometheus metrics that integrate seamlessly i
 ## How to use TUBA
 ### Express.js
 
-First, include the package in your dependencies:
+For each individual service in your microservice architecture, include the package in your dependencies:
 
 ```Bash
 npm i tuba-tracing
@@ -66,17 +66,17 @@ app.use((err, req, res, next) => {
   res.status(500).json({"message": "An error occurred!"});
 });
 ```
-You will need to setup your own secure postgres Database.
-Place the link to your postgres database in your .env file. You MUST use TUBA_PG_URI as the property key. Ex:
+You will need to setup/provide your own secure postgres Database. This ensures your data is secure and private.
+Create an empty database and place the URI in an .env file. You MUST use TUBA_PG_URI as the proprety key. Ex:
 
 ```bash
 TUBA_PG_URI='https://postgress.database.link.here.com'
 ```
-Tuba now has access to your database. You will still need to configure the database schema before storing error data. That will be covered in the Docker Image section of the docs.
+Tuba now has access to your database. The database schema should still be unconfigured at this point. This can be done via a simple Postman request that will be covered in the Docker Image section of the docs.
 
 ## Prometheus
 
-If you are using Tuba in a prometheus environment, you can take advantage of the custom Prometheus metrics included in the npm package. 
+If you are using Tuba in a Prometheus environment, you can take advantage of the custom Prometheus metrics included in the npm package. 
 
 To use this functionality, include the prom-client package in your dependencies:
 
@@ -100,7 +100,8 @@ app.get('/metrics', async (req, res) => {
 For instructions on how to set up prometheus, see the [Prometheus documentation](/https://prometheus.io/).
 
 ## Docker
-This repo is an exact mirror of the code that runs inside the official TUBA image, and can be run independently as a full-stack application with all the functionality and features of the Docker image. 
+
+This repo is an exact mirror of the code that runs inside the official TUBA image, and can be run independently as a full-stack application with all the functionality and features of the Docker image. The Tuba interface is run via this Docker image.
 
 The Tuba Docker image can run independently as a standalone container or alongside your microservices images in you application's pre-configured container.
 
@@ -142,7 +143,7 @@ services:
 
 ## Database Instantiation
 
-The first time you start the TUBA image, you will need to set up the database schema. To do this, make sure the image is running and send a `GET` or `POST` request to `http://localhost:[YOUR PORT]/setup/`. Doing so will run this SQL script in your database to create the necessary tables and columns:
+The first time you start the TUBA image, the interface should be visible but will stall on the loading screen "Fetching Errors from Database." This is because the database schema hasn't been set yet. To do this, make sure the image is running and send a `GET` request to `http://localhost:[YOUR PORT]/setup/`. Doing so will run this SQL script in your database to create the necessary tables and columns:
 
 ```SQL
 CREATE TABLE users (
