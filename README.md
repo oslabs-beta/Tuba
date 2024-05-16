@@ -35,7 +35,7 @@ Use the TUBA Interface to visualize your error data in chronological order, high
 
 **Native Prometheus Integration**
 
-TUBA comes with a suite of custom Prometheus metrics that integrate seamlessly into your existing Prometheu implemetation and metrics visualizer.
+TUBA comes with a suite of custom Prometheus metrics that integrate seamlessly into your existing Prometheus implementation and metrics visualizer.
 
 ---
 ## How to use TUBA
@@ -67,7 +67,7 @@ app.use((err, req, res, next) => {
 });
 ```
 You will need to setup your own secure postgres Database.
-Place the link to your postgres database in your .env file. You MUST use TUBA_PG_URI as the proprety key. Ex:
+Place the link to your postgres database in your .env file. You MUST use TUBA_PG_URI as the property key. Ex:
 
 ```bash
 TUBA_PG_URI='https://postgress.database.link.here.com'
