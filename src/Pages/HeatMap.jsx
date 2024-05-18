@@ -6,12 +6,14 @@ import { setSelected } from '../Redux/heatSlice';
 import { Colors } from '../Utilities/Colors';
 import { msToString } from '../Utilities/timeFunctions';
 import DateSelector from '../Components/Heatmap/DateSelector';
+import { setStart } from '../Redux/heatSlice';
 
 export default function HeatMap() {
   // Get error & service data from redux
   const dispatch = useDispatch()
   const services = useSelector((state) => state.errorSlice.services);
   const errorsUnfiltered = useSelector((state) => state.errorSlice.allErrors);
+
   const serviceLinks = useSelector((state) => state.errorSlice.connections.connections)
   const selected = useSelector((state) => state.heat.selected)
   const selectedError = errorsUnfiltered.filter((error) => error.err_id === selected)
@@ -19,6 +21,8 @@ export default function HeatMap() {
   const msStart = new Date(start).getTime()
   const msEnd = new Date(end).getTime()
   const errors = errorsUnfiltered.filter(error => Number(error.err_time) >= msStart && Number(error.err_time) <= msEnd)
+
+
 
   function handleSelect(id) {
     dispatch(setSelected(id))
@@ -29,6 +33,8 @@ export default function HeatMap() {
   const nodes = [];
   const links = [];
   const srv_name = {}
+
+
 
   useEffect(() => {
     d3.select(svgRef.current).selectAll("*").remove();
@@ -91,7 +97,7 @@ export default function HeatMap() {
     const svg = d3.select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
- 
+
     const container = svg.append('g');
     const zoom = d3.zoom()
       .scaleExtent([0.3, 3])

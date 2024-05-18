@@ -16,6 +16,8 @@ export default function DateSelector() {
         dispatch(setEnd(event.target.value))
     }
 
+    console.log('start: ', start)
+
     return (
         <div className='dateSelector'>
             <div className='filterRow'><h3>Filter Start:</h3> <input type='date' onChange={toggleStart} value={start}></input></div><div className='filterRow'><h3>Filter End:</h3>
