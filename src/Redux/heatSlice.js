@@ -5,7 +5,7 @@ const now = Date.now()
 
 const initialState = {
     selected: 1,
-    start: formatDateForInput(946684800000),
+    start: formatDateForInput(1715817600000),
     end: formatDateForInput(now)
 }
 
